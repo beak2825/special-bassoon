@@ -12,6 +12,7 @@ const games = [
   "unity-games/block-eat-block:Block Eat Block:block-eat-block.png",
   "unity-games/soccerphysics:Soccer Physics (Takes 20sec to load, not laggy):soccer_physics.png",
   "unity-games/rooftop-snipers:Rooftop Snipers:rooftopsnipers.png",
+  "unity-games/getaway-shootout:Getaway Shootout (NEW MAPS 2024):getaway-shootout.png",
   "minecraft-eaglercraft:Minecraft (Eaglercraft):mc.png",
   "fluidsim:Fluid Simulator:fluidsim.png",
   "emulator/doom:Doom Emulator:doom.png",
