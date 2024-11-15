@@ -86,7 +86,6 @@
 
 <script>
 // Formatting: {GAMEPATH}:{GAMENAME}:{THUMBNAMIL}
-// The Links are autoadded by the generate boxes script. Including initial game link and initial images link.
 const games = [
   "csgoclicker:CSGO Clicker:csgoclicker.png",
   "flash-games/learntofly1:Learn To Fly 1:learntofly1.png",
@@ -102,42 +101,39 @@ const games = [
   "emulator/doom:Doom Emulator:doom.png",
   "emulator/pokemon-yellow:Pokemon Yellow:ypokemon.png",
 ];
-</script>
-<script>
+
 // Function to generate game boxes
 function generateGameBoxes() {
   const gamesContainer = document.getElementById('gamesContainer');  // Container to hold game boxes
 
   // Loop through each game in the games array
   games.forEach(game => {
-    const [gamePath, gameName, gameThumbnail] = game.split(":");  // Destructure the game data
+    const [gamePath, gameName, gameThumbnail] = game.split(":");
 
-    // Generate the full link using the gamePath
     const gameLink = `https://sites.google.com/carthagecsd.org/sus/${gamePath}`;
     const thumbnailUrl = `https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/${gameThumbnail}`;
 
+    // Create the game box with all elements and structure
     const gameBox = document.createElement('div');
     gameBox.classList.add('game-box');  // Add class for styling
 
+    const gameLinkElement = document.createElement('a');
+    gameLinkElement.href = gameLink;
+    gameLinkElement.target = "_blank";
+
     const boxDiv = document.createElement('div');
     boxDiv.classList.add('box');
-    boxDiv.style.backgroundImage = `url(${thumbnailUrl})`;  // Set the initial background image (thumbnail)
+    boxDiv.style.backgroundImage = `url(${thumbnailUrl})`;
 
     const gameTitle = document.createElement('p');
     gameTitle.classList.add('game-title');
-    gameTitle.textContent = gameName;  // Set the name of the game
+    gameTitle.textContent = gameName;
 
-    // Create a game link element that opens in a new tab
-    const gameLinkElement = document.createElement('a');
-    gameLinkElement.href = gameLink;
-    gameLinkElement.target = "_blank"; // Open in new tab
-
-    gameLinkElement.appendChild(boxDiv); // Wrap the box in an anchor tag to open the game link in a new tab
-
-    gamesContainer.appendChild(gameLinkElement);  // Append the anchor tag (game box) to the container
-
-    // Append the game title and the box div to the game box
+    // Structure and append elements
     boxDiv.appendChild(gameTitle);
+    gameLinkElement.appendChild(boxDiv);
+    gameBox.appendChild(gameLinkElement);
+    gamesContainer.appendChild(gameBox); // Add game box to the container
   });
 }
 
@@ -149,18 +145,16 @@ function filterGames() {
   const searchInput = document.getElementById('searchInput').value.toLowerCase();  // Get search input
   const gameBoxes = document.querySelectorAll('.game-box');  // Get all the game boxes
 
-  // Loop through all game boxes and hide/show them based on the search query
   gameBoxes.forEach(box => {
-    const gameTitle = box.querySelector('.game-title').textContent.toLowerCase();  // Get the title of the game
-    // Display the box if the title matches the search input
+    const gameTitle = box.querySelector('.game-title').textContent.toLowerCase();
     box.style.display = gameTitle.includes(searchInput) ? 'inline-block' : 'none';
   });
 }
 
-// Optional: Attach the filterGames function to a search input event listener
+// Attach the filterGames function to the search input event listener
 document.getElementById('searchInput').addEventListener('input', filterGames);
-
 </script>
+
 
 
   <!-- Comments Section -->
