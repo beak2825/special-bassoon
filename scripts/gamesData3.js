@@ -6,6 +6,7 @@ const games = [
   "flash-games/learntofly2:Learn To Fly 2:learntofly2.png",
   "flash-games/kawairun2:Kawai Run 2:kawairun2.png",
   "flash-games/1on1soccer:1 on 1 Soccer:1on1soccer.png",
+  "unity-games/rocket-league:Rocket Soccer League:rocket.png",
   "unity-games/cell-machine:Cell Machine:cellmachine.png",
   "unity-games/houseofhazards:House Of Hazards:HouseOfHazards.png",
   "unity-games/block-eat-block:Block Eat Block:block-eat-block.png",
