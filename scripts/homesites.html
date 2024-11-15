@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
+  <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, unblocked, school games">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle.css">
+  <link rel="stylesheet" href="webdata/scripts/comments.css"> <!-- Include comments CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
+
+  <!-- Random Title and H1 Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Predefined lists of titles and H1 content
+      const titles = [
+        "Asher Tupia's Games",
+        "Korben Tapin's Games",
+        "Clayton Rector's Games",
+        "Tucker Marshall's Games",
+        "Brayden C's Games",
+		"Raven Sprague's Games",
+		"Gavin Taylor's Games",
+		"Joshua Bowman's Games",
+		"Grayson Fults's Games",
+		"Micheal South's Games",
+		"Owen Pursel's Games",
+		"Isabella Mui's Games",
+		"JR's Games",
+		"Mr Miller's Games"
+
+      ];
+
+      const h1List = [
+        "Mr Miller The Science Teacher's Games | Asher Tupia's Games",
+        "Mr Miller The Science Teacher's Games | Joshua Bowman's Games",
+        "Kaylee Althiser's Games",
+        "Mr Miller's Games | Jase Cole's Games",
+        "Mr Miller The Science Teacher's Games",
+		"Mr Miller's Games",
+		"JR's Games",
+		"Kieran's games",
+		"Korben's Games",
+		"Asher Tupia's games",
+		"Tucker Marshall's games",
+		"Jaxon Davien Googdad's Games"
+      ];
+
+      // Pick random title and h1
+      const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+      const randomH1 = h1List[Math.floor(Math.random() * h1List.length)];
+
+      // Set the document title
+      document.title = randomTitle;
+
+      // Update the h1 content
+      const h1Element = document.querySelector("h1");
+      if (h1Element) {
+        h1Element.textContent = randomH1;
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Mr Miller's Games | Asher Tupia's Games</h1>
+
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search in jonathan's games... PLEASE SHARE" onkeyup="filterGames()">
+      <img src="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/search.png" alt="Search Icon" class="search-icon">
+    </div>
+  </div>
+
+
+<a href="https://sites.google.com/carthagecsd.org/sus/gamerequests" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/add.png');">
+    <p class="game-title">Add Game!/Questions Form</p>
+  </div>
+</a>
+
+<div id="gamesContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/gamesData2.js"></script>
+<script>
+// Function to generate game boxes
+function generateGameBoxes() {
+  const gamesContainer = document.getElementById('gamesContainer');  // Container to hold game boxes
+
+  // Loop through each game in the games array
+  games.forEach(game => {
+    const [gamePath, gameName, gameThumbnail] = game.split(":");  // Destructure the game data
+
+    // Generate the full link using the gamePath
+    const gameLink = `https://sites.google.com/carthagecsd.org/sus/${gamePath}`;
+    const thumbnailUrl = `https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/${gameThumbnail}`;
+
+    const gameBox = document.createElement('div');
+    gameBox.classList.add('game-box');  // Add class for styling
+
+    const boxDiv = document.createElement('div');
+    boxDiv.classList.add('box');
+    boxDiv.style.backgroundImage = `url(${thumbnailUrl})`;  // Set the initial background image (thumbnail)
+
+    const gameTitle = document.createElement('p');
+    gameTitle.classList.add('game-title');
+    gameTitle.textContent = gameName;  // Set the name of the game
+
+    // Create a game link element that opens in a new tab
+    const gameLinkElement = document.createElement('a');
+    gameLinkElement.href = gameLink;
+    gameLinkElement.target = "_blank"; // Open in new tab
+
+    gameLinkElement.appendChild(boxDiv); // Wrap the box in an anchor tag to open the game link in a new tab
+
+    gamesContainer.appendChild(gameLinkElement);  // Append the anchor tag (game box) to the container
+
+    // Append the game title and the box div to the game box
+    boxDiv.appendChild(gameTitle);
+  });
+}
+
+// Call the function to generate the game boxes when the page loads
+generateGameBoxes();
+
+// Function to filter games based on the search input
+function filterGames() {
+  const searchInput = document.getElementById('searchInput').value.toLowerCase();  // Get search input
+  const gameBoxes = document.querySelectorAll('.game-box');  // Get all the game boxes
+
+  // Loop through all game boxes and hide/show them based on the search query
+  gameBoxes.forEach(box => {
+    const gameTitle = box.querySelector('.game-title').textContent.toLowerCase();  // Get the title of the game
+    // Display the box if the title matches the search input
+    box.style.display = gameTitle.includes(searchInput) ? 'inline-block' : 'none';
+  });
+}
+
+// Optional: Attach the filterGames function to a search input event listener
+document.getElementById('searchInput').addEventListener('input', filterGames);
+
+</script>
+
+
+  <!-- Comments Section -->
+ <!-- Comments Section <div class="comments-container">
+    <input type="text" id="nickname" placeholder="Enter your nickname" />
+    <textarea id="commentInput" class="comment-input" placeholder="Live Chat... SAY HI NOW"></textarea>
+    <button class="button-82-pushable" id="postCommentBtn">
+      <span class="button-82-shadow"></span>
+      <span class="button-82-edge"></span>
+      <span class="button-82-front text">Send</span>
+    </button>
+    <div class="comments-section"></div>
+  </div>
+
+  <script src="webdata/scripts/comments_FILEVER.js"></script> <!-- External comments JS -->
+
+</body>
+</html>
