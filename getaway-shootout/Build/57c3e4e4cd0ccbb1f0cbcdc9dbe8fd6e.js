@@ -1153,7 +1153,7 @@ function unityFramework(Module) {
                 ))
             }
             if (!Module["wasmBinary"] && typeof WebAssembly.instantiateStreaming === "function" && !isDataURI(wasmBinaryFile) && typeof fetch === "function") {
-                WebAssembly.instantiateStreaming(fetch("https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/Build/d6ece658d7fb23fdee2f8d277596a675.wasm", {
+                WebAssembly.instantiateStreaming(fetch("https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/Build/d6ece658d7fb23fdee2f8d277596a675.wasm", {
                 }), info).then(receiveInstantiatedSource).catch((function(reason) {
                     err("wasm streaming compile failed: " + reason);
                     err("falling back to ArrayBuffer instantiation");
