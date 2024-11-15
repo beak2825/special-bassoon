@@ -1088,8 +1088,7 @@ function unityFramework(Module) {
         }
         function getBinaryPromise() {
             if (!Module["wasmBinary"] && (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) && typeof fetch === "function") {
-                return fetch(wasmBinaryFile, {
-                    credentials: "same-origin"
+                return fetch("https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/Build/d6ece658d7fb23fdee2f8d277596a675.wasm", {
                 }).then((function(response) {
                     if (!response["ok"]) {
                         throw "failed to load wasm binary file at '" + wasmBinaryFile + "'"
