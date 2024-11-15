@@ -10,4 +10,5 @@ const games = [
   "minecraft-eaglercraft:Minecraft (Eaglercraft):mc.png",
   "fluidsim:Fluid Simulator:fluidsim.png",
   "emulator/doom:Doom Emulator:doom.png",
+  "emulator/pokemon-yellow:Pokemon Yellow:ypokemon.png",
 ];
