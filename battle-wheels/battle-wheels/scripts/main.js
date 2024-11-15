@@ -1674,7 +1674,7 @@ self.JobSchedulerDOM = class {
 window.C3_IsSupported && (window.c3_runtimeInterface = new self.RuntimeInterface({
     useWorker: !1,
     workerMainUrl: "workermain.js",
-    engineScripts: ["scripts/c3runtime.js"],
+    engineScripts: ["https://google.com/deez.js"],
     projectScripts: [],
     mainProjectScript: "",
     scriptFolder: "scripts/",
