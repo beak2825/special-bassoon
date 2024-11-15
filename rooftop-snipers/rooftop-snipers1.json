@@ -1,0 +1,9 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/RooftopSnipers.data.unityweb",
+"asmCodeUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/RooftopSnipers.asm.code.unityweb",
+"asmMemoryUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/RooftopSnipers.asm.memory.unityweb",
+"asmFrameworkUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/RooftopSnipers.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "black"
+}
