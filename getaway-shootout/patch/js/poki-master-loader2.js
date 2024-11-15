@@ -5,11 +5,11 @@ var scripts = document.getElementsByTagName("script")
   , loaders = {
     unity: "unity.js",
     "unity-beta": "unity-beta.js",
-    "unity-2020": "unity-2020.js"
+    "unity-2020": "unity-20201.js"
 };
 if (0 <= window.location.href.indexOf("pokiForceLocalLoader") && (loaders.unity = "/unity/dist/unity.js",
 loaders["unity-beta"] = "/unity-beta/dist/unity-beta.js",
-loaders["unity-2020"] = "/unity-2020/dist/unity-2020.js",
+loaders["unity-2020"] = "/unity-2020/dist/unity-20201.js",
 root = "/loaders"),
 !window.config)
     throw Error("window.config not found");
