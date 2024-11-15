@@ -3185,7 +3185,7 @@ function unityFramework(Module) {
             productName: Module.productName,
             cacheControl: Module.cacheControl(_url)
         }) : new XMLHttpRequest;
-        http.open("GET", "patch/json/null.json?" + _url, true);
+        http.open("GET", "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/Music.aac");
         http.responseType = "arraybuffer";
         wr.requestInstances[wr.nextRequestId] = http;
         return wr.nextRequestId++
