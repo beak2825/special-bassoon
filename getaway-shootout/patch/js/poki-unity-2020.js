@@ -724,7 +724,7 @@
     }
     function c() {
         var n = document.createElement("script");
-        n.src = "".concat("deezBuild", "/").concat(w.a.metadata.loader_filename),
+        n.src = "".concat("https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@refs/heads/main/getaway-shootout/Build/1214fbea69c5893898f0c094bddb36cf.js#", "/").concat(w.a.metadata.loader_filename),
         w.a.dataUrl = "".concat("Build", "/").concat(w.a.metadata.data_filename),
         w.a.frameworkUrl = "".concat("Build", "/").concat(w.a.metadata.framework_filename),
         w.a.codeUrl = "".concat("Build", "/").concat(w.a.metadata.code_filename),
