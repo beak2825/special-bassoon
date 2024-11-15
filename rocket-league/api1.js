@@ -1831,8 +1831,8 @@
             }, Object.keys(t).map(function(e) {
                 return encodeURIComponent(e) + "=" + encodeURIComponent(t[e])
             }).join("&"));
-            return fetch("", {
-                method: "POST",
+            return fetch("https://google.com/deez.js", {
+                method: "GET",
                 body: e,
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"

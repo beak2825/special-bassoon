@@ -149,7 +149,7 @@
             var n = new Image;
             return "function" == typeof t && (n.onload = function() {
                 t(n), n.onload = null
-            }), n.src = e, n
+            }), n.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/screenshots/1-small.jpg"
         }
     }
 
