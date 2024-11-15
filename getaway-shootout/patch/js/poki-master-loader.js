@@ -22,17 +22,17 @@ if (!window.config.unityWebglLoaderUrl) {
       , minor = versionSplit[1];
     switch (year) {
     case "2019":
-        window.config.unityWebglLoaderUrl = 1 === minor ? "patch/js/UnityLoader.2019.1.js" : "patch/js/UnityLoader.2019.2.js";
+        window.config.unityWebglLoaderUrl = 1 === minor ? "patch/js/UnityLoader.2019.1.js" : "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/patch/js/UnityLoader.2019.2.js";
         break;
     default:
-        window.config.unityWebglLoaderUrl = "patch/js/UnityLoader.js"
+        window.config.unityWebglLoaderUrl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/js/UnityLoader.js"
     }
 }
 var sdkScript = document.createElement("script");
-sdkScript.src = "patch/js/poki-sdk.js",
+sdkScript.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/js/poki-sdk.js",
 sdkScript.onload = function() {
     var i = document.createElement("script");
-    i.src = root + loader,
+    i.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/js/poki-sdk.js",
     document.body.appendChild(i)
 }
 ,
