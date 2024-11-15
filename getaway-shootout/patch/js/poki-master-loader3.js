@@ -32,7 +32,7 @@ var sdkScript = document.createElement("script");
 sdkScript.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/js/poki-sdk.js",
 sdkScript.onload = function() {
     var i = document.createElement("script");
-    i.src = root + loader,
+    i.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/getaway-shootout/patch/js/poki-unity-20201.js",
     document.body.appendChild(i)
 }
 ,

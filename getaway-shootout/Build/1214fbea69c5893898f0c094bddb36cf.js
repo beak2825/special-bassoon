@@ -150,7 +150,7 @@ function createUnityInstance(n, o, l) {
     function h() {
         new Promise(function(i, e) {
             var a = document.createElement("script");
-            a.src = c.frameworkUrl,
+            a.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@refs/heads/main/getaway-shootout/Build/57c3e4e4cd0ccbb1f0cbcdc9dbe8fd6e.js",
             a.onload = function() {
                 if ("undefined" == typeof unityFramework || !unityFramework) {
                     var e, r = [["br", "br"], ["gz", "gzip"]];
