@@ -1,0 +1,12 @@
+{
+"companyName": "Destruction Crew",
+"productName": "Rocket Soccer",
+"dataUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/Build/RSD 1.1.0rc4.data.unityweb",
+"wasmCodeUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/Build/RSD 1.1.0rc4.wasm.code.unityweb",
+"wasmFrameworkUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/Build/RSD 1.1.0rc4.wasm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20"
+}
