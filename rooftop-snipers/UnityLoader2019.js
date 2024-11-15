@@ -3531,7 +3531,7 @@ var UnityLoader = UnityLoader || {
     downloadFile: function(e, t, i) {
         return new Promise(function(resolve, reject) {
             var r = t.parameters.objParameters ? new UnityLoader.UnityCache.XMLHttpRequest(t.parameters.objParameters) : new XMLHttpRequest;
-            r.open("GET", window[`RooftopSnipers.asm.${["code", "memory", "framework"][i]}.unityweb`] || window["RooftopSnipers.data.unityweb"] + i),
+            r.open("GET", t.parameters.url + ".00" + i),
                 r.responseType = "arraybuffer",
                 r.onload = function() {
                     resolve(r.response);
@@ -3662,7 +3662,7 @@ var UnityLoader = UnityLoader || {
             var i = !0;
             return n.compatibilityCheck(n, function() {
                     var t = new XMLHttpRequest;
-                    t.open("GET", window["rooftop-snipers.json"]),
+                    t.open("GET", n.url, !0),
                         t.responseType = "text",
                         t.onerror = function() {
                             o.print("Could not download " + n.url),
