@@ -1,0 +1,10 @@
+{
+	"name": "веселый футбол",
+	"short_name": "веселый футбол",
+	"description": "",
+	"start_url": "index.html",
+	"display": "fullscreen",
+	"orientation": "landscape",
+	"background_color": "#ffffff",
+	"icons": []
+}
