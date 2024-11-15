@@ -3662,10 +3662,10 @@ var UnityLoader = UnityLoader || {
             var i = !0;
             return n.compatibilityCheck(n, function() {
                     var t = new XMLHttpRequest;
-                    t.open("GET", n.url, !0),
+                    t.open("GET", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/rooftop-snipers1.json"),
                         t.responseType = "text",
                         t.onerror = function() {
-                            o.print("Could not download " + n.url),
+                            o.print("Could not download " + "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftop-snipers/rooftop-snipers1.json"),
                                 0 == document.URL.indexOf("file:") && alert("It seems your browser does not support running Unity WebGL content from file:// urls. Please upload it to an http server, or try a different browser.")
                         },
                         t.onload = function() {
