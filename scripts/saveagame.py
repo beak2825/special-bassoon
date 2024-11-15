@@ -1,84 +1,55 @@
 import os
-import json
 
-# Function to list images in the ../images directory
-def list_images(directory):
-    images = [f for f in os.listdir(directory) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
-    images.sort()  # Sort images alphabetically
-    return images
-
-# Function to get the image choice from the user
-def get_image_choice(images):
-    print("\nSelect the game image by number:")
-    for i, img in enumerate(images, 1):
-        print(f"{i}. {img}")
-    choice = int(input("Enter the number of your choice: ")) - 1
-    if 0 <= choice < len(images):
-        return images[choice]
-    else:
-        print("Invalid choice, please try again.")
-        return get_image_choice(images)
-
-# Function to get the game details
 def get_game_details():
     game_name = input("What's the game name?: ")
-    print("\nPlease select an image for the game.")
     
-    # Get the absolute path for the images directory (one level up)
-    current_directory = os.getcwd()
-    project_directory = os.path.dirname(current_directory)  # Go up one directory to the project folder
-    images_dir = os.path.join(project_directory, 'images')  # Access the 'images' directory
+    # Get the list of images in the current directory
+    images = [f for f in os.listdir('.') if os.path.isfile(f) and f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     
-    # Ensure the images directory exists
-    if not os.path.exists(images_dir):
-        print("The 'images' directory does not exist. Please make sure it's located in the root of the project.")
-        return None
+    # List the images for selection
+    print("Select the game image by number:")
+    for i, img in enumerate(images, start=1):
+        print(f"{i}. {img}")
     
-    # Get a list of images from the ../images directory
-    images = list_images(images_dir)
+    image_choice = int(input()) - 1
+    thumbnail = images[image_choice]
     
-    # Get image choice from the user
-    selected_image = get_image_choice(images)
+    # Move the selected image to the "images" directory
+    new_image_path = os.path.join('..', 'images', thumbnail)
+    os.rename(thumbnail, new_image_path)
     
-    # Construct the URL for the selected image
-    image_url = f"https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/{selected_image}"
-
-    # Get the game link
-    game_link = input(f"What's the link for {game_name}?: ")
-
-    # Construct the new game data
-    new_game = {
-        "link": game_link,
-        "name": game_name,
-        "thumbnail": image_url,
-        "gif": None,
-        "fixing": None
-    }
-
-    return new_game
-
-# Function to add the new game to the JSON file
-def add_game_to_json(new_game):
-    # Check if the JSON file exists
-    json_file = 'games.json'
-    if os.path.exists(json_file):
-        with open(json_file, 'r') as f:
-            games = json.load(f)
-    else:
-        games = []
+    # Generate the URL for the thumbnail
+    thumbnail_url = f"https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/{thumbnail}"
     
-    # Add the new game to the list
-    games.append(new_game)
+    # Ask for the link
+    print(f"What's the link for {game_name}?")
+    print(f"https://sites.google.com/carthagecsd.org/sus/{game_name.replace(' ', '').lower()}: ")
+    link = input("Enter the full link: ")
+    
+    # Format the game string and return it
+    game_string = f'"{link}:{game_name}:{thumbnail_url}",'
+    return game_string
 
-    # Write the updated list back to the JSON file
-    with open(json_file, 'w') as f:
-        json.dump(games, f, indent=4)
+# Add the new game to the gamesData.js file
+def add_game_to_js(game_string):
+    js_file_path = 'gamesData.js'
+    
+    # Open the file and read its content
+    with open(js_file_path, 'r') as file:
+        content = file.readlines()
+    
+    # Find the part to insert the new game at the top
+    games_line = content[0].strip()  # This should be the line starting with 'const games = '
+    
+    # Insert the new game at the top of the array
+    updated_games_line = games_line.replace('[', f'[{game_string}\n  ')
+    
+    # Write back the updated content
+    with open(js_file_path, 'w') as file:
+        content[0] = updated_games_line + '\n'  # Update the first line
+        file.writelines(content)
 
-# Main execution
 if __name__ == "__main__":
-    print("Welcome to the Game Addition Script!")
-    new_game = get_game_details()
-    
-    if new_game:  # Only add the game if the details were successfully retrieved
-        add_game_to_json(new_game)
-        print(f"Game '{new_game['name']}' has been added successfully!")
+    game_string = get_game_details()
+    add_game_to_js(game_string)
+    print(f"Game '{game_string.split(':')[1]}' has been added successfully!")

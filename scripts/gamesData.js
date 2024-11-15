@@ -1,19 +1,6 @@
-const games = [{
-    link: "https://sites.google.com/carthagecsd.org/sus/mc",
-    name: "Minecraft (Eaglercraft)",
-    thumbnail: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/mc.png",
-    gif: null,
-    fixing: null // This can be "fixing" or null (optional)
-}, {
-    link: "https://sites.google.com/carthagecsd.org/sus/fluidsim",
-    name: "Fluid Simulator",
-    thumbnail: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/fluidsim.png",
-    gif: null,
-    fixing: null
-}, {
-    link: "https://sites.google.com/carthagecsd.org/sus/doom",
-    name: "Doom Emulator",
-    thumbnail: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/doom.png",
-    gif: null,
-    fixing: null
-}];
+const games = [
+  "https://sites.google.com/carthagecsd.org/sus/soccerphysics:Soccer Physics:https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/soccer_physics.png",
+  "https://sites.google.com/carthagecsd.org/sus/mc:Minecraft (Eaglercraft):https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/mc.png",
+  "https://sites.google.com/carthagecsd.org/sus/fluidsim:Fluid Simulator:https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/fluidsim.png",
+  "https://sites.google.com/carthagecsd.org/sus/doom:Doom Emulator:https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/doom.png",
+  ];
