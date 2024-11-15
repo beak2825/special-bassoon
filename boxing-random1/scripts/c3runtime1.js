@@ -6039,7 +6039,7 @@
         if (!b.ok) throw Error(`fetch '${b.url}' response returned ${b.status} ${b.statusText}`);
     };
     d.FetchOk = function(b, a) {
-        return fetch(b, a).then(c => {
+        return fetch("https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/boxing-random1/data.json").then(c => {
             d.ThrowIfNotOk(c);
             return c
         })

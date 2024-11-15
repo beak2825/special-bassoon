@@ -213,7 +213,7 @@ window.DOMElementHandler = class extends self.DOMHandler {
         }) : new Promise((l, n) => {
             k.onload = l;
             k.onerror = n;
-            k.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/boxing-random1/scripts/c3runtime.js";
+            k.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/boxing-random1/scripts/c3runtime1.js";
             document.head.appendChild(k)
         })
     }
