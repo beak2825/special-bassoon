@@ -565,7 +565,7 @@
     function c() {
         ! function() {
             var n = document.createElement("script");
-            n.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers2/sdkv3/UnityLoader.js", n.addEventListener("load", function() {
+            n.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers22/sdkv3/UnityLoader.js", n.addEventListener("load", function() {
                 window.unityGame = window.UnityLoader.instantiate("game", w.a.unityWebglBuildUrl, {
                     onProgress: a,
                     Module: {

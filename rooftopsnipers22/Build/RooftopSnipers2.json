@@ -1,0 +1,16 @@
+{
+"companyName": "New Eich Games",
+"productName": "Rooftop Snipers 2 | Rivera",
+"productVersion": "0.1",
+"dataUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers22/Build/RooftopSnipers2.data.unityweb",
+"wasmCodeUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers22/Build/RooftopSnipers2.wasm.code.unityweb",
+"wasmFrameworkUrl": "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers22/Build/RooftopSnipers2.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Light",
+"backgroundColor": "#556890",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.1.5f1"
+}

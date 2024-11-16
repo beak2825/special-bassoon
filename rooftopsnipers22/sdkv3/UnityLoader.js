@@ -3522,7 +3522,7 @@ var UnityLoader = UnityLoader || {
             var i = !0;
             return n.compatibilityCheck(n, function() {
                 var t = new XMLHttpRequest;
-                t.open("GET", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers2/Build/RooftopSnipers2.json"),
+                t.open("GET", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rooftopsnipers22/Build/RooftopSnipers2.json"),
                 t.responseType = "text",
                 t.onerror = function() {
                     o.print("Could not download " + n.url),
