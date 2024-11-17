@@ -78,28 +78,32 @@
             "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/night-city-racing/Build/2_NightCityRacing.data.unityweb"
         ];
 
-        // Function to create a blob from the concatenated data of the two files
-        async function createDataBlob(urls) {
+        // Function to create a binary data of the two files
+        async function getCombinedBinary(urls) {
             const responses = await Promise.all(urls.map(url => fetch(url)));
             const arrays = await Promise.all(responses.map(res => res.arrayBuffer()));
-            const combined = new Uint8Array(arrays.reduce((sum, buf) => sum + buf.byteLength, 0));
 
+            // Calculate total size
+            const totalSize = arrays.reduce((sum, buf) => sum + buf.byteLength, 0);
+
+            // Combine the arrays
+            const combined = new Uint8Array(totalSize);
             let offset = 0;
             arrays.forEach(buffer => {
                 combined.set(new Uint8Array(buffer), offset);
                 offset += buffer.byteLength;
             });
 
-            return URL.createObjectURL(new Blob([combined], { type: "application/octet-stream" }));
+            return combined;
         }
 
         // Main logic
         (async function() {
-            const dataBlobUrl = await createDataBlob(urls);
+            const combinedBinary = await getCombinedBinary(urls);
 
             const canvas = document.querySelector("#unity-canvas");
             const config = {
-                dataUrl: dataBlobUrl, // Using the blob URL for data
+                dataUrl: combinedBinary, // Use the pure binary data directly
                 frameworkUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.framework.js.unityweb",
                 codeUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.wasm.unityweb",
                 streamingAssetsUrl: "StreamingAssets",
