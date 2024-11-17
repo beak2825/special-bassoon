@@ -72,9 +72,34 @@
         <canvas id="unity-canvas" data-pixel-art=""></canvas>
         <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.loader.js"></script>
         <script>
-            var canvas = document.querySelector("#unity-canvas");
-            var config = {
-                dataUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.data.unityweb",
+        // URLs for the two .data.unityweb files
+        const urls = [
+            "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/night-city-racing/Build/1_NightCityRacing.data.unityweb",
+            "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/night-city-racing/Build/2_NightCityRacing.data.unityweb"
+        ];
+
+        // Function to create a blob from the concatenated data of the two files
+        async function createDataBlob(urls) {
+            const responses = await Promise.all(urls.map(url => fetch(url)));
+            const arrays = await Promise.all(responses.map(res => res.arrayBuffer()));
+            const combined = new Uint8Array(arrays.reduce((sum, buf) => sum + buf.byteLength, 0));
+
+            let offset = 0;
+            arrays.forEach(buffer => {
+                combined.set(new Uint8Array(buffer), offset);
+                offset += buffer.byteLength;
+            });
+
+            return URL.createObjectURL(new Blob([combined], { type: "application/octet-stream" }));
+        }
+
+        // Main logic
+        (async function() {
+            const dataBlobUrl = await createDataBlob(urls);
+
+            const canvas = document.querySelector("#unity-canvas");
+            const config = {
+                dataUrl: dataBlobUrl, // Using the blob URL for data
                 frameworkUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.framework.js.unityweb",
                 codeUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/night-city-racing/Build/NightCityRacing.wasm.unityweb",
                 streamingAssetsUrl: "StreamingAssets",
@@ -86,7 +111,8 @@
                     powerPreference: "high-performance",
                 },
             };
-            var scaleToFit;
+
+            let scaleToFit;
             try {
                 scaleToFit = !!JSON.parse("");
             } catch (e) {
@@ -94,8 +120,8 @@
             }
 
             function progressHandler(progress) {
-                var percent = progress * 100 + '%';
-                canvas.style.background = 'linear-gradient(to right, white, white ' + percent + ', transparent ' + percent + ', transparent) no-repeat center';
+                const percent = progress * 100 + '%';
+                canvas.style.background = `linear-gradient(to right, white, white ${percent}, transparent ${percent}, transparent) no-repeat center`;
                 canvas.style.backgroundSize = '100% 1rem';
                 canvas.style.width = '250px';
                 canvas.style.position = 'fixed';
@@ -104,15 +130,14 @@
             }
 
             function onResize() {
-                var container = canvas.parentElement;
-                var w;
-                var h;
+                const container = canvas.parentElement;
+                let w, h;
 
                 if (scaleToFit) {
                     w = window.innerWidth;
                     h = window.innerHeight;
 
-                    var r = 450 / 800;
+                    const r = 450 / 800;
 
                     if (w * r > window.innerHeight) {
                         w = Math.min(w, Math.ceil(h / r));
@@ -128,12 +153,14 @@
                 container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
                 container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
             }
+
             createUnityInstance(canvas, config, progressHandler).then(function(instance) {
                 canvas = instance.Module.canvas;
                 onResize();
             });
             window.addEventListener('resize', onResize);
             onResize();
+        })();
         </script>
     </div>
 </body>
