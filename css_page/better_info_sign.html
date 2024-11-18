@@ -200,8 +200,48 @@ body
     opacity: 0;
   }
 }
-</style>
 
+
+
+@keyframes closeAlert {
+    0% {
+        transform: translateX(0); /* Start from original position */
+    }
+    50% {
+        transform: translateX(-15px); /* Shift to the left slightly */
+    }
+    100% {
+        transform: translateX(100vw); /* Move offscreen to the right */
+    }
+}
+
+/* When the alert is closing */
+.alert.closing {
+    animation: closeAlert 0.55s ease-in-out forwards;
+}
+
+
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const closeButtons = document.querySelectorAll('.close.font__size-18');
+    
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const alertElement = this.closest('.alert'); // Find the nearest .alert parent
+            if (alertElement) {
+                alertElement.classList.add('closing'); // Start closing animation
+                
+                // Wait for the animation to complete before removing the element
+                setTimeout(() => {
+                    alertElement.remove(); // Remove the alert after animation completes
+                }, 550); // Timing is set to 550ms to match the total duration of animation
+            }
+        });
+    });
+});
+
+</script>
 </head>
 <body>
 <!-- partial:index.partial.html -->
