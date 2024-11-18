@@ -1,45 +1,91 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Drift Hunters | 3kh0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="title" content="Drift Hunters" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/drift-hunters/style.css" />
+    <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/drift-hunters/UnityLoader.js"></script>
     <style>
-        /* Set the background color to white */
+        /* Set the initial background color */
         body {
-            background-color: #FFFFFF; /* All-white background */
+            background-color: #000E29;
             margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+            overflow: hidden;
         }
 
-        /* Styling for the content container */
-        #content {
-            width: 300px; /* Adjust width as necessary */
-            height: auto;
-            background-color: rgba(0, 0, 0, 0.1); /* Slight transparent background */
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 5px;
+        /* Positioning and styling the alert or information box at bottom-right */
+        #infoBox {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            border-radius: 10px;
+            z-index: 99999; /* Ensure it is above everything */
+            font-size: 16px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Styling for the close button */
+        #infoBox button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Game container that takes up the entire screen */
+        #gameContainer {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            z-index: 1; /* Make sure the game is under the info box */
         }
     </style>
-    <div id="content"></div>
-
     <script>
-        // The URL of the raw HTML file
-        const url = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/css_page/better_info_sign1.html";
+        var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/drift-hunters/dh1.json");
 
-        // Fetch the raw HTML content and insert it into the #content container
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(htmlContent => {
-                document.getElementById('content').innerHTML = htmlContent;
-            })
-            .catch(error => {
-                document.getElementById('content').textContent = `Error loading content: ${error.message}`;
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Create the info box dynamically
+            const infoBox = document.createElement('div');
+            infoBox.id = 'infoBox';
+            infoBox.innerHTML = `
+                <strong>Heads up!</strong> This could take 3.2 Minutes! - Jonathan R
+                <button onclick="closeInfoBox()">×</button>
+            `;
+            document.body.appendChild(infoBox);
+        });
+
+        // Function to close the info box
+        function closeInfoBox() {
+            const infoBox = document.getElementById('infoBox');
+            if (infoBox) {
+                infoBox.style.transition = 'opacity 0.5s ease';
+                infoBox.style.opacity = '0';
+                setTimeout(() => infoBox.remove(), 500);
+            }
+        }
     </script>
+</head>
+
+<body>
+    <div class="webgl-content">
+        <div id="gameContainer"></div>
+    </div>
+
+    <!-- The informational box will appear at the bottom-right of the page -->
+    <script>
+        // This script is for creating the informational box which will be inserted dynamically.
+    </script>
+
+</body>
+
+</html>
