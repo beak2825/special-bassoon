@@ -1,27 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Render Raw HTML</title>
     <style>
+        /* Set the background color to white */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #FFFFFF; /* All-white background */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        /* Styling for the content container */
+        #content {
+            width: 300px; /* Adjust width as necessary */
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.1); /* Slight transparent background */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
         }
     </style>
-</head>
-<body>
-    <h1>Rendered HTML Content</h1>
-    <div id="content">
-        Loading content...
-    </div>
+    <div id="content"></div>
 
     <script>
         // The URL of the raw HTML file
         const url = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/css_page/better_info_sign.html";
 
-        // Fetch the raw HTML content
+        // Fetch the raw HTML content and insert it into the #content container
         fetch(url)
             .then(response => {
                 if (!response.ok) {
@@ -30,12 +37,9 @@
                 return response.text();
             })
             .then(htmlContent => {
-                // Render the fetched HTML into the page
                 document.getElementById('content').innerHTML = htmlContent;
             })
             .catch(error => {
                 document.getElementById('content').textContent = `Error loading content: ${error.message}`;
             });
     </script>
-</body>
-</html>
