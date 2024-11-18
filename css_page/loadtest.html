@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render Raw HTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rendered HTML Content</h1>
+    <div id="content">
+        Loading content...
+    </div>
+
+    <script>
+        // The URL of the raw HTML file
+        const url = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/css_page/better_info_sign.html";
+
+        // Fetch the raw HTML content
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(htmlContent => {
+                // Render the fetched HTML into the page
+                document.getElementById('content').innerHTML = htmlContent;
+            })
+            .catch(error => {
+                document.getElementById('content').textContent = `Error loading content: ${error.message}`;
+            });
+    </script>
+</body>
+</html>
