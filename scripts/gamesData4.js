@@ -6,6 +6,9 @@ const games = [
   "flash-games/learntofly2:Learn To Fly 2:learntofly2.png",
   "flash-games/kawairun2:Kawai Run 2:kawairun2.png",
   "flash-games/1on1soccer:1 on 1 Soccer:1on1soccer.png",
+  "unity-games/baldis-basics:Baldi's Basics:baldi.png",
+  "unity-games/bitlife:BitLife:bitlife.png",
+  "unity-games/hole-io:Hole.io:holeio.png",
   "unity-games/block-blast:Block Blast:blockblast.png",
   "unity-games/rocket-league:Rocket Soccer League:rocket.png",
   "unity-games/cell-machine:Cell Machine:cellmachine.png",
@@ -17,6 +20,7 @@ const games = [
   "unity-games/getaway-shootout:Getaway Shootout (NEW MAPS 2024):getaway-shootout.png",
   "minecraft-eaglercraft:Minecraft (Eaglercraft):mc.png",
   "fluidsim:Fluid Simulator:fluidsim.png",
+  "emulator/sm64:Super Mario 64:sm64.png",
   "emulator/doom:Doom Emulator:doom.png",
   "emulator/pokemon-yellow:Pokemon Yellow:ypokemon.png",
 ];
