@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Bungee-go-boom</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/bungee-go-boom/TemplateData/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/bungee-go-boom/TemplateData/style.css">
 </head>
 
 <body>
@@ -25,11 +25,12 @@
         </div>
     </div>
     <script>
-        var buildUrl = "Build";
-        var loaderUrl = buildUrl + "/Bungee-go-boom.loader.js";
+        var JSurl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/bungee-go-boom/Build";
+		var buildUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/bungee-go-boom/Build";
+        var loaderUrl = JSurl + "/Bungee-go-boom.loader.js";
         var config = {
             dataUrl: buildUrl + "/Bungee-go-boom.data",
-            frameworkUrl: buildUrl + "/Bungee-go-boom.framework.js",
+            frameworkUrl: JSurl + "/Bungee-go-boom.framework.js",
             codeUrl: buildUrl + "/Bungee-go-boom.wasm",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
