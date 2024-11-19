@@ -60,11 +60,11 @@
 
         var buildUrl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/ultrapong/Build";
 		var rawbuildurl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/ultrapong/Build";
-        var loaderUrl = rawbuildurl + "/Ultra Pong WebGL.loader.js";
+        var loaderUrl = buildUrl + "/Ultra Pong WebGL.loader.js";
         var config = {
-            dataUrl: buildUrl + "/Ultra Pong WebGL.data",
-            frameworkUrl: rawbuildurl + "/Ultra Pong WebGL.framework.js",
-            codeUrl: buildUrl + "/Ultra Pong WebGL.wasm",
+            dataUrl: rawbuildurl + "/Ultra Pong WebGL.data",
+            frameworkUrl: buildUrl + "/Ultra Pong WebGL.framework1.js",
+            codeUrl: rawbuildurl + "/Ultra Pong WebGL.wasm",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "Ultra Pong",
