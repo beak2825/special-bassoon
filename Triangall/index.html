@@ -1,3 +1,4 @@
+<!-- https://hammyrrh.itch.io/triangall -->
 <!DOCTYPE html>
 <html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
 
@@ -136,6 +137,164 @@
     </style>
 
 </head>
+
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.min.css'>
+
+<style>
+body {
+  background: #000e29;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Ensure the body takes full screen height */
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    position: relative; /* Ensure it's positioned relative to the alert */
+}
+
+/* Position the alert box in the bottom right */
+.alert-simple {
+    position: fixed; /* Fix it on screen */
+    bottom: 20px; /* Add space from the bottom */
+    right: 20px; /* Add space from the right */
+    z-index: 1000; /* Ensure the alert is above other content */
+    width: auto; /* Adjust to content */
+    padding: 15px;
+    max-width: 350px; /* Optional: Set a max width */
+}
+
+/* General alert styles */
+.alert-simple.alert-success {
+    border: 1px solid rgba(36, 241, 6, 0.46);
+    background-color: rgba(7, 149, 66, 0.12156862745098039);
+    box-shadow: 0px 0px 2px #259c08;
+    color: #0ad406;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-info {
+    border: 1px solid rgba(6, 44, 241, 0.46);
+    background-color: rgba(7, 73, 149, 0.12156862745098039);
+    box-shadow: 0px 0px 2px #0396ff;
+    color: #0396ff;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-warning {
+    border: 1px solid rgba(241, 142, 6, 0.81);
+    background-color: rgba(220, 128, 1, 0.16);
+    box-shadow: 0px 0px 2px #ffb103;
+    color: #ffb103;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-danger {
+    border: 1px solid rgba(241, 6, 6, 0.81);
+    background-color: rgba(220, 17, 1, 0.16);
+    box-shadow: 0px 0px 2px #ff0303;
+    color: #ff0303;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-primary {
+    border: 1px solid rgba(6, 241, 226, 0.81);
+    background-color: rgba(1, 204, 220, 0.16);
+    box-shadow: 0px 0px 2px #03fff5;
+    color: #03d0ff;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-times {
+    -webkit-animation: blink-1 2s infinite both;
+    animation: blink-1 2s infinite both;
+}
+
+@-webkit-keyframes blink-1 {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0;
+    }
+}
+
+@keyframes blink-1 {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0;
+    }
+}
+
+@keyframes closeAlert {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-15px);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+.alert.closing {
+    animation: closeAlert 0.55s ease-in-out forwards;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const closeButtons = document.querySelectorAll('.close.font__size-18');
+    
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const alertElement = this.closest('.alert');
+            if (alertElement) {
+                alertElement.classList.add('closing');
+                setTimeout(() => {
+                    alertElement.remove();
+                }, 550);
+            }
+        });
+    });
+});
+</script>
+
+<section>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                <button type="button" class="close font__size-18" data-dismiss="alert">
+                    <span aria-hidden="true">
+                        <i class="fa fa-times blue-cross"></i>
+                    </span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <i class="start-icon  fa fa-info-circle faa-shake animated"></i>
+                <strong class="font__weight-semibold">Info!</strong> P1 WASD>MOVE  Q/E ROTATE   P2 JILK>MOVE   U/O ROTATE - Jonathan R
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <body>
     <canvas id='canvas'>
