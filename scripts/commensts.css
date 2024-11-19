@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.comments-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gamesh1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.add-comment-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.comment-input,
+.comment-textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: border 0.3s;
+    background-color: #e0e0e0; /* Gray background */
+}
+
+.comment-textarea {
+    height: 100px;
+    resize: none;
+}
+
+.comment-input:focus,
+.comment-textarea:focus {
+    border: 2px solid #ff4c7a; /* Pink glow */
+}
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0; /* Light gray for comments */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative; /* For positioning action icons */
+}
+
+.profile-pic {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.7); /* Pink glow */
+}
+
+.crown-icon {
+    position: absolute; /* Position the crown absolutely */
+    top: 0; /* Adjust to position on the top */
+    left: 0; /* Adjust to position on the left */
+    width: 20px; /* Set a smaller size for the crown */
+    height: auto; /* Maintain aspect ratio */
+    transform: translate(-50%, -50%); /* Center it on the profile picture */
+}
+
+.crown-positioned {
+    z-index: 1; /* Ensure the profile picture is on top */
+}
+
+.comment-text {
+    color: #333; /* Dark text color for visibility */
+    word-wrap: break-word; /* Prevents overflow */
+}
+
+.nickname {
+    font-weight: bold; /* Bold nickname */
+    color: #007bff; /* Blue for nickname */
+}
+
+.comment-actions {
+    display: flex;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.edit-icon,
+.delete-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.confirmation-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.confirmation-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.delete-button,
+.cancel-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background: red;
+    color: white;
+}
+
+.cancel-button {
+    background: gray;
+    color: white;
+}
+
+.delete-button:hover,
+.cancel-button:hover {
+    transform: scale(1.05);
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    background-color: #007bff; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:disabled {
+    background-color: #ccc; /* Disabled state */
+    cursor: not-allowed;
+}
+
+.pagination-button:not(:disabled):hover {
+    background-color: #0056b3; /* Darker blue */
+}
