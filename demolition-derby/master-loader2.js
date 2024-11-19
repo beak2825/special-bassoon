@@ -23,7 +23,7 @@ if (!window.config.unityWebglLoaderUrl) {
     }
 }
 var sdkScript = document.createElement("script");
-sdkScript.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/demolition-derby/poki-sdk.js", sdkScript.onload = function() {
+sdkScript.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/demolition-derby/poki-sdk1.js", sdkScript.onload = function() {
     var i = document.createElement("script");
     i.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/demolition-derby/unity.js", document.body.appendChild(i)
 }, document.body.appendChild(sdkScript);
