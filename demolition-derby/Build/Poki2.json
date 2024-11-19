@@ -1,0 +1,13 @@
+{
+"companyName": "Destruction Crew",
+"productName": "Demolition Derby Crash Racing",
+"dataUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/demolition-derby/Build/Poki.data.unityweb",
+"wasmCodeUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/demolition-derby/Build/Poki.wasm.code.unityweb",
+"wasmFrameworkUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/demolition-derby/Build/Poki.wasm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"backgroundUrl": "Poki.jpg",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#FFFFFF"
+}
