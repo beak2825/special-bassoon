@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload File To Render</title>
+    <style>
+        /* Reset some default styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f1f1f1;
+        }
+
+        /* Title area */
+        .title {
+            position: absolute;
+            top: 10%;
+            text-align: center;
+            width: 100%;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            background-color: #4A90E2;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container for the file upload area */
+        .upload-container {
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            background-color: #e3f2fd;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect on upload box */
+        .upload-container:hover {
+            background-color: #bbdefb;
+        }
+
+        .upload-container:hover .upload-box {
+            background-color: #1E88E5;
+        }
+
+        /* Upload box */
+        .upload-box {
+            border: 2px dashed #4A90E2;
+            padding: 50px;
+            font-size: 18px;
+            color: #4A90E2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Icon for the upload area */
+        .upload-box::before {
+            content: '📂';
+            font-size: 50px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* File input hidden from view */
+        .file-input {
+            display: none;
+        }
+
+        /* Keyframes for fade effect when hovering */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Apply the fade-in animation */
+        .upload-container:hover .upload-box {
+            animation: fadeIn 0.5s ease-in;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Upload File To Render/Show - zumbiepig + vivizero</div>
+    
+    <div class="upload-container">
+        <label for="file-upload" class="upload-box">
+            Upload or drag and drop a HTML file here
+        </label>
+        <input type="file" id="file-upload" class="file-input" accept=".html" onchange="loadFile(event)">
+    </div>
+
+    <script>
+        // Function to load the HTML file into the page
+        function loadFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Create a new document to load the uploaded HTML content
+                const newDoc = document.implementation.createHTMLDocument();
+                newDoc.documentElement.innerHTML = e.target.result;
+
+                // Copy scripts over to ensure functionality after replacing HTML
+                const scripts = Array.from(newDoc.querySelectorAll('script'));
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    Array.from(script.attributes).forEach(attr => {
+                        newScript.setAttribute(attr.name, attr.value);
+                    });
+                    newScript.innerHTML = script.innerHTML;
+                    document.body.appendChild(newScript);
+                });
+
+                // Replace the entire document's HTML with the new content
+                document.documentElement.innerHTML = newDoc.documentElement.innerHTML;
+
+                // Reinitialize page (re-dispatching events if needed)
+                document.dispatchEvent(new Event('DOMContentLoaded'));
+                document.dispatchEvent(new Event('load'));
+            };
+            reader.readAsText(file);
+        }
+
+        // Allow drag and drop feature
+        const uploadBox = document.querySelector('.upload-box');
+        uploadBox.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadBox.style.backgroundColor = '#BBDEFB';
+        });
+
+        uploadBox.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadBox.style.backgroundColor = '';
+        });
+
+        uploadBox.addEventListener('drop', function(e) {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'text/html') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newDoc = document.implementation.createHTMLDocument();
+                    newDoc.documentElement.innerHTML = e.target.result;
+
+                    const scripts = Array.from(newDoc.querySelectorAll('script'));
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        Array.from(script.attributes).forEach(attr => {
+                            newScript.setAttribute(attr.name, attr.value);
+                        });
+                        newScript.innerHTML = script.innerHTML;
+                        document.body.appendChild(newScript);
+                    });
+
+                    document.documentElement.innerHTML = newDoc.documentElement.innerHTML;
+                    document.dispatchEvent(new Event('DOMContentLoaded'));
+                    document.dispatchEvent(new Event('load'));
+                };
+                reader.readAsText(file);
+            }
+        });
+    </script>
+</body>
+</html>
