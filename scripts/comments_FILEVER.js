@@ -52,7 +52,7 @@ function formatRelativeTime(date) {
 function displayComments(comments) {
     const commentsSection = document.querySelector('.comments-section');
     commentsSection.innerHTML = ''; // Clear previous comments
-    const userIdLocalStorage = localStorage.getItem('userId');
+    const userIdLocalStorage = "test22";
 
     // Array of profile picture URLs
     const profilePics = [
@@ -98,25 +98,7 @@ function displayComments(comments) {
             commentDiv.appendChild(crownIcon);
         }
 
-        // Create action icons if the localStorage userId matches the comment's cookie
-        if (comment.cookie === userIdLocalStorage) {
-            const actionDiv = document.createElement('div');
-            actionDiv.className = 'comment-actions';
-
-            const editIcon = document.createElement('img');
-            editIcon.src = '../../../../webdata/images/edit.png';
-            editIcon.className = 'edit-icon';
-            editIcon.onclick = () => editComment(comment.id, comment.text);
-
-            const deleteIcon = document.createElement('img');
-            deleteIcon.src = '../../../../webdata/images/delete.png';
-            deleteIcon.className = 'delete-icon';
-            deleteIcon.onclick = () => confirmDelete(comment.id);
-
-            actionDiv.appendChild(editIcon);
-            actionDiv.appendChild(deleteIcon);
-            commentDiv.appendChild(actionDiv);
-        }
+       
 
         commentDiv.appendChild(profilePic);
         commentDiv.appendChild(commentText);
@@ -135,7 +117,7 @@ window.onload = () => {
 document.getElementById('postCommentBtn').onclick = async function() {
     const nickname = localStorage.getItem('nickname') || document.getElementById('nickname').value.trim();
     const text = document.getElementById('commentInput').value.trim();
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('nickname') || document.getElementById('nickname').value.trim();
 
     if (!localStorage.getItem('nickname') && nickname) {
         localStorage.setItem('nickname', nickname);
@@ -143,7 +125,7 @@ document.getElementById('postCommentBtn').onclick = async function() {
     }
 
     if (text) {
-        const response = await fetch(`https://script.google.com/macros/s/AKfycbyVh6dF9r07lVayWzWsm-q8PE39k0VoZSXIH3Auevf9xKw5If5jEXN_ryahsH32-PEzzg/exec?id=get_comment&nickname=${encodeURIComponent(nickname)}&text=${encodeURIComponent(text)}&cookie=${encodeURIComponent(userId)}`, {
+        const response = await fetch(`https://script.google.com/macros/s/AKfycbyVh6dF9r07lVayWzWsm-q8PE39k0VoZSXIH3Auevf9xKw5If5jEXN_ryahsH32-PEzzg/exec?id=get_comment&nickname=${encodeURIComponent(nickname)}&text=${encodeURIComponent(text)}&cookie=test00`, {
             headers: {
                 'Content-Type': 'text/plain;charset=utf-8',
             },
