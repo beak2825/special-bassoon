@@ -14,6 +14,47 @@
     <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/Fortnite/Loader/UnityProgress.js"></script>
     <!-- <script src="Build/UnityLoader.js"></script> -->
     <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/Fortnite/Build/fotniteUnityLoader.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const canvasContainer = document.getElementById("gameContainer");
+
+			// Wait until the UnityLoader initializes and the canvas is available
+			const observer = new MutationObserver(() => {
+				const canvas = canvasContainer.querySelector("canvas");
+				if (canvas) {
+					observer.disconnect(); // Stop observing after the canvas is found
+
+					// Add click event to lock pointer
+					canvas.addEventListener('click', () => {
+						if (canvas.requestPointerLock) {
+							canvas.requestPointerLock();
+						} else {
+							console.error("Pointer Lock API is not supported in this browser.");
+						}
+					});
+
+					// Pointer lock change event
+					document.addEventListener('pointerlockchange', () => {
+						if (document.pointerLockElement === canvas) {
+							console.log("Pointer locked in Unity game frame.");
+						} else {
+							console.log("Pointer unlocked.");
+						}
+					});
+
+					// Optional: Handle pointer lock errors
+					document.addEventListener('pointerlockerror', () => {
+						console.error("Pointer lock failed.");
+					});
+				}
+			});
+
+			// Start observing changes to find the canvas
+			observer.observe(canvasContainer, { childList: true });
+		});
+	</script>
+
+
     <script>
         var gameInstance = UnityLoader.instantiate(
             "gameContainer",
