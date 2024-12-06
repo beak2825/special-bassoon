@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload and Save to Local Storage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+
+    #dropZone {
+      width: 300px;
+      height: 200px;
+      background: linear-gradient(145deg, #e0e0e0, #ffffff);
+      border: 2px dashed #90a4ae;
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 18px;
+      color: #546e7a;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #dropZone input[type="file"] {
+      display: none;
+    }
+
+    #dropZone::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(33, 150, 243, 0.6);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    #dropZone:hover {
+      border-color: #2196f3;
+      color: #2196f3;
+    }
+
+    #dropZone:hover::before {
+      opacity: 1;
+    }
+
+    #dropZone span {
+      position: relative;
+      z-index: 2;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #546e7a;
+    }
+
+    a {
+      font-size: 16px;
+      color: #2196f3;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <a href="https://drive.google.com/file/d/1kG5PaDtqom49ET4ZdIiewJWTocK2S5WH/view?usp=sharing" target="_blank">How to get your old save data from File website? Click (here)</a>
+  <div id="dropZone">
+    <span>Drag and drop a file, or click to select</span>
+    <input type="file" id="fileInput" accept=".json, *">
+  </div>
+  <p id="status"></p>
+
+  <script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const status = document.getElementById('status');
+
+    // Handle click to open file dialog
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // Handle file input change
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      processFile(file);
+    });
+
+    // Drag-and-drop functionality
+    dropZone.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      status.innerText = "Drop the file here!";
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      status.innerText = "";
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+      event.preventDefault();
+      const file = event.dataTransfer.files[0];
+      processFile(file);
+    });
+
+    // Process the file and save to localStorage
+    function processFile(file) {
+      if (!file) {
+        status.innerText = "No file detected. Please try again.";
+        return;
+      }
+
+      if (!file.name.endsWith('.json')) {
+        status.innerText = "Only JSON files are supported.";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+
+          // Validate the parsed data is an object
+          if (typeof data !== 'object' || data === null) {
+            throw new Error('Invalid JSON structure.');
+          }
+
+          // Save each key-value pair to localStorage
+          Object.keys(data).forEach((key) => {
+            localStorage.setItem(key, data[key]);
+          });
+
+          status.innerText = "Data successfully saved to localStorage.";
+        } catch (error) {
+          console.error("Error processing file:", error);
+          status.innerText = "Failed to process the file. Ensure it is valid JSON.";
+        }
+      };
+
+      reader.onerror = () => {
+        console.error("Error reading file:", reader.error);
+        status.innerText = "Error reading the file.";
+      };
+
+      reader.readAsText(file);
+    }
+  </script>
+</body>
+</html>
