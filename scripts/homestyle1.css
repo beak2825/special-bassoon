@@ -1,10 +1,21 @@
 body {
-    background-color: #333333; /* Dark grayish background */
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
     margin: 0;
     padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #333; /* Dark background */
+    text-align: center;
+    background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/bg.png'); /* Background image */
+    background-size: cover; /* Make background image cover the entire screen */
+    background-position: center; /* Center the image */
+    background-attachment: fixed; /* Parallax scrolling effect */
+    background-repeat: no-repeat;
+    transition: background-color 0.3s ease, background-image 0.3s ease;
+}
+
+/* Smooth scrolling for the page */
+html {
+    scroll-behavior: smooth; /* Smooth scroll on page */
 }
 
 h1 {
