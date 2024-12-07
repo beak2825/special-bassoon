@@ -4,5 +4,5 @@
             EJS_gameName = "PokemonYellow";
             EJS_color = "#0064ff";
             EJS_startOnLoaded = true;
-            EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+            EJS_pathtodata = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@refs/heads/main/emulatorjs/stable/data";
             EJS_gameUrl = new Blob([Uint8Array.from(window.gameData)]);
