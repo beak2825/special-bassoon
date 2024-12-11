@@ -231,7 +231,7 @@
         c = o("slideshow"),
         l = o("slideshow-top"),
         d = document.createElement("img");
-    d.id = "thumbnail", d.alt = r.a.title, d.title = r.a.title, d.src = r.a.thumbnail;
+    d.id = "thumbnail", d.alt = r.a.title, d.title = r.a.title, d.src = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/e521bbbf13a6480b60d75421e7edc8d8d0e1edadaccd7d43438864b62a74088a.png";
     var u = o("slideshow-top-container"),
         f = o("game-title");
     f.innerText = r.a.title;
@@ -563,7 +563,7 @@
     function c() {
         ! function() {
             var n = document.createElement("script");
-            n.src = w.a.unityWebglLoaderUrl, n.addEventListener("load", function() {
+            n.src = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@refs/heads/main/rocket-league/UnityLoader.js", n.addEventListener("load", function() {
                 window.unityGame = window.UnityLoader.instantiate("game", w.a.unityWebglBuildUrl, {
                     onProgress: a,
                     Module: {

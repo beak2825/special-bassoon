@@ -79,7 +79,7 @@
     }));
     var o, i = ((o = window.pokiSDKVersion) || (o = e("ab") || "v2.263.0"), "/poki-sdk-" + (n ? "kids" : "core") + "-" + o + ".js"),
         r = document.createElement("script");
-    r.setAttribute("src", "poki-sdk-core-v2.263.0.js"), r.setAttribute("type", "text/javascript"), r.onload = function() {
+    r.setAttribute("src", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@refs/heads/main/rocket-league/poki-sdk-core-v2.263.0.js"), r.setAttribute("type", "text/javascript"), r.onload = function() {
         return t.dequeue()
     }, document.head.appendChild(r)
 })();
