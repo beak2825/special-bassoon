@@ -23,9 +23,9 @@ var UnityLoader = UnityLoader || {
                             }, e || {});
                             var t = this.options;
                             t.raw && t.windowBits >= 0 && t.windowBits < 16 && (t.windowBits = -t.windowBits, 0 === t.windowBits && (t.windowBits = -15)), !(t.windowBits >= 0 && t.windowBits < 16) || e && e.windowBits || (t.windowBits += 32), t.windowBits > 15 && t.windowBits < 48 && 0 == (15 & t.windowBits) && (t.windowBits |= 15), this.err = 0, this.msg = "", this.ended = !1, this.chunks = [], this.strm = new c, this.strm.avail_out = 0;
-                            var r = a.inflateInit2(this.strm, t.windowBits);
+                            var r = i.inflateInit2(this.strm, t.windowBits);
                             if (r !== l.Z_OK) throw new Error(u[r]);
-                            this.header = new f, a.inflateGetHeader(this.strm, this.header)
+                            this.header = new f, i.inflateGetHeader(this.strm, this.header)
                         }
 
                         function o(e, t) {
@@ -34,10 +34,10 @@ var UnityLoader = UnityLoader || {
                             return r.result
                         }
 
-                        function i(e, t) {
+                        function a(e, t) {
                             return t = t || {}, t.raw = !0, o(e, t)
                         }
-                        var a = e("./zlib/inflate"),
+                        var i = e("./zlib/inflate"),
                             s = e("./utils/common"),
                             d = e("./utils/strings"),
                             l = e("./zlib/constants"),
@@ -46,22 +46,22 @@ var UnityLoader = UnityLoader || {
                             f = e("./zlib/gzheader"),
                             h = Object.prototype.toString;
                         n.prototype.push = function(e, t) {
-                            var r, n, o, i, u, c, f = this.strm,
+                            var r, n, o, a, u, c, f = this.strm,
                                 p = this.options.chunkSize,
                                 m = this.options.dictionary,
                                 w = !1;
                             if (this.ended) return !1;
                             n = t === ~~t ? t : !0 === t ? l.Z_FINISH : l.Z_NO_FLUSH, "string" == typeof e ? f.input = d.binstring2buf(e) : "[object ArrayBuffer]" === h.call(e) ? f.input = new Uint8Array(e) : f.input = e, f.next_in = 0, f.avail_in = f.input.length;
                             do {
-                                if (0 === f.avail_out && (f.output = new s.Buf8(p), f.next_out = 0, f.avail_out = p), r = a.inflate(f, l.Z_NO_FLUSH), r === l.Z_NEED_DICT && m && (c = "string" == typeof m ? d.string2buf(m) : "[object ArrayBuffer]" === h.call(m) ? new Uint8Array(m) : m, r = a.inflateSetDictionary(this.strm, c)), r === l.Z_BUF_ERROR && !0 === w && (r = l.Z_OK, w = !1), r !== l.Z_STREAM_END && r !== l.Z_OK) return this.onEnd(r), this.ended = !0, !1;
-                                f.next_out && (0 !== f.avail_out && r !== l.Z_STREAM_END && (0 !== f.avail_in || n !== l.Z_FINISH && n !== l.Z_SYNC_FLUSH) || ("string" === this.options.to ? (o = d.utf8border(f.output, f.next_out), i = f.next_out - o, u = d.buf2string(f.output, o), f.next_out = i, f.avail_out = p - i, i && s.arraySet(f.output, f.output, o, i, 0), this.onData(u)) : this.onData(s.shrinkBuf(f.output, f.next_out)))), 0 === f.avail_in && 0 === f.avail_out && (w = !0)
+                                if (0 === f.avail_out && (f.output = new s.Buf8(p), f.next_out = 0, f.avail_out = p), r = i.inflate(f, l.Z_NO_FLUSH), r === l.Z_NEED_DICT && m && (c = "string" == typeof m ? d.string2buf(m) : "[object ArrayBuffer]" === h.call(m) ? new Uint8Array(m) : m, r = i.inflateSetDictionary(this.strm, c)), r === l.Z_BUF_ERROR && !0 === w && (r = l.Z_OK, w = !1), r !== l.Z_STREAM_END && r !== l.Z_OK) return this.onEnd(r), this.ended = !0, !1;
+                                f.next_out && (0 !== f.avail_out && r !== l.Z_STREAM_END && (0 !== f.avail_in || n !== l.Z_FINISH && n !== l.Z_SYNC_FLUSH) || ("string" === this.options.to ? (o = d.utf8border(f.output, f.next_out), a = f.next_out - o, u = d.buf2string(f.output, o), f.next_out = a, f.avail_out = p - a, a && s.arraySet(f.output, f.output, o, a, 0), this.onData(u)) : this.onData(s.shrinkBuf(f.output, f.next_out)))), 0 === f.avail_in && 0 === f.avail_out && (w = !0)
                             } while ((f.avail_in > 0 || 0 === f.avail_out) && r !== l.Z_STREAM_END);
-                            return r === l.Z_STREAM_END && (n = l.Z_FINISH), n === l.Z_FINISH ? (r = a.inflateEnd(this.strm), this.onEnd(r), this.ended = !0, r === l.Z_OK) : n !== l.Z_SYNC_FLUSH || (this.onEnd(l.Z_OK), f.avail_out = 0, !0)
+                            return r === l.Z_STREAM_END && (n = l.Z_FINISH), n === l.Z_FINISH ? (r = i.inflateEnd(this.strm), this.onEnd(r), this.ended = !0, r === l.Z_OK) : n !== l.Z_SYNC_FLUSH || (this.onEnd(l.Z_OK), f.avail_out = 0, !0)
                         }, n.prototype.onData = function(e) {
                             this.chunks.push(e)
                         }, n.prototype.onEnd = function(e) {
                             e === l.Z_OK && ("string" === this.options.to ? this.result = this.chunks.join("") : this.result = s.flattenChunks(this.chunks)), this.chunks = [], this.err = e, this.msg = this.strm.msg
-                        }, r.Inflate = n, r.inflate = o, r.inflateRaw = i, r.ungzip = o
+                        }, r.Inflate = n, r.inflate = o, r.inflateRaw = a, r.ungzip = o
                     },
                     "utils/common.js": function(e, t, r) {
                         "use strict";
@@ -80,55 +80,56 @@ var UnityLoader = UnityLoader || {
                         };
                         var o = {
                                 arraySet: function(e, t, r, n, o) {
-                                    if (t.subarray && e.subarray) return void e.set(t.subarray(r, r + n), o);
-                                    for (var i = 0; i < n; i++) e[o + i] = t[r + i]
+                                    if (t.subarray && e.subarray) e.set(t.subarray(r, r + n), o);
+                                    else
+                                        for (var a = 0; a < n; a++) e[o + a] = t[r + a]
                                 },
                                 flattenChunks: function(e) {
-                                    var t, r, n, o, i, a;
+                                    var t, r, n, o, a, i;
                                     for (n = 0, t = 0, r = e.length; t < r; t++) n += e[t].length;
-                                    for (a = new Uint8Array(n), o = 0, t = 0, r = e.length; t < r; t++) i = e[t], a.set(i, o), o += i.length;
-                                    return a
+                                    for (i = new Uint8Array(n), o = 0, t = 0, r = e.length; t < r; t++) a = e[t], i.set(a, o), o += a.length;
+                                    return i
                                 }
                             },
-                            i = {
+                            a = {
                                 arraySet: function(e, t, r, n, o) {
-                                    for (var i = 0; i < n; i++) e[o + i] = t[r + i]
+                                    for (var a = 0; a < n; a++) e[o + a] = t[r + a]
                                 },
                                 flattenChunks: function(e) {
                                     return [].concat.apply([], e)
                                 }
                             };
                         r.setTyped = function(e) {
-                            e ? (r.Buf8 = Uint8Array, r.Buf16 = Uint16Array, r.Buf32 = Int32Array, r.assign(r, o)) : (r.Buf8 = Array, r.Buf16 = Array, r.Buf32 = Array, r.assign(r, i))
+                            e ? (r.Buf8 = Uint8Array, r.Buf16 = Uint16Array, r.Buf32 = Int32Array, r.assign(r, o)) : (r.Buf8 = Array, r.Buf16 = Array, r.Buf32 = Array, r.assign(r, a))
                         }, r.setTyped(n)
                     },
                     "utils/strings.js": function(e, t, r) {
                         "use strict";
 
                         function n(e, t) {
-                            if (t < 65537 && (e.subarray && a || !e.subarray && i)) return String.fromCharCode.apply(null, o.shrinkBuf(e, t));
+                            if (t < 65537 && (e.subarray && i || !e.subarray && a)) return String.fromCharCode.apply(null, o.shrinkBuf(e, t));
                             for (var r = "", n = 0; n < t; n++) r += String.fromCharCode(e[n]);
                             return r
                         }
                         var o = e("./common"),
-                            i = !0,
-                            a = !0;
+                            a = !0,
+                            i = !0;
                         try {
                             String.fromCharCode.apply(null, [0])
                         } catch (e) {
-                            i = !1
+                            a = !1
                         }
                         try {
                             String.fromCharCode.apply(null, new Uint8Array(1))
                         } catch (e) {
-                            a = !1
+                            i = !1
                         }
                         for (var s = new o.Buf8(256), d = 0; d < 256; d++) s[d] = d >= 252 ? 6 : d >= 248 ? 5 : d >= 240 ? 4 : d >= 224 ? 3 : d >= 192 ? 2 : 1;
                         s[254] = s[254] = 1, r.string2buf = function(e) {
-                            var t, r, n, i, a, s = e.length,
+                            var t, r, n, a, i, s = e.length,
                                 d = 0;
-                            for (i = 0; i < s; i++) r = e.charCodeAt(i), 55296 == (64512 & r) && i + 1 < s && 56320 == (64512 & (n = e.charCodeAt(i + 1))) && (r = 65536 + (r - 55296 << 10) + (n - 56320), i++), d += r < 128 ? 1 : r < 2048 ? 2 : r < 65536 ? 3 : 4;
-                            for (t = new o.Buf8(d), a = 0, i = 0; a < d; i++) r = e.charCodeAt(i), 55296 == (64512 & r) && i + 1 < s && 56320 == (64512 & (n = e.charCodeAt(i + 1))) && (r = 65536 + (r - 55296 << 10) + (n - 56320), i++), r < 128 ? t[a++] = r : r < 2048 ? (t[a++] = 192 | r >>> 6, t[a++] = 128 | 63 & r) : r < 65536 ? (t[a++] = 224 | r >>> 12, t[a++] = 128 | r >>> 6 & 63, t[a++] = 128 | 63 & r) : (t[a++] = 240 | r >>> 18, t[a++] = 128 | r >>> 12 & 63, t[a++] = 128 | r >>> 6 & 63, t[a++] = 128 | 63 & r);
+                            for (a = 0; a < s; a++) r = e.charCodeAt(a), 55296 == (64512 & r) && a + 1 < s && 56320 == (64512 & (n = e.charCodeAt(a + 1))) && (r = 65536 + (r - 55296 << 10) + (n - 56320), a++), d += r < 128 ? 1 : r < 2048 ? 2 : r < 65536 ? 3 : 4;
+                            for (t = new o.Buf8(d), i = 0, a = 0; i < d; a++) r = e.charCodeAt(a), 55296 == (64512 & r) && a + 1 < s && 56320 == (64512 & (n = e.charCodeAt(a + 1))) && (r = 65536 + (r - 55296 << 10) + (n - 56320), a++), r < 128 ? t[i++] = r : r < 2048 ? (t[i++] = 192 | r >>> 6, t[i++] = 128 | 63 & r) : r < 65536 ? (t[i++] = 224 | r >>> 12, t[i++] = 128 | r >>> 6 & 63, t[i++] = 128 | 63 & r) : (t[i++] = 240 | r >>> 18, t[i++] = 128 | r >>> 12 & 63, t[i++] = 128 | r >>> 6 & 63, t[i++] = 128 | 63 & r);
                             return t
                         }, r.buf2binstring = function(e) {
                             return n(e, e.length)
@@ -136,14 +137,14 @@ var UnityLoader = UnityLoader || {
                             for (var t = new o.Buf8(e.length), r = 0, n = t.length; r < n; r++) t[r] = e.charCodeAt(r);
                             return t
                         }, r.buf2string = function(e, t) {
-                            var r, o, i, a, d = t || e.length,
+                            var r, o, a, i, d = t || e.length,
                                 l = new Array(2 * d);
                             for (o = 0, r = 0; r < d;)
-                                if ((i = e[r++]) < 128) l[o++] = i;
-                                else if ((a = s[i]) > 4) l[o++] = 65533, r += a - 1;
+                                if ((a = e[r++]) < 128) l[o++] = a;
+                                else if ((i = s[a]) > 4) l[o++] = 65533, r += i - 1;
                             else {
-                                for (i &= 2 === a ? 31 : 3 === a ? 15 : 7; a > 1 && r < d;) i = i << 6 | 63 & e[r++], a--;
-                                a > 1 ? l[o++] = 65533 : i < 65536 ? l[o++] = i : (i -= 65536, l[o++] = 55296 | i >> 10 & 1023, l[o++] = 56320 | 1023 & i)
+                                for (a &= 2 === i ? 31 : 3 === i ? 15 : 7; i > 1 && r < d;) a = a << 6 | 63 & e[r++], i--;
+                                i > 1 ? l[o++] = 65533 : a < 65536 ? l[o++] = a : (a -= 65536, l[o++] = 55296 | a >> 10 & 1023, l[o++] = 56320 | 1023 & a)
                             }
                             return n(l, o)
                         }, r.utf8border = function(e, t) {
@@ -163,24 +164,24 @@ var UnityLoader = UnityLoader || {
                             this.mode = 0, this.last = !1, this.wrap = 0, this.havedict = !1, this.flags = 0, this.dmax = 0, this.check = 0, this.total = 0, this.head = null, this.wbits = 0, this.wsize = 0, this.whave = 0, this.wnext = 0, this.window = null, this.hold = 0, this.bits = 0, this.length = 0, this.offset = 0, this.extra = 0, this.lencode = null, this.distcode = null, this.lenbits = 0, this.distbits = 0, this.ncode = 0, this.nlen = 0, this.ndist = 0, this.have = 0, this.next = null, this.lens = new y.Buf16(320), this.work = new y.Buf16(288), this.lendyn = null, this.distdyn = null, this.sane = 0, this.back = 0, this.was = 0
                         }
 
-                        function i(e) {
-                            var t;
-                            return e && e.state ? (t = e.state, e.total_in = e.total_out = t.total = 0, e.msg = "", t.wrap && (e.adler = 1 & t.wrap), t.mode = P, t.last = 0, t.havedict = 0, t.dmax = 32768, t.head = null, t.hold = 0, t.bits = 0, t.lencode = t.lendyn = new y.Buf32(me), t.distcode = t.distdyn = new y.Buf32(we), t.sane = 1, t.back = -1, M) : R
-                        }
-
                         function a(e) {
                             var t;
-                            return e && e.state ? (t = e.state, t.wsize = 0, t.whave = 0, t.wnext = 0, i(e)) : R
+                            return e && e.state ? (t = e.state, e.total_in = e.total_out = t.total = 0, e.msg = "", t.wrap && (e.adler = 1 & t.wrap), t.mode = T, t.last = 0, t.havedict = 0, t.dmax = 32768, t.head = null, t.hold = 0, t.bits = 0, t.lencode = t.lendyn = new y.Buf32(me), t.distcode = t.distdyn = new y.Buf32(we), t.sane = 1, t.back = -1, O) : N
+                        }
+
+                        function i(e) {
+                            var t;
+                            return e && e.state ? (t = e.state, t.wsize = 0, t.whave = 0, t.wnext = 0, a(e)) : N
                         }
 
                         function s(e, t) {
                             var r, n;
-                            return e && e.state ? (n = e.state, t < 0 ? (r = 0, t = -t) : (r = 1 + (t >> 4), t < 48 && (t &= 15)), t && (t < 8 || t > 15) ? R : (null !== n.window && n.wbits !== t && (n.window = null), n.wrap = r, n.wbits = t, a(e))) : R
+                            return e && e.state ? (n = e.state, t < 0 ? (r = 0, t = -t) : (r = 1 + (t >> 4), t < 48 && (t &= 15)), t && (t < 8 || t > 15) ? N : (null !== n.window && n.wbits !== t && (n.window = null), n.wrap = r, n.wbits = t, i(e))) : N
                         }
 
                         function d(e, t) {
                             var r, n;
-                            return e ? (n = new o, e.state = n, n.window = null, r = s(e, t), r !== M && (e.state = null), r) : R
+                            return e ? (n = new o, e.state = n, n.window = null, r = s(e, t), r !== O && (e.state = null), r) : N
                         }
 
                         function l(e) {
@@ -205,35 +206,35 @@ var UnityLoader = UnityLoader || {
                         }
 
                         function c(e, t, r, n) {
-                            var o, i = e.state;
-                            return null === i.window && (i.wsize = 1 << i.wbits, i.wnext = 0, i.whave = 0, i.window = new y.Buf8(i.wsize)), n >= i.wsize ? (y.arraySet(i.window, t, r - i.wsize, i.wsize, 0), i.wnext = 0, i.whave = i.wsize) : (o = i.wsize - i.wnext, o > n && (o = n), y.arraySet(i.window, t, r - n, o, i.wnext), n -= o, n ? (y.arraySet(i.window, t, r - n, n, 0), i.wnext = n, i.whave = i.wsize) : (i.wnext += o, i.wnext === i.wsize && (i.wnext = 0), i.whave < i.wsize && (i.whave += o))), 0
+                            var o, a = e.state;
+                            return null === a.window && (a.wsize = 1 << a.wbits, a.wnext = 0, a.whave = 0, a.window = new y.Buf8(a.wsize)), n >= a.wsize ? (y.arraySet(a.window, t, r - a.wsize, a.wsize, 0), a.wnext = 0, a.whave = a.wsize) : (o = a.wsize - a.wnext, o > n && (o = n), y.arraySet(a.window, t, r - n, o, a.wnext), n -= o, n ? (y.arraySet(a.window, t, r - n, n, 0), a.wnext = n, a.whave = a.wsize) : (a.wnext += o, a.wnext === a.wsize && (a.wnext = 0), a.whave < a.wsize && (a.whave += o))), 0
                         }
 
                         function f(e, t) {
-                            var r, o, i, a, s, d, l, f, h, p, m, w, b, me, we, be, ye, ge, ve, Ae, Ue, xe, Ee, ke, Be = 0,
+                            var r, o, a, i, s, d, l, f, h, p, m, w, b, me, we, be, ye, ge, ve, Ae, Ue, xe, Ee, ke, Be = 0,
                                 Le = new y.Buf8(4),
                                 We = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
-                            if (!e || !e.state || !e.output || !e.input && 0 !== e.avail_in) return R;
-                            r = e.state, r.mode === j && (r.mode = X), s = e.next_out, i = e.output, l = e.avail_out, a = e.next_in, o = e.input, d = e.avail_in, f = r.hold, h = r.bits, p = d, m = l, xe = M;
+                            if (!e || !e.state || !e.output || !e.input && 0 !== e.avail_in) return N;
+                            r = e.state, r.mode === j && (r.mode = X), s = e.next_out, a = e.output, l = e.avail_out, i = e.next_in, o = e.input, d = e.avail_in, f = r.hold, h = r.bits, p = d, m = l, xe = O;
                             e: for (;;) switch (r.mode) {
-                                case P:
+                                case T:
                                     if (0 === r.wrap) {
                                         r.mode = X;
                                         break
                                     }
                                     for (; h < 16;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     if (2 & r.wrap && 35615 === f) {
-                                        r.check = 0, Le[0] = 255 & f, Le[1] = f >>> 8 & 255, r.check = v(r.check, Le, 2, 0), f = 0, h = 0, r.mode = T;
+                                        r.check = 0, Le[0] = 255 & f, Le[1] = f >>> 8 & 255, r.check = v(r.check, Le, 2, 0), f = 0, h = 0, r.mode = P;
                                         break
                                     }
                                     if (r.flags = 0, r.head && (r.head.done = !1), !(1 & r.wrap) || (((255 & f) << 8) + (f >> 8)) % 31) {
                                         e.msg = "incorrect header check", r.mode = fe;
                                         break
                                     }
-                                    if ((15 & f) !== S) {
+                                    if ((15 & f) !== I) {
                                         e.msg = "unknown compression method", r.mode = fe;
                                         break
                                     }
@@ -244,12 +245,12 @@ var UnityLoader = UnityLoader || {
                                     }
                                     r.dmax = 1 << Ue, e.adler = r.check = 1, r.mode = 512 & f ? G : j, f = 0, h = 0;
                                     break;
-                                case T:
+                                case P:
                                     for (; h < 16;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
-                                    if (r.flags = f, (255 & r.flags) !== S) {
+                                    if (r.flags = f, (255 & r.flags) !== I) {
                                         e.msg = "unknown compression method", r.mode = fe;
                                         break
                                     }
@@ -261,52 +262,52 @@ var UnityLoader = UnityLoader || {
                                 case D:
                                     for (; h < 32;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     r.head && (r.head.time = f), 512 & r.flags && (Le[0] = 255 & f, Le[1] = f >>> 8 & 255, Le[2] = f >>> 16 & 255, Le[3] = f >>> 24 & 255, r.check = v(r.check, Le, 4, 0)), f = 0, h = 0, r.mode = F;
                                 case F:
                                     for (; h < 16;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
-                                    r.head && (r.head.xflags = 255 & f, r.head.os = f >> 8), 512 & r.flags && (Le[0] = 255 & f, Le[1] = f >>> 8 & 255, r.check = v(r.check, Le, 2, 0)), f = 0, h = 0, r.mode = z;
-                                case z:
+                                    r.head && (r.head.xflags = 255 & f, r.head.os = f >> 8), 512 & r.flags && (Le[0] = 255 & f, Le[1] = f >>> 8 & 255, r.check = v(r.check, Le, 2, 0)), f = 0, h = 0, r.mode = q;
+                                case q:
                                     if (1024 & r.flags) {
                                         for (; h < 16;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         r.length = f, r.head && (r.head.extra_len = f), 512 & r.flags && (Le[0] = 255 & f, Le[1] = f >>> 8 & 255, r.check = v(r.check, Le, 2, 0)), f = 0, h = 0
                                     } else r.head && (r.head.extra = null);
                                     r.mode = V;
                                 case V:
-                                    if (1024 & r.flags && (w = r.length, w > d && (w = d), w && (r.head && (Ue = r.head.extra_len - r.length, r.head.extra || (r.head.extra = new Array(r.head.extra_len)), y.arraySet(r.head.extra, o, a, w, Ue)), 512 & r.flags && (r.check = v(r.check, o, w, a)), d -= w, a += w, r.length -= w), r.length)) break e;
-                                    r.length = 0, r.mode = q;
-                                case q:
+                                    if (1024 & r.flags && (w = r.length, w > d && (w = d), w && (r.head && (Ue = r.head.extra_len - r.length, r.head.extra || (r.head.extra = new Array(r.head.extra_len)), y.arraySet(r.head.extra, o, i, w, Ue)), 512 & r.flags && (r.check = v(r.check, o, w, i)), d -= w, i += w, r.length -= w), r.length)) break e;
+                                    r.length = 0, r.mode = Z;
+                                case Z:
                                     if (2048 & r.flags) {
                                         if (0 === d) break e;
                                         w = 0;
                                         do {
-                                            Ue = o[a + w++], r.head && Ue && r.length < 65536 && (r.head.name += String.fromCharCode(Ue))
+                                            Ue = o[i + w++], r.head && Ue && r.length < 65536 && (r.head.name += String.fromCharCode(Ue))
                                         } while (Ue && w < d);
-                                        if (512 & r.flags && (r.check = v(r.check, o, w, a)), d -= w, a += w, Ue) break e
+                                        if (512 & r.flags && (r.check = v(r.check, o, w, i)), d -= w, i += w, Ue) break e
                                     } else r.head && (r.head.name = null);
-                                    r.length = 0, r.mode = Z;
-                                case Z:
+                                    r.length = 0, r.mode = Y;
+                                case Y:
                                     if (4096 & r.flags) {
                                         if (0 === d) break e;
                                         w = 0;
                                         do {
-                                            Ue = o[a + w++], r.head && Ue && r.length < 65536 && (r.head.comment += String.fromCharCode(Ue))
+                                            Ue = o[i + w++], r.head && Ue && r.length < 65536 && (r.head.comment += String.fromCharCode(Ue))
                                         } while (Ue && w < d);
-                                        if (512 & r.flags && (r.check = v(r.check, o, w, a)), d -= w, a += w, Ue) break e
+                                        if (512 & r.flags && (r.check = v(r.check, o, w, i)), d -= w, i += w, Ue) break e
                                     } else r.head && (r.head.comment = null);
-                                    r.mode = Y;
-                                case Y:
+                                    r.mode = z;
+                                case z:
                                     if (512 & r.flags) {
                                         for (; h < 16;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         if (f !== (65535 & r.check)) {
                                             e.msg = "header crc mismatch", r.mode = fe;
@@ -319,11 +320,11 @@ var UnityLoader = UnityLoader || {
                                 case G:
                                     for (; h < 32;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     e.adler = r.check = n(f), f = 0, h = 0, r.mode = J;
                                 case J:
-                                    if (0 === r.havedict) return e.next_out = s, e.avail_out = l, e.next_in = a, e.avail_in = d, r.hold = f, r.bits = h, N;
+                                    if (0 === r.havedict) return e.next_out = s, e.avail_out = l, e.next_in = i, e.avail_in = d, r.hold = f, r.bits = h, M;
                                     e.adler = r.check = 1, r.mode = j;
                                 case j:
                                     if (t === L || t === W) break e;
@@ -334,7 +335,7 @@ var UnityLoader = UnityLoader || {
                                     }
                                     for (; h < 3;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     switch (r.last = 1 & f, f >>>= 1, h -= 1, 3 & f) {
                                         case 0:
@@ -357,7 +358,7 @@ var UnityLoader = UnityLoader || {
                                 case K:
                                     for (f >>>= 7 & h, h -= 7 & h; h < 32;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     if ((65535 & f) != (f >>> 16 ^ 65535)) {
                                         e.msg = "invalid stored block lengths", r.mode = fe;
@@ -369,7 +370,7 @@ var UnityLoader = UnityLoader || {
                                 case _:
                                     if (w = r.length) {
                                         if (w > d && (w = d), w > l && (w = l), 0 === w) break e;
-                                        y.arraySet(i, o, a, w, s), d -= w, a += w, l -= w, s += w, r.length -= w;
+                                        y.arraySet(a, o, i, w, s), d -= w, i += w, l -= w, s += w, r.length -= w;
                                         break
                                     }
                                     r.mode = j;
@@ -377,7 +378,7 @@ var UnityLoader = UnityLoader || {
                                 case $:
                                     for (; h < 14;) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     if (r.nlen = 257 + (31 & f), f >>>= 5, h -= 5, r.ndist = 1 + (31 & f), f >>>= 5, h -= 5, r.ncode = 4 + (15 & f), f >>>= 4, h -= 4, r.nlen > 286 || r.ndist > 30) {
                                         e.msg = "too many length or distance symbols", r.mode = fe;
@@ -388,7 +389,7 @@ var UnityLoader = UnityLoader || {
                                     for (; r.have < r.ncode;) {
                                         for (; h < 3;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         r.lens[We[r.have++]] = 7 & f, f >>>= 3, h -= 3
                                     }
@@ -404,14 +405,14 @@ var UnityLoader = UnityLoader || {
                                     for (; r.have < r.nlen + r.ndist;) {
                                         for (; Be = r.lencode[f & (1 << r.lenbits) - 1], we = Be >>> 24, be = Be >>> 16 & 255, ye = 65535 & Be, !(we <= h);) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         if (ye < 16) f >>>= we, h -= we, r.lens[r.have++] = ye;
                                         else {
                                             if (16 === ye) {
                                                 for (ke = we + 2; h < ke;) {
                                                     if (0 === d) break e;
-                                                    d--, f += o[a++] << h, h += 8
+                                                    d--, f += o[i++] << h, h += 8
                                                 }
                                                 if (f >>>= we, h -= we, 0 === r.have) {
                                                     e.msg = "invalid bit length repeat", r.mode = fe;
@@ -421,13 +422,13 @@ var UnityLoader = UnityLoader || {
                                             } else if (17 === ye) {
                                                 for (ke = we + 3; h < ke;) {
                                                     if (0 === d) break e;
-                                                    d--, f += o[a++] << h, h += 8
+                                                    d--, f += o[i++] << h, h += 8
                                                 }
                                                 f >>>= we, h -= we, Ue = 0, w = 3 + (7 & f), f >>>= 3, h -= 3
                                             } else {
                                                 for (ke = we + 7; h < ke;) {
                                                     if (0 === d) break e;
-                                                    d--, f += o[a++] << h, h += 8
+                                                    d--, f += o[i++] << h, h += 8
                                                 }
                                                 f >>>= we, h -= we, Ue = 0, w = 11 + (127 & f), f >>>= 7, h -= 7
                                             }
@@ -460,17 +461,17 @@ var UnityLoader = UnityLoader || {
                                     r.mode = ne;
                                 case ne:
                                     if (d >= 6 && l >= 258) {
-                                        e.next_out = s, e.avail_out = l, e.next_in = a, e.avail_in = d, r.hold = f, r.bits = h, A(e, m), s = e.next_out, i = e.output, l = e.avail_out, a = e.next_in, o = e.input, d = e.avail_in, f = r.hold, h = r.bits, r.mode === j && (r.back = -1);
+                                        e.next_out = s, e.avail_out = l, e.next_in = i, e.avail_in = d, r.hold = f, r.bits = h, A(e, m), s = e.next_out, a = e.output, l = e.avail_out, i = e.next_in, o = e.input, d = e.avail_in, f = r.hold, h = r.bits, r.mode === j && (r.back = -1);
                                         break
                                     }
                                     for (r.back = 0; Be = r.lencode[f & (1 << r.lenbits) - 1], we = Be >>> 24, be = Be >>> 16 & 255, ye = 65535 & Be, !(we <= h);) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     if (be && 0 == (240 & be)) {
                                         for (ge = we, ve = be, Ae = ye; Be = r.lencode[Ae + ((f & (1 << ge + ve) - 1) >> ge)], we = Be >>> 24, be = Be >>> 16 & 255, ye = 65535 & Be, !(ge + we <= h);) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         f >>>= ge, h -= ge, r.back += ge
                                     }
@@ -491,20 +492,20 @@ var UnityLoader = UnityLoader || {
                                     if (r.extra) {
                                         for (ke = r.extra; h < ke;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         r.length += f & (1 << r.extra) - 1, f >>>= r.extra, h -= r.extra, r.back += r.extra
                                     }
-                                    r.was = r.length, r.mode = ie;
-                                case ie:
+                                    r.was = r.length, r.mode = ae;
+                                case ae:
                                     for (; Be = r.distcode[f & (1 << r.distbits) - 1], we = Be >>> 24, be = Be >>> 16 & 255, ye = 65535 & Be, !(we <= h);) {
                                         if (0 === d) break e;
-                                        d--, f += o[a++] << h, h += 8
+                                        d--, f += o[i++] << h, h += 8
                                     }
                                     if (0 == (240 & be)) {
                                         for (ge = we, ve = be, Ae = ye; Be = r.distcode[Ae + ((f & (1 << ge + ve) - 1) >> ge)], we = Be >>> 24, be = Be >>> 16 & 255, ye = 65535 & Be, !(ge + we <= h);) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         f >>>= ge, h -= ge, r.back += ge
                                     }
@@ -512,12 +513,12 @@ var UnityLoader = UnityLoader || {
                                         e.msg = "invalid distance code", r.mode = fe;
                                         break
                                     }
-                                    r.offset = ye, r.extra = 15 & be, r.mode = ae;
-                                case ae:
+                                    r.offset = ye, r.extra = 15 & be, r.mode = ie;
+                                case ie:
                                     if (r.extra) {
                                         for (ke = r.extra; h < ke;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         r.offset += f & (1 << r.extra) - 1, f >>>= r.extra, h -= r.extra, r.back += r.extra
                                     }
@@ -534,24 +535,24 @@ var UnityLoader = UnityLoader || {
                                             break
                                         }
                                         w > r.wnext ? (w -= r.wnext, b = r.wsize - w) : b = r.wnext - w, w > r.length && (w = r.length), me = r.window
-                                    } else me = i, b = s - r.offset, w = r.length;
+                                    } else me = a, b = s - r.offset, w = r.length;
                                     w > l && (w = l), l -= w, r.length -= w;
                                     do {
-                                        i[s++] = me[b++]
+                                        a[s++] = me[b++]
                                     } while (--w);
                                     0 === r.length && (r.mode = ne);
                                     break;
                                 case de:
                                     if (0 === l) break e;
-                                    i[s++] = r.length, l--, r.mode = ne;
+                                    a[s++] = r.length, l--, r.mode = ne;
                                     break;
                                 case le:
                                     if (r.wrap) {
                                         for (; h < 32;) {
                                             if (0 === d) break e;
-                                            d--, f |= o[a++] << h, h += 8
+                                            d--, f |= o[i++] << h, h += 8
                                         }
-                                        if (m -= l, e.total_out += m, r.total += m, m && (e.adler = r.check = r.flags ? v(r.check, i, m, s - m) : g(r.check, i, m, s - m)), m = l, (r.flags ? f : n(f)) !== r.check) {
+                                        if (m -= l, e.total_out += m, r.total += m, m && (e.adler = r.check = r.flags ? v(r.check, a, m, s - m) : g(r.check, a, m, s - m)), m = l, (r.flags ? f : n(f)) !== r.check) {
                                             e.msg = "incorrect data check", r.mode = fe;
                                             break
                                         }
@@ -562,7 +563,7 @@ var UnityLoader = UnityLoader || {
                                     if (r.wrap && r.flags) {
                                         for (; h < 32;) {
                                             if (0 === d) break e;
-                                            d--, f += o[a++] << h, h += 8
+                                            d--, f += o[i++] << h, h += 8
                                         }
                                         if (f !== (4294967295 & r.total)) {
                                             e.msg = "incorrect length check", r.mode = fe;
@@ -572,34 +573,34 @@ var UnityLoader = UnityLoader || {
                                     }
                                     r.mode = ce;
                                 case ce:
-                                    xe = O;
-                                    break e;
-                                case fe:
                                     xe = C;
                                     break e;
+                                case fe:
+                                    xe = R;
+                                    break e;
                                 case he:
-                                    return I;
+                                    return H;
                                 case pe:
                                 default:
-                                    return R
+                                    return N
                             }
-                            return e.next_out = s, e.avail_out = l, e.next_in = a, e.avail_in = d, r.hold = f, r.bits = h, (r.wsize || m !== e.avail_out && r.mode < fe && (r.mode < le || t !== B)) && c(e, e.output, e.next_out, m - e.avail_out) ? (r.mode = he, I) : (p -= e.avail_in, m -= e.avail_out, e.total_in += p, e.total_out += m, r.total += m, r.wrap && m && (e.adler = r.check = r.flags ? v(r.check, i, m, e.next_out - m) : g(r.check, i, m, e.next_out - m)), e.data_type = r.bits + (r.last ? 64 : 0) + (r.mode === j ? 128 : 0) + (r.mode === re || r.mode === Q ? 256 : 0), (0 === p && 0 === m || t === B) && xe === M && (xe = H), xe)
+                            return e.next_out = s, e.avail_out = l, e.next_in = i, e.avail_in = d, r.hold = f, r.bits = h, (r.wsize || m !== e.avail_out && r.mode < fe && (r.mode < le || t !== B)) && c(e, e.output, e.next_out, m - e.avail_out) ? (r.mode = he, H) : (p -= e.avail_in, m -= e.avail_out, e.total_in += p, e.total_out += m, r.total += m, r.wrap && m && (e.adler = r.check = r.flags ? v(r.check, a, m, e.next_out - m) : g(r.check, a, m, e.next_out - m)), e.data_type = r.bits + (r.last ? 64 : 0) + (r.mode === j ? 128 : 0) + (r.mode === re || r.mode === Q ? 256 : 0), (0 === p && 0 === m || t === B) && xe === O && (xe = S), xe)
                         }
 
                         function h(e) {
-                            if (!e || !e.state) return R;
+                            if (!e || !e.state) return N;
                             var t = e.state;
-                            return t.window && (t.window = null), e.state = null, M
+                            return t.window && (t.window = null), e.state = null, O
                         }
 
                         function p(e, t) {
                             var r;
-                            return e && e.state ? (r = e.state, 0 == (2 & r.wrap) ? R : (r.head = t, t.done = !1, M)) : R
+                            return e && e.state ? (r = e.state, 0 == (2 & r.wrap) ? N : (r.head = t, t.done = !1, O)) : N
                         }
 
                         function m(e, t) {
-                            var r, n, i = t.length;
-                            return e && e.state ? (r = e.state, 0 !== r.wrap && r.mode !== J ? R : r.mode === J && (n = 1, (n = g(n, t, i, 0)) !== r.check) ? C : c(e, t, i, i) ? (r.mode = he, I) : (r.havedict = 1, M)) : R
+                            var r, n, o = t.length;
+                            return e && e.state ? (r = e.state, 0 !== r.wrap && r.mode !== J ? N : r.mode === J && (n = 1, (n = g(n, t, o, 0)) !== r.check) ? R : c(e, t, o, o) ? (r.mode = he, H) : (r.havedict = 1, O)) : N
                         }
                         var w, b, y = e("../utils/common"),
                             g = e("./adler32"),
@@ -612,23 +613,23 @@ var UnityLoader = UnityLoader || {
                             B = 4,
                             L = 5,
                             W = 6,
-                            M = 0,
-                            O = 1,
-                            N = 2,
-                            R = -2,
-                            C = -3,
-                            I = -4,
-                            H = -5,
-                            S = 8,
-                            P = 1,
-                            T = 2,
+                            O = 0,
+                            C = 1,
+                            M = 2,
+                            N = -2,
+                            R = -3,
+                            H = -4,
+                            S = -5,
+                            I = 8,
+                            T = 1,
+                            P = 2,
                             D = 3,
                             F = 4,
-                            z = 5,
+                            q = 5,
                             V = 6,
-                            q = 7,
-                            Z = 8,
-                            Y = 9,
+                            Z = 7,
+                            Y = 8,
+                            z = 9,
                             G = 10,
                             J = 11,
                             j = 12,
@@ -642,8 +643,8 @@ var UnityLoader = UnityLoader || {
                             re = 20,
                             ne = 21,
                             oe = 22,
-                            ie = 23,
-                            ae = 24,
+                            ae = 23,
+                            ie = 24,
                             se = 25,
                             de = 26,
                             le = 27,
@@ -656,7 +657,7 @@ var UnityLoader = UnityLoader || {
                             we = 592,
                             ye = 15,
                             ge = !0;
-                        r.inflateReset = a, r.inflateReset2 = s, r.inflateResetKeep = i, r.inflateInit = l, r.inflateInit2 = d, r.inflate = f, r.inflateEnd = h, r.inflateGetHeader = p, r.inflateSetDictionary = m, r.inflateInfo = "pako inflate (from Nodeca project)"
+                        r.inflateReset = i, r.inflateReset2 = s, r.inflateResetKeep = a, r.inflateInit = l, r.inflateInit2 = d, r.inflate = f, r.inflateEnd = h, r.inflateGetHeader = p, r.inflateSetDictionary = m, r.inflateInfo = "pako inflate (from Nodeca project)"
                     },
                     "zlib/constants.js": function(e, t, r) {
                         "use strict";
@@ -724,14 +725,14 @@ var UnityLoader = UnityLoader || {
                         "use strict";
 
                         function n(e, t, r, n) {
-                            for (var o = 65535 & e | 0, i = e >>> 16 & 65535 | 0, a = 0; 0 !== r;) {
-                                a = r > 2e3 ? 2e3 : r, r -= a;
+                            for (var o = 65535 & e | 0, a = e >>> 16 & 65535 | 0, i = 0; 0 !== r;) {
+                                i = r > 2e3 ? 2e3 : r, r -= i;
                                 do {
-                                    o = o + t[n++] | 0, i = i + o | 0
-                                } while (--a);
-                                o %= 65521, i %= 65521
+                                    o = o + t[n++] | 0, a = a + o | 0
+                                } while (--i);
+                                o %= 65521, a %= 65521
                             }
-                            return o | i << 16 | 0
+                            return o | a << 16 | 0
                         }
                         t.exports = n
                     },
@@ -739,13 +740,13 @@ var UnityLoader = UnityLoader || {
                         "use strict";
 
                         function o(e, t, r, n) {
-                            var o = i,
-                                a = n + r;
+                            var o = a,
+                                i = n + r;
                             e ^= -1;
-                            for (var s = n; s < a; s++) e = e >>> 8 ^ o[255 & (e ^ t[s])];
+                            for (var s = n; s < i; s++) e = e >>> 8 ^ o[255 & (e ^ t[s])];
                             return -1 ^ e
                         }
-                        var i = function() {
+                        var a = function() {
                             for (var e, t = [], r = 0; r < 256; r++) {
                                 e = r;
                                 for (var n = 0; n < 8; n++) e = 1 & e ? 3988292384 ^ e >>> 1 : e >>> 1;
@@ -758,10 +759,10 @@ var UnityLoader = UnityLoader || {
                     "zlib/inffast.js": function(e, t, r) {
                         "use strict";
                         t.exports = function(e, t) {
-                            var r, i, a, s, d, l, u, c, f, h, p, m, w, b, y, g, v, A, U, x, E, k, B, L, W;
-                            r = e.state, i = e.next_in, L = e.input, a = i + (e.avail_in - 5), s = e.next_out, W = e.output, d = s - (t - e.avail_out), l = s + (e.avail_out - 257), u = r.dmax, c = r.wsize, f = r.whave, h = r.wnext, p = r.window, m = r.hold, w = r.bits, b = r.lencode, y = r.distcode, g = (1 << r.lenbits) - 1, v = (1 << r.distbits) - 1;
+                            var r, a, i, s, d, l, u, c, f, h, p, m, w, b, y, g, v, A, U, x, E, k, B, L, W;
+                            r = e.state, a = e.next_in, L = e.input, i = a + (e.avail_in - 5), s = e.next_out, W = e.output, d = s - (t - e.avail_out), l = s + (e.avail_out - 257), u = r.dmax, c = r.wsize, f = r.whave, h = r.wnext, p = r.window, m = r.hold, w = r.bits, b = r.lencode, y = r.distcode, g = (1 << r.lenbits) - 1, v = (1 << r.distbits) - 1;
                             e: do {
-                                w < 15 && (m += L[i++] << w, w += 8, m += L[i++] << w, w += 8), A = b[m & g];
+                                w < 15 && (m += L[a++] << w, w += 8, m += L[a++] << w, w += 8), A = b[m & g];
                                 t: for (;;) {
                                     if (U = A >>> 24, m >>>= U, w -= U, 0 === (U = A >>> 16 & 255)) W[s++] = 65535 & A;
                                     else {
@@ -777,7 +778,7 @@ var UnityLoader = UnityLoader || {
                                             e.msg = "invalid literal/length code", r.mode = 30;
                                             break e
                                         }
-                                        x = 65535 & A, U &= 15, U && (w < U && (m += L[i++] << w, w += 8), x += m & (1 << U) - 1, m >>>= U, w -= U), w < 15 && (m += L[i++] << w, w += 8, m += L[i++] << w, w += 8), A = y[m & v];
+                                        x = 65535 & A, U &= 15, U && (w < U && (m += L[a++] << w, w += 8), x += m & (1 << U) - 1, m >>>= U, w -= U), w < 15 && (m += L[a++] << w, w += 8, m += L[a++] << w, w += 8), A = y[m & v];
                                         r: for (;;) {
                                             if (U = A >>> 24, m >>>= U, w -= U, !(16 & (U = A >>> 16 & 255))) {
                                                 if (0 == (64 & U)) {
@@ -787,7 +788,7 @@ var UnityLoader = UnityLoader || {
                                                 e.msg = "invalid distance code", r.mode = 30;
                                                 break e
                                             }
-                                            if (E = 65535 & A, U &= 15, w < U && (m += L[i++] << w, (w += 8) < U && (m += L[i++] << w, w += 8)), (E += m & (1 << U) - 1) > u) {
+                                            if (E = 65535 & A, U &= 15, w < U && (m += L[a++] << w, (w += 8) < U && (m += L[a++] << w, w += 8)), (E += m & (1 << U) - 1) > u) {
                                                 e.msg = "invalid distance too far back", r.mode = 30;
                                                 break e
                                             }
@@ -839,8 +840,8 @@ var UnityLoader = UnityLoader || {
                                     }
                                     break
                                 }
-                            } while (i < a && s < l);
-                            x = w >> 3, i -= x, w -= x << 3, m &= (1 << w) - 1, e.next_in = i, e.next_out = s, e.avail_in = i < a ? a - i + 5 : 5 - (i - a), e.avail_out = s < l ? l - s + 257 : 257 - (s - l), r.hold = m, r.bits = w
+                            } while (a < i && s < l);
+                            x = w >> 3, a -= x, w -= x << 3, m &= (1 << w) - 1, e.next_in = a, e.next_out = s, e.avail_in = a < i ? i - a + 5 : 5 - (a - i), e.avail_out = s < l ? l - s + 257 : 257 - (s - l), r.hold = m, r.bits = w
                         }
                     },
                     "zlib/inftrees.js": function(e, t, r) {
@@ -853,50 +854,50 @@ var UnityLoader = UnityLoader || {
                             h = [16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26, 26, 27, 27, 28, 28, 29, 29, 64, 64];
                         t.exports = function(e, t, r, p, m, w, b, y) {
                             var g, v, A, U, x, E, k, B, L, W = y.bits,
-                                M = 0,
                                 O = 0,
+                                C = 0,
+                                M = 0,
                                 N = 0,
                                 R = 0,
-                                C = 0,
-                                I = 0,
                                 H = 0,
                                 S = 0,
-                                P = 0,
+                                I = 0,
                                 T = 0,
+                                P = 0,
                                 D = null,
                                 F = 0,
-                                z = new n.Buf16(16),
+                                q = new n.Buf16(16),
                                 V = new n.Buf16(16),
-                                q = null,
-                                Z = 0;
-                            for (M = 0; M <= o; M++) z[M] = 0;
-                            for (O = 0; O < p; O++) z[t[r + O]]++;
-                            for (C = W, R = o; R >= 1 && 0 === z[R]; R--);
-                            if (C > R && (C = R), 0 === R) return m[w++] = 20971520, m[w++] = 20971520, y.bits = 1, 0;
-                            for (N = 1; N < R && 0 === z[N]; N++);
-                            for (C < N && (C = N), S = 1, M = 1; M <= o; M++)
-                                if (S <<= 1, (S -= z[M]) < 0) return -1;
-                            if (S > 0 && (0 === e || 1 !== R)) return -1;
-                            for (V[1] = 0, M = 1; M < o; M++) V[M + 1] = V[M] + z[M];
-                            for (O = 0; O < p; O++) 0 !== t[r + O] && (b[V[t[r + O]]++] = O);
-                            if (0 === e ? (D = q = b, E = 19) : 1 === e ? (D = u, F -= 257, q = c, Z -= 257, E = 256) : (D = f, q = h, E = -1), T = 0, O = 0, M = N, x = w, I = C, H = 0, A = -1, P = 1 << C, U = P - 1, 1 === e && P > 852 || 2 === e && P > 592) return 1;
+                                Z = null,
+                                Y = 0;
+                            for (O = 0; O <= o; O++) q[O] = 0;
+                            for (C = 0; C < p; C++) q[t[r + C]]++;
+                            for (R = W, N = o; N >= 1 && 0 === q[N]; N--);
+                            if (R > N && (R = N), 0 === N) return m[w++] = 20971520, m[w++] = 20971520, y.bits = 1, 0;
+                            for (M = 1; M < N && 0 === q[M]; M++);
+                            for (R < M && (R = M), I = 1, O = 1; O <= o; O++)
+                                if (I <<= 1, (I -= q[O]) < 0) return -1;
+                            if (I > 0 && (0 === e || 1 !== N)) return -1;
+                            for (V[1] = 0, O = 1; O < o; O++) V[O + 1] = V[O] + q[O];
+                            for (C = 0; C < p; C++) 0 !== t[r + C] && (b[V[t[r + C]]++] = C);
+                            if (0 === e ? (D = Z = b, E = 19) : 1 === e ? (D = u, F -= 257, Z = c, Y -= 257, E = 256) : (D = f, Z = h, E = -1), P = 0, C = 0, O = M, x = w, H = R, S = 0, A = -1, T = 1 << R, U = T - 1, 1 === e && T > 852 || 2 === e && T > 592) return 1;
                             for (;;) {
-                                k = M - H, b[O] < E ? (B = 0, L = b[O]) : b[O] > E ? (B = q[Z + b[O]], L = D[F + b[O]]) : (B = 96, L = 0), g = 1 << M - H, v = 1 << I, N = v;
+                                k = O - S, b[C] < E ? (B = 0, L = b[C]) : b[C] > E ? (B = Z[Y + b[C]], L = D[F + b[C]]) : (B = 96, L = 0), g = 1 << O - S, v = 1 << H, M = v;
                                 do {
-                                    v -= g, m[x + (T >> H) + v] = k << 24 | B << 16 | L | 0
+                                    v -= g, m[x + (P >> S) + v] = k << 24 | B << 16 | L | 0
                                 } while (0 !== v);
-                                for (g = 1 << M - 1; T & g;) g >>= 1;
-                                if (0 !== g ? (T &= g - 1, T += g) : T = 0, O++, 0 == --z[M]) {
-                                    if (M === R) break;
-                                    M = t[r + b[O]]
+                                for (g = 1 << O - 1; P & g;) g >>= 1;
+                                if (0 !== g ? (P &= g - 1, P += g) : P = 0, C++, 0 == --q[O]) {
+                                    if (O === N) break;
+                                    O = t[r + b[C]]
                                 }
-                                if (M > C && (T & U) !== A) {
-                                    for (0 === H && (H = C), x += N, I = M - H, S = 1 << I; I + H < R && !((S -= z[I + H]) <= 0);) I++, S <<= 1;
-                                    if (P += 1 << I, 1 === e && P > 852 || 2 === e && P > 592) return 1;
-                                    A = T & U, m[A] = C << 24 | I << 16 | x - w | 0
+                                if (O > R && (P & U) !== A) {
+                                    for (0 === S && (S = R), x += M, H = O - S, I = 1 << H; H + S < N && !((I -= q[H + S]) <= 0);) H++, I <<= 1;
+                                    if (T += 1 << H, 1 === e && T > 852 || 2 === e && T > 592) return 1;
+                                    A = P & U, m[A] = R << 24 | H << 16 | x - w | 0
                                 }
                             }
-                            return 0 !== T && (m[x + T] = M - H << 24 | 64 << 16 | 0), y.bits = C, 0
+                            return 0 !== P && (m[x + P] = O - S << 24 | 64 << 16 | 0), y.bits = R, 0
                         }
                     }
                 };
@@ -910,12 +911,12 @@ var UnityLoader = UnityLoader || {
                     o = function(e, t) {
                         return e ? n(e.folder + "node_modules/" + t) || o(e.parent, t) : null
                     },
-                    i = function(e, t) {
+                    a = function(e, t) {
                         var r = t.match(/^\//) ? null : e ? t.match(/^\.\.?\//) ? n(e.folder + t) : o(e, t) : n(t);
                         if (!r) throw "module not found: " + t;
-                        return r.exports || (r.parent = e, r(i.bind(null, r), r, r.exports = {})), r.exports
+                        return r.exports || (r.parent = e, r(a.bind(null, r), r, r.exports = {})), r.exports
                     };
-                return i(null, e)
+                return a(null, e)
             },
             decompress: function(e) {
                 this.exports || (this.exports = this.require("inflate.js"));
@@ -948,10 +949,10 @@ var UnityLoader = UnityLoader || {
                     },
                     "dec/bit_reader.js": function(e, t, r) {
                         function n(e) {
-                            this.buf_ = new Uint8Array(i), this.input_ = e, this.reset()
+                            this.buf_ = new Uint8Array(a), this.input_ = e, this.reset()
                         }
                         const o = 4096,
-                            i = 8224,
+                            a = 8224,
                             s = new Uint32Array([0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767, 65535, 131071, 262143, 524287, 1048575, 2097151, 4194303, 8388607, 16777215]);
                         n.READ_SIZE = o, n.IBUF_MASK = 8191, n.prototype.reset = function() {
                             this.buf_ptr_ = 0, this.val_ = 0, this.pos_ = 0, this.bit_pos_ = 0, this.bit_end_pos_ = 0, this.eos_ = 0, this.readMoreInput();
@@ -970,7 +971,7 @@ var UnityLoader = UnityLoader || {
                                         for (var r = 0; r < 32; r++) this.buf_[e + t + r] = 0
                                     }
                                     if (0 === e) {
-                                        for (var r = 0; r < 32; r++) this.buf_[8192 + r] = this.buf_[r];
+                                        for (r = 0; r < 32; r++) this.buf_[8192 + r] = this.buf_[r];
                                         this.buf_ptr_ = o
                                     } else this.buf_ptr_ = 0;
                                     this.bit_end_pos_ += t << 3
@@ -1000,20 +1001,20 @@ var UnityLoader = UnityLoader || {
                             return 0
                         }
 
-                        function i() {
+                        function a() {
                             this.meta_block_length = 0, this.input_end = 0, this.is_uncompressed = 0, this.is_metadata = !1
                         }
 
-                        function a(e) {
-                            var t, r, n, o = new i;
+                        function i(e) {
+                            var t, r, n, o = new a;
                             if (o.input_end = e.readBits(1), o.input_end && e.readBits(1)) return o;
                             if (7 === (t = e.readBits(2) + 4)) {
                                 if (o.is_metadata = !0, 0 !== e.readBits(1)) throw new Error("Invalid reserved bit");
                                 if (0 === (r = e.readBits(2))) return o;
                                 for (n = 0; n < r; n++) {
-                                    var a = e.readBits(8);
-                                    if (n + 1 === r && r > 1 && 0 === a) throw new Error("Invalid size byte");
-                                    o.meta_block_length |= a << 8 * n
+                                    var i = e.readBits(8);
+                                    if (n + 1 === r && r > 1 && 0 === i) throw new Error("Invalid size byte");
+                                    o.meta_block_length |= i << 8 * n
                                 }
                             } else
                                 for (n = 0; n < t; ++n) {
@@ -1026,18 +1027,18 @@ var UnityLoader = UnityLoader || {
 
                         function s(e, t, r) {
                             var n;
-                            return r.fillBitWindow(), t += r.val_ >>> r.bit_pos_ & D, n = e[t].bits - T, n > 0 && (r.bit_pos_ += T, t += e[t].value, t += r.val_ >>> r.bit_pos_ & (1 << n) - 1), r.bit_pos_ += e[t].bits, e[t].value
+                            return r.fillBitWindow(), t += r.val_ >>> r.bit_pos_ & D, n = e[t].bits - P, n > 0 && (r.bit_pos_ += P, t += e[t].value, t += r.val_ >>> r.bit_pos_ & (1 << n) - 1), r.bit_pos_ += e[t].bits, e[t].value
                         }
 
                         function d(e, t, r, n) {
-                            for (var o = 0, i = N, a = 0, s = 0, d = 32768, l = [], u = 0; u < 32; u++) l.push(new B(0, 0));
-                            for (L(l, 0, 5, e, z); o < t && d > 0;) {
+                            for (var o = 0, a = M, i = 0, s = 0, d = 32768, l = [], u = 0; u < 32; u++) l.push(new B(0, 0));
+                            for (L(l, 0, 5, e, q); o < t && d > 0;) {
                                 var c, f = 0;
-                                if (n.readMoreInput(), n.fillBitWindow(), f += n.val_ >>> n.bit_pos_ & 31, n.bit_pos_ += l[f].bits, (c = 255 & l[f].value) < R) a = 0, r[o++] = c, 0 !== c && (i = c, d -= 32768 >> c);
+                                if (n.readMoreInput(), n.fillBitWindow(), f += n.val_ >>> n.bit_pos_ & 31, n.bit_pos_ += l[f].bits, (c = 255 & l[f].value) < N) i = 0, r[o++] = c, 0 !== c && (a = c, d -= 32768 >> c);
                                 else {
                                     var h, p, m = c - 14,
                                         w = 0;
-                                    if (c === R && (w = i), s !== w && (a = 0, s = w), h = a, a > 0 && (a -= 2, a <<= m), a += n.readBits(m) + 3, p = a - h, o + p > t) throw new Error("[ReadHuffmanCodeLengths] symbol + repeat_delta > num_symbols");
+                                    if (c === N && (w = a), s !== w && (i = 0, s = w), h = i, i > 0 && (i -= 2, i <<= m), i += n.readBits(m) + 3, p = i - h, o + p > t) throw new Error("[ReadHuffmanCodeLengths] symbol + repeat_delta > num_symbols");
                                     for (var b = 0; b < p; b++) r[o + b] = s;
                                     o += p, 0 !== s && (d -= p << 15 - s)
                                 }
@@ -1047,51 +1048,51 @@ var UnityLoader = UnityLoader || {
                         }
 
                         function l(e, t, r, n) {
-                            var o, i = 0,
-                                a = new Uint8Array(e);
+                            var o, a = 0,
+                                i = new Uint8Array(e);
                             if (n.readMoreInput(), 1 === (o = n.readBits(2))) {
-                                for (var s, l = e - 1, u = 0, c = new Int32Array(4), f = n.readBits(2) + 1; l;) l >>= 1, ++u;
-                                for (s = 0; s < f; ++s) c[s] = n.readBits(u) % e, a[c[s]] = 2;
-                                switch (a[c[0]] = 1, f) {
+                                for (var s = e - 1, l = 0, u = new Int32Array(4), c = n.readBits(2) + 1; s;) s >>= 1, ++l;
+                                for (f = 0; f < c; ++f) u[f] = n.readBits(l) % e, i[u[f]] = 2;
+                                switch (i[u[0]] = 1, c) {
                                     case 1:
                                         break;
                                     case 3:
-                                        if (c[0] === c[1] || c[0] === c[2] || c[1] === c[2]) throw new Error("[ReadHuffmanCode] invalid symbols");
+                                        if (u[0] === u[1] || u[0] === u[2] || u[1] === u[2]) throw new Error("[ReadHuffmanCode] invalid symbols");
                                         break;
                                     case 2:
-                                        if (c[0] === c[1]) throw new Error("[ReadHuffmanCode] invalid symbols");
-                                        a[c[1]] = 1;
+                                        if (u[0] === u[1]) throw new Error("[ReadHuffmanCode] invalid symbols");
+                                        i[u[1]] = 1;
                                         break;
                                     case 4:
-                                        if (c[0] === c[1] || c[0] === c[2] || c[0] === c[3] || c[1] === c[2] || c[1] === c[3] || c[2] === c[3]) throw new Error("[ReadHuffmanCode] invalid symbols");
-                                        n.readBits(1) ? (a[c[2]] = 3, a[c[3]] = 3) : a[c[0]] = 2
+                                        if (u[0] === u[1] || u[0] === u[2] || u[0] === u[3] || u[1] === u[2] || u[1] === u[3] || u[2] === u[3]) throw new Error("[ReadHuffmanCode] invalid symbols");
+                                        n.readBits(1) ? (i[u[2]] = 3, i[u[3]] = 3) : i[u[0]] = 2
                                 }
                             } else {
-                                var s, h = new Uint8Array(z),
+                                var f, h = new Uint8Array(q),
                                     p = 32,
                                     m = 0,
                                     w = [new B(2, 0), new B(2, 4), new B(2, 3), new B(3, 2), new B(2, 0), new B(2, 4), new B(2, 3), new B(4, 1), new B(2, 0), new B(2, 4), new B(2, 3), new B(3, 2), new B(2, 0), new B(2, 4), new B(2, 3), new B(4, 5)];
-                                for (s = o; s < z && p > 0; ++s) {
-                                    var b, y = V[s],
+                                for (f = o; f < q && p > 0; ++f) {
+                                    var b, y = V[f],
                                         g = 0;
                                     n.fillBitWindow(), g += n.val_ >>> n.bit_pos_ & 15, n.bit_pos_ += w[g].bits, b = w[g].value, h[y] = b,
                                         0 !== b && (p -= 32 >> b, ++m)
                                 }
                                 if (1 !== m && 0 !== p) throw new Error("[ReadHuffmanCode] invalid num_codes or space");
-                                d(h, e, a, n)
+                                d(h, e, i, n)
                             }
-                            if (0 === (i = L(t, r, T, a, e))) throw new Error("[ReadHuffmanCode] BuildHuffmanTable failed: ");
-                            return i
+                            if (0 === (a = L(t, r, P, i, e))) throw new Error("[ReadHuffmanCode] BuildHuffmanTable failed: ");
+                            return a
                         }
 
                         function u(e, t, r) {
                             var n, o;
-                            return n = s(e, t, r), o = M.kBlockLengthPrefixCode[n].nbits, M.kBlockLengthPrefixCode[n].offset + r.readBits(o)
+                            return n = s(e, t, r), o = O.kBlockLengthPrefixCode[n].nbits, O.kBlockLengthPrefixCode[n].offset + r.readBits(o)
                         }
 
                         function c(e, t, r) {
                             var n;
-                            return e < q ? (r += Z[e], r &= 3, n = t[r] + Y[e]) : n = e - q + 1, n
+                            return e < Z ? (r += Y[e], r &= 3, n = t[r] + z[e]) : n = e - Z + 1, n
                         }
 
                         function f(e, t) {
@@ -1113,59 +1114,57 @@ var UnityLoader = UnityLoader || {
                         }
 
                         function m(e, t) {
-                            var r, n, i, a = {
+                            var r, n, a, i = {
                                     num_htrees: null,
                                     context_map: null
                                 },
                                 d = 0;
                             t.readMoreInput();
-                            var u = a.num_htrees = o(t) + 1,
-                                c = a.context_map = new Uint8Array(e);
-                            if (u <= 1) return a;
-                            for (r = t.readBits(1), r && (d = t.readBits(4) + 1), n = [], i = 0; i < F; i++) n[i] = new B(0, 0);
-                            for (l(u + d, n, 0, t), i = 0; i < e;) {
+                            var u = i.num_htrees = o(t) + 1,
+                                c = i.context_map = new Uint8Array(e);
+                            if (u <= 1) return i;
+                            for (r = t.readBits(1), r && (d = t.readBits(4) + 1), n = [], a = 0; a < F; a++) n[a] = new B(0, 0);
+                            for (l(u + d, n, 0, t), a = 0; a < e;) {
                                 var f;
-                                if (t.readMoreInput(), 0 === (f = s(n, 0, t))) c[i] = 0, ++i;
+                                if (t.readMoreInput(), 0 === (f = s(n, 0, t))) c[a] = 0, ++a;
                                 else if (f <= d)
                                     for (var p = 1 + (1 << f) + t.readBits(f); --p;) {
-                                        if (i >= e) throw new Error("[DecodeContextMap] i >= context_map_size");
-                                        c[i] = 0, ++i
-                                    } else c[i] = f - d, ++i
+                                        if (a >= e) throw new Error("[DecodeContextMap] i >= context_map_size");
+                                        c[a] = 0, ++a
+                                    } else c[a] = f - d, ++a
                             }
-                            return t.readBits(1) && h(c, e), a
+                            return t.readBits(1) && h(c, e), i
                         }
 
-                        function w(e, t, r, n, o, i, a) {
+                        function w(e, t, r, n, o, a, i) {
                             var d, l = 2 * r,
                                 u = r,
-                                c = s(t, r * F, a);
-                            d = 0 === c ? o[l + (1 & i[u])] : 1 === c ? o[l + (i[u] - 1 & 1)] + 1 : c - 2, d >= e && (d -= e), n[r] = d, o[l + (1 & i[u])] = d, ++i[u]
+                                c = s(t, r * F, i);
+                            d = 0 === c ? o[l + (1 & a[u])] : 1 === c ? o[l + (a[u] - 1 & 1)] + 1 : c - 2, d >= e && (d -= e), n[r] = d, o[l + (1 & a[u])] = d, ++a[u]
                         }
 
-                        function b(e, t, r, n, o, i) {
-                            var a, s = o + 1,
+                        function b(e, t, r, n, o, a) {
+                            var i, s = o + 1,
                                 d = r & o,
-                                l = i.pos_ & E.IBUF_MASK;
-                            if (t < 8 || i.bit_pos_ + (t << 3) < i.bit_end_pos_)
-                                for (; t-- > 0;) i.readMoreInput(), n[d++] = i.readBits(8), d === s && (e.write(n, s), d = 0);
+                                l = a.pos_ & E.IBUF_MASK;
+                            if (t < 8 || a.bit_pos_ + (t << 3) < a.bit_end_pos_)
+                                for (; t-- > 0;) a.readMoreInput(), n[d++] = a.readBits(8), d === s && (e.write(n, s), d = 0);
                             else {
-                                if (i.bit_end_pos_ < 32) throw new Error("[CopyUncompressedBlockToOutput] br.bit_end_pos_ < 32");
-                                for (; i.bit_pos_ < 32;) n[d] = i.val_ >>> i.bit_pos_, i.bit_pos_ += 8, ++d, --t;
-                                if (a = i.bit_end_pos_ - i.bit_pos_ >> 3, l + a > E.IBUF_MASK) {
-                                    for (var u = E.IBUF_MASK + 1 - l, c = 0; c < u; c++) n[d + c] = i.buf_[l + c];
-                                    a -= u, d += u, t -= u, l = 0
+                                if (a.bit_end_pos_ < 32) throw new Error("[CopyUncompressedBlockToOutput] br.bit_end_pos_ < 32");
+                                for (; a.bit_pos_ < 32;) n[d] = a.val_ >>> a.bit_pos_, a.bit_pos_ += 8, ++d, --t;
+                                if (i = a.bit_end_pos_ - a.bit_pos_ >> 3, l + i > E.IBUF_MASK) {
+                                    for (var u = E.IBUF_MASK + 1 - l, c = 0; c < u; c++) n[d + c] = a.buf_[l + c];
+                                    i -= u, d += u, t -= u, l = 0
                                 }
-                                for (var c = 0; c < a; c++) n[d + c] = i.buf_[l + c];
-                                if (d += a, t -= a, d >= s) {
-                                    e.write(n, s), d -= s;
-                                    for (var c = 0; c < d; c++) n[c] = n[s + c]
-                                }
+                                for (c = 0; c < i; c++) n[d + c] = a.buf_[l + c];
+                                if (d += i, t -= i, d >= s)
+                                    for (e.write(n, s), d -= s, c = 0; c < d; c++) n[c] = n[s + c];
                                 for (; d + t >= s;) {
-                                    if (a = s - d, i.input_.read(n, d, a) < a) throw new Error("[CopyUncompressedBlockToOutput] not enough bytes");
-                                    e.write(n, s), t -= a, d = 0
+                                    if (i = s - d, a.input_.read(n, d, i) < i) throw new Error("[CopyUncompressedBlockToOutput] not enough bytes");
+                                    e.write(n, s), t -= i, d = 0
                                 }
-                                if (i.input_.read(n, d, t) < t) throw new Error("[CopyUncompressedBlockToOutput] not enough bytes");
-                                i.reset()
+                                if (a.input_.read(n, d, t) < t) throw new Error("[CopyUncompressedBlockToOutput] not enough bytes");
+                                a.reset()
                             }
                         }
 
@@ -1177,7 +1176,7 @@ var UnityLoader = UnityLoader || {
                         function g(e) {
                             var t = new U(e),
                                 r = new E(t);
-                            return n(r), a(r).meta_block_length
+                            return n(r), i(r).meta_block_length
                         }
 
                         function v(e, t) {
@@ -1189,24 +1188,24 @@ var UnityLoader = UnityLoader || {
                         }
 
                         function A(e, t) {
-                            var r, i, d, f, h, g, v, A, U, x = 0,
+                            var r, a, d, f, h, g, v, A, U, x = 0,
                                 L = 0,
+                                M = 0,
                                 N = 0,
-                                R = 0,
-                                T = [16, 15, 11, 4],
+                                P = [16, 15, 11, 4],
                                 D = 0,
-                                z = 0,
+                                q = 0,
                                 V = 0,
-                                Z = [new p(0, 0), new p(0, 0), new p(0, 0)];
-                            const Y = 128 + E.READ_SIZE;
-                            U = new E(e), N = n(U), i = (1 << N) - 16, d = 1 << N, f = d - 1, h = new Uint8Array(d + Y + k.maxDictionaryWordLength), g = d, v = [], A = [];
+                                Y = [new p(0, 0), new p(0, 0), new p(0, 0)];
+                            const z = 128 + E.READ_SIZE;
+                            U = new E(e), M = n(U), a = (1 << M) - 16, d = 1 << M, f = d - 1, h = new Uint8Array(d + z + k.maxDictionaryWordLength), g = d, v = [], A = [];
                             for (var G = 0; G < 3240; G++) v[G] = new B(0, 0), A[G] = new B(0, 0);
                             for (; !L;) {
                                 var J, j, X, K, Q, _, $, ee, te, re = 0,
                                     ne = [1 << 28, 1 << 28, 1 << 28],
                                     oe = [0],
-                                    ie = [1, 1, 1],
-                                    ae = [0, 1, 0, 1, 0, 1],
+                                    ae = [1, 1, 1],
+                                    ie = [0, 1, 0, 1, 0, 1],
                                     se = [0],
                                     de = null,
                                     le = null,
@@ -1219,9 +1218,9 @@ var UnityLoader = UnityLoader || {
                                     we = 0,
                                     be = 0,
                                     ye = 0;
-                                for (r = 0; r < 3; ++r) Z[r].codes = null, Z[r].htrees = null;
+                                for (r = 0; r < 3; ++r) Y[r].codes = null, Y[r].htrees = null;
                                 U.readMoreInput();
-                                var ge = a(U);
+                                var ge = i(U);
                                 if (re = ge.meta_block_length, x + re > t.buffer.length) {
                                     var ve = new Uint8Array(x + re);
                                     ve.set(t.buffer), t.buffer = ve
@@ -1231,43 +1230,36 @@ var UnityLoader = UnityLoader || {
                                 else if (0 !== re)
                                     if (J) U.bit_pos_ = U.bit_pos_ + 7 & -8, b(t, re, x, h, f, U), x += re;
                                     else {
-                                        for (r = 0; r < 3; ++r) ie[r] = o(U) + 1, ie[r] >= 2 && (l(ie[r] + 2, v, r * F, U), l(H, A, r * F, U), ne[r] = u(A, r * F, U), se[r] = 1);
-                                        for (U.readMoreInput(), j = U.readBits(2), X = q + (U.readBits(4) << j), K = (1 << j) - 1, Q = X + (48 << j), le = new Uint8Array(ie[0]), r = 0; r < ie[0]; ++r) U.readMoreInput(), le[r] = U.readBits(2) << 1;
-                                        var Ae = m(ie[0] << S, U);
+                                        for (r = 0; r < 3; ++r) ae[r] = o(U) + 1, ae[r] >= 2 && (l(ae[r] + 2, v, r * F, U), l(S, A, r * F, U), ne[r] = u(A, r * F, U), se[r] = 1);
+                                        for (U.readMoreInput(), j = U.readBits(2), X = Z + (U.readBits(4) << j), K = (1 << j) - 1, Q = X + (48 << j), le = new Uint8Array(ae[0]), r = 0; r < ae[0]; ++r) U.readMoreInput(), le[r] = U.readBits(2) << 1;
+                                        var Ae = m(ae[0] << I, U);
                                         _ = Ae.num_htrees, de = Ae.context_map;
-                                        var Ue = m(ie[2] << P, U);
-                                        for ($ = Ue.num_htrees, ue = Ue.context_map, Z[0] = new p(C, _), Z[1] = new p(I, ie[1]), Z[2] = new p(Q, $), r = 0; r < 3; ++r) Z[r].decode(U);
-                                        for (fe = 0, me = 0, ee = le[oe[0]], be = W.lookupOffsets[ee], ye = W.lookupOffsets[ee + 1], te = Z[1].htrees[0]; re > 0;) {
-                                            var xe, Ee, ke, Be, Le, We, Me, Oe, Ne, Re, Ce;
-                                            for (U.readMoreInput(), 0 === ne[1] && (w(ie[1], v, 1, oe, ae, se, U), ne[1] = u(A, F, U), te = Z[1].htrees[oe[1]]), --ne[1], xe = s(Z[1].codes, te, U), Ee = xe >> 6, Ee >= 2 ? (Ee -= 2, Me = -1) : Me = 0, ke = M.kInsertRangeLut[Ee] + (xe >> 3 & 7), Be = M.kCopyRangeLut[Ee] + (7 & xe), Le = M.kInsertLengthPrefixCode[ke].offset + U.readBits(M.kInsertLengthPrefixCode[ke].nbits), We = M.kCopyLengthPrefixCode[Be].offset + U.readBits(M.kCopyLengthPrefixCode[Be].nbits), z = h[x - 1 & f], V = h[x - 2 & f], Re = 0; Re < Le; ++Re) U.readMoreInput(), 0 === ne[0] && (w(ie[0], v, 0, oe, ae, se, U), ne[0] = u(A, 0, U), ce = oe[0] << S, fe = ce, ee = le[oe[0]], be = W.lookupOffsets[ee], ye = W.lookupOffsets[ee + 1]), Ne = W.lookup[be + z] | W.lookup[ye + V], he = de[fe + Ne], --ne[0], V = z, z = s(Z[0].codes, Z[0].htrees[he], U), h[x & f] = z, (x & f) === f && t.write(h, d), ++x;
+                                        var Ue = m(ae[2] << T, U);
+                                        for ($ = Ue.num_htrees, ue = Ue.context_map, Y[0] = new p(R, _), Y[1] = new p(H, ae[1]), Y[2] = new p(Q, $), r = 0; r < 3; ++r) Y[r].decode(U);
+                                        for (fe = 0, me = 0, ee = le[oe[0]], be = W.lookupOffsets[ee], ye = W.lookupOffsets[ee + 1], te = Y[1].htrees[0]; re > 0;) {
+                                            var xe, Ee, ke, Be, Le, We, Oe, Ce, Me, Ne, Re, He, Se;
+                                            for (U.readMoreInput(), 0 === ne[1] && (w(ae[1], v, 1, oe, ie, se, U), ne[1] = u(A, F, U), te = Y[1].htrees[oe[1]]), --ne[1], xe = s(Y[1].codes, te, U), Ee = xe >> 6, Ee >= 2 ? (Ee -= 2, Oe = -1) : Oe = 0, ke = O.kInsertRangeLut[Ee] + (xe >> 3 & 7), Be = O.kCopyRangeLut[Ee] + (7 & xe), Le = O.kInsertLengthPrefixCode[ke].offset + U.readBits(O.kInsertLengthPrefixCode[ke].nbits), We = O.kCopyLengthPrefixCode[Be].offset + U.readBits(O.kCopyLengthPrefixCode[Be].nbits), q = h[x - 1 & f], V = h[x - 2 & f], Me = 0; Me < Le; ++Me) U.readMoreInput(), 0 === ne[0] && (w(ae[0], v, 0, oe, ie, se, U), ne[0] = u(A, 0, U), ce = oe[0] << I, fe = ce, ee = le[oe[0]], be = W.lookupOffsets[ee], ye = W.lookupOffsets[ee + 1]), Re = W.lookup[be + q] | W.lookup[ye + V], he = de[fe + Re], --ne[0], V = q, q = s(Y[0].codes, Y[0].htrees[he], U), h[x & f] = q, (x & f) === f && t.write(h, d), ++x;
                                             if ((re -= Le) <= 0) break;
-                                            if (Me < 0) {
-                                                var Ne;
-                                                if (U.readMoreInput(), 0 === ne[2] && (w(ie[2], v, 2, oe, ae, se, U), ne[2] = u(A, 2160, U), pe = oe[2] << P, me = pe), --ne[2], Ne = 255 & (We > 4 ? 3 : We - 2), we = ue[me + Ne], (Me = s(Z[2].codes, Z[2].htrees[we], U)) >= X) {
-                                                    var Ie, He, Se;
-                                                    Me -= X, He = Me & K, Me >>= j, Ie = 1 + (Me >> 1), Se = (2 + (1 & Me) << Ie) - 4, Me = X + (Se + U.readBits(Ie) << j) + He
-                                                }
-                                            }
-                                            if ((Oe = c(Me, T, D)) < 0) throw new Error("[BrotliDecompress] invalid distance");
-                                            if (R = x < i && R !== i ? x : i, Ce = x & f, Oe > R) {
-                                                if (!(We >= k.minDictionaryWordLength && We <= k.maxDictionaryWordLength)) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Oe + " len: " + We + " bytes left: " + re);
-                                                var Se = k.offsetsByLength[We],
-                                                    Pe = Oe - R - 1,
-                                                    Te = k.sizeBitsByLength[We],
-                                                    De = (1 << Te) - 1,
-                                                    Fe = Pe & De,
-                                                    ze = Pe >> Te;
-                                                if (Se += Fe * We, !(ze < O.kNumTransforms)) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Oe + " len: " + We + " bytes left: " + re);
-                                                var Ve = O.transformDictionaryWord(h, Ce, Se, We, ze);
-                                                if (Ce += Ve, x += Ve, re -= Ve, Ce >= g) {
+                                            if (Oe < 0 && (U.readMoreInput(), 0 === ne[2] && (w(ae[2], v, 2, oe, ie, se, U), ne[2] = u(A, 2160, U), pe = oe[2] << T, me = pe), --ne[2], Re = 255 & (We > 4 ? 3 : We - 2), we = ue[me + Re], (Oe = s(Y[2].codes, Y[2].htrees[we], U)) >= X && (Oe -= X, Se = Oe & K, Oe >>= j, He = 1 + (Oe >> 1), Ie = (2 + (1 & Oe) << He) - 4, Oe = X + (Ie + U.readBits(He) << j) + Se)), (Ce = c(Oe, P, D)) < 0) throw new Error("[BrotliDecompress] invalid distance");
+                                            if (N = x < a && N !== a ? x : a, Ne = x & f, Ce > N) {
+                                                if (!(We >= k.minDictionaryWordLength && We <= k.maxDictionaryWordLength)) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Ce + " len: " + We + " bytes left: " + re);
+                                                var Ie = k.offsetsByLength[We],
+                                                    Te = Ce - N - 1,
+                                                    Pe = k.sizeBitsByLength[We],
+                                                    De = (1 << Pe) - 1,
+                                                    Fe = Te & De,
+                                                    qe = Te >> Pe;
+                                                if (Ie += Fe * We, !(qe < C.kNumTransforms)) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Ce + " len: " + We + " bytes left: " + re);
+                                                var Ve = C.transformDictionaryWord(h, Ne, Ie, We, qe);
+                                                if (Ne += Ve, x += Ve, re -= Ve, Ne >= g) {
                                                     t.write(h, d);
-                                                    for (var qe = 0; qe < Ce - g; qe++) h[qe] = h[g + qe]
+                                                    for (var Ze = 0; Ze < Ne - g; Ze++) h[Ze] = h[g + Ze]
                                                 }
                                             } else {
-                                                if (Me > 0 && (T[3 & D] = Oe, ++D), We > re) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Oe + " len: " + We + " bytes left: " + re);
-                                                for (Re = 0; Re < We; ++Re) h[x & f] = h[x - Oe & f], (x & f) === f && t.write(h, d), ++x, --re
+                                                if (Oe > 0 && (P[3 & D] = Ce, ++D), We > re) throw new Error("Invalid backward reference. pos: " + x + " distance: " + Ce + " len: " + We + " bytes left: " + re);
+                                                for (Me = 0; Me < We; ++Me) h[x & f] = h[x - Ce & f], (x & f) === f && t.write(h, d), ++x, --re
                                             }
-                                            z = h[x - 1 & f], V = h[x - 2 & f]
+                                            q = h[x - 1 & f], V = h[x - 2 & f]
                                         }
                                         x &= 1073741823
                                     }
@@ -1281,23 +1273,23 @@ var UnityLoader = UnityLoader || {
                             B = e("./huffman").HuffmanCode,
                             L = e("./huffman").BrotliBuildHuffmanTable,
                             W = e("./context"),
-                            M = e("./prefix"),
-                            O = e("./transform");
-                        const N = 8,
-                            R = 16,
-                            C = 256,
-                            I = 704,
-                            H = 26,
-                            S = 6,
-                            P = 2,
-                            T = 8,
+                            O = e("./prefix"),
+                            C = e("./transform");
+                        const M = 8,
+                            N = 16,
+                            R = 256,
+                            H = 704,
+                            S = 26,
+                            I = 6,
+                            T = 2,
+                            P = 8,
                             D = 255,
                             F = 1080,
-                            z = 18,
+                            q = 18,
                             V = new Uint8Array([1, 2, 3, 4, 0, 5, 17, 6, 16, 7, 8, 9, 10, 11, 12, 13, 14, 15]),
-                            q = 16,
-                            Z = new Uint8Array([3, 2, 1, 0, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2]),
-                            Y = new Int8Array([0, 0, 0, 0, -1, 1, -2, 2, -3, 3, -1, 1, -2, 2, -3, 3]),
+                            Z = 16,
+                            Y = new Uint8Array([3, 2, 1, 0, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2]),
+                            z = new Int8Array([0, 0, 0, 0, -1, 1, -2, 2, -3, 3, -1, 1, -2, 2, -3, 3]),
                             G = new Uint16Array([256, 402, 436, 468, 500, 534, 566, 598, 630, 662, 694, 726, 758, 790, 822, 854, 886, 920, 952, 984, 1016, 1048, 1080]);
                         p.prototype.decode = function(e) {
                             var t, r, n = 0;
@@ -1329,13 +1321,13 @@ var UnityLoader = UnityLoader || {
                             return (e & r - 1) + r
                         }
 
-                        function i(e, t, r, o, i) {
+                        function a(e, t, r, o, a) {
                             do {
-                                o -= r, e[t + o] = new n(i.bits, i.value)
+                                o -= r, e[t + o] = new n(a.bits, a.value)
                             } while (o > 0)
                         }
 
-                        function a(e, t, r) {
+                        function i(e, t, r) {
                             for (var n = 1 << t - r; t < s && !((n -= e[t]) <= 0);) ++t, n <<= 1;
                             return t - r
                         }
@@ -1353,9 +1345,9 @@ var UnityLoader = UnityLoader || {
                                 return g
                             }
                             for (h = 0, f = 0, c = 1, p = 2; c <= r; ++c, p <<= 1)
-                                for (; U[c] > 0; --U[c]) u = new n(255 & c, 65535 & v[f++]), i(e, t + h, p, y, u), h = o(h, c);
+                                for (; U[c] > 0; --U[c]) u = new n(255 & c, 65535 & v[f++]), a(e, t + h, p, y, u), h = o(h, c);
                             for (w = g - 1, m = -1, c = r + 1, p = 2; c <= s; ++c, p <<= 1)
-                                for (; U[c] > 0; --U[c])(h & w) !== m && (t += y, b = a(U, c, r), y = 1 << b, g += y, m = h & w, e[A + m] = new n(b + r & 255, t - A - m & 65535)), u = new n(c - r & 255, 65535 & v[f++]), i(e, t + (h >> r), p, y, u), h = o(h, c);
+                                for (; U[c] > 0; --U[c])(h & w) !== m && (t += y, b = i(U, c, r), y = 1 << b, g += y, m = h & w, e[A + m] = new n(b + r & 255, t - A - m & 65535)), u = new n(c - r & 255, 65535 & v[f++]), a(e, t + (h >> r), p, y, u), h = o(h, c);
                             return g
                         }
                     },
@@ -1386,26 +1378,26 @@ var UnityLoader = UnityLoader || {
                         function n(e, t, r) {
                             this.prefix = new Uint8Array(e.length), this.transform = t, this.suffix = new Uint8Array(r.length);
                             for (var n = 0; n < e.length; n++) this.prefix[n] = e.charCodeAt(n);
-                            for (var n = 0; n < r.length; n++) this.suffix[n] = r.charCodeAt(n)
+                            for (n = 0; n < r.length; n++) this.suffix[n] = r.charCodeAt(n)
                         }
 
                         function o(e, t) {
                             return e[t] < 192 ? (e[t] >= 97 && e[t] <= 122 && (e[t] ^= 32), 1) : e[t] < 224 ? (e[t + 1] ^= 32, 2) : (e[t + 2] ^= 5, 3)
                         }
-                        var i = e("./dictionary");
+                        var a = e("./dictionary");
                         const w = 10,
                             b = 11;
                         var B = [new n("", 0, ""), new n("", 0, " "), new n(" ", 0, " "), new n("", 12, ""), new n("", w, " "), new n("", 0, " the "), new n(" ", 0, ""), new n("s ", 0, " "), new n("", 0, " of "), new n("", w, ""), new n("", 0, " and "), new n("", 13, ""), new n("", 1, ""), new n(", ", 0, " "), new n("", 0, ", "), new n(" ", w, " "), new n("", 0, " in "), new n("", 0, " to "), new n("e ", 0, " "), new n("", 0, '"'), new n("", 0, "."), new n("", 0, '">'), new n("", 0, "\n"), new n("", 3, ""), new n("", 0, "]"), new n("", 0, " for "), new n("", 14, ""), new n("", 2, ""), new n("", 0, " a "), new n("", 0, " that "), new n(" ", w, ""), new n("", 0, ". "), new n(".", 0, ""), new n(" ", 0, ", "), new n("", 15, ""), new n("", 0, " with "), new n("", 0, "'"), new n("", 0, " from "), new n("", 0, " by "), new n("", 16, ""), new n("", 17, ""), new n(" the ", 0, ""), new n("", 4, ""), new n("", 0, ". The "), new n("", b, ""), new n("", 0, " on "), new n("", 0, " as "), new n("", 0, " is "), new n("", 7, ""), new n("", 1, "ing "), new n("", 0, "\n\t"), new n("", 0, ":"), new n(" ", 0, ". "), new n("", 0, "ed "), new n("", 20, ""), new n("", 18, ""), new n("", 6, ""), new n("", 0, "("), new n("", w, ", "), new n("", 8, ""), new n("", 0, " at "), new n("", 0, "ly "), new n(" the ", 0, " of "), new n("", 5, ""), new n("", 9, ""), new n(" ", w, ", "), new n("", w, '"'), new n(".", 0, "("), new n("", b, " "), new n("", w, '">'), new n("", 0, '="'), new n(" ", 0, "."), new n(".com/", 0, ""), new n(" the ", 0, " of the "), new n("", w, "'"), new n("", 0, ". This "), new n("", 0, ","), new n(".", 0, " "), new n("", w, "("), new n("", w, "."), new n("", 0, " not "), new n(" ", 0, '="'), new n("", 0, "er "), new n(" ", b, " "), new n("", 0, "al "), new n(" ", b, ""), new n("", 0, "='"), new n("", b, '"'), new n("", w, ". "), new n(" ", 0, "("), new n("", 0, "ful "), new n(" ", w, ". "), new n("", 0, "ive "), new n("", 0, "less "), new n("", b, "'"), new n("", 0, "est "), new n(" ", w, "."), new n("", b, '">'), new n(" ", 0, "='"), new n("", w, ","), new n("", 0, "ize "), new n("", b, "."), new n("Â ", 0, ""), new n(" ", 0, ","), new n("", w, '="'), new n("", b, '="'), new n("", 0, "ous "), new n("", b, ", "), new n("", w, "='"), new n(" ", w, ","), new n(" ", b, '="'), new n(" ", b, ", "), new n("", b, ","), new n("", b, "("), new n("", b, ". "), new n(" ", b, "."), new n("", b, "='"), new n(" ", b, ". "), new n(" ", w, '="'), new n(" ", b, "='"), new n(" ", w, "='")];
-                        r.kTransforms = B, r.kNumTransforms = B.length, r.transformDictionaryWord = function(e, t, r, n, a) {
-                            var s, d = B[a].prefix,
-                                l = B[a].suffix,
-                                u = B[a].transform,
+                        r.kTransforms = B, r.kNumTransforms = B.length, r.transformDictionaryWord = function(e, t, r, n, i) {
+                            var s, d = B[i].prefix,
+                                l = B[i].suffix,
+                                u = B[i].transform,
                                 c = u < 12 ? 0 : u - 11,
                                 f = 0,
                                 h = t;
                             c > n && (c = n);
                             for (var p = 0; p < d.length;) e[t++] = d[p++];
-                            for (r += c, n -= c, u <= 9 && (n -= u), f = 0; f < n; f++) e[t++] = i.dictionary[r + f];
+                            for (r += c, n -= c, u <= 9 && (n -= u), f = 0; f < n; f++) e[t++] = a.dictionary[r + f];
                             if (s = t - n, u === w) o(e, s);
                             else if (u === b)
                                 for (; n > 0;) {
@@ -1429,28 +1421,28 @@ var UnityLoader = UnityLoader || {
                             return 3 * e.length / 4 - n(e)
                         }
 
-                        function i(e) {
-                            var t, r, o, i, a, s, d = e.length;
-                            a = n(e), s = new c(3 * d / 4 - a), o = a > 0 ? d - 4 : d;
+                        function a(e) {
+                            var t, r, o, a, i, s, d = e.length;
+                            i = n(e), s = new c(3 * d / 4 - i), o = i > 0 ? d - 4 : d;
                             var l = 0;
-                            for (t = 0, r = 0; t < o; t += 4, r += 3) i = u[e.charCodeAt(t)] << 18 | u[e.charCodeAt(t + 1)] << 12 | u[e.charCodeAt(t + 2)] << 6 | u[e.charCodeAt(t + 3)], s[l++] = i >> 16 & 255, s[l++] = i >> 8 & 255, s[l++] = 255 & i;
-                            return 2 === a ? (i = u[e.charCodeAt(t)] << 2 | u[e.charCodeAt(t + 1)] >> 4, s[l++] = 255 & i) : 1 === a && (i = u[e.charCodeAt(t)] << 10 | u[e.charCodeAt(t + 1)] << 4 | u[e.charCodeAt(t + 2)] >> 2, s[l++] = i >> 8 & 255, s[l++] = 255 & i), s
+                            for (t = 0, r = 0; t < o; t += 4, r += 3) a = u[e.charCodeAt(t)] << 18 | u[e.charCodeAt(t + 1)] << 12 | u[e.charCodeAt(t + 2)] << 6 | u[e.charCodeAt(t + 3)], s[l++] = a >> 16 & 255, s[l++] = a >> 8 & 255, s[l++] = 255 & a;
+                            return 2 === i ? (a = u[e.charCodeAt(t)] << 2 | u[e.charCodeAt(t + 1)] >> 4, s[l++] = 255 & a) : 1 === i && (a = u[e.charCodeAt(t)] << 10 | u[e.charCodeAt(t + 1)] << 4 | u[e.charCodeAt(t + 2)] >> 2, s[l++] = a >> 8 & 255, s[l++] = 255 & a), s
                         }
 
-                        function a(e) {
+                        function i(e) {
                             return l[e >> 18 & 63] + l[e >> 12 & 63] + l[e >> 6 & 63] + l[63 & e]
                         }
 
                         function s(e, t, r) {
-                            for (var n, o = [], i = t; i < r; i += 3) n = (e[i] << 16) + (e[i + 1] << 8) + e[i + 2], o.push(a(n));
+                            for (var n, o = [], a = t; a < r; a += 3) n = (e[a] << 16) + (e[a + 1] << 8) + e[a + 2], o.push(i(n));
                             return o.join("")
                         }
 
                         function d(e) {
-                            for (var t, r = e.length, n = r % 3, o = "", i = [], a = 16383, d = 0, u = r - n; d < u; d += a) i.push(s(e, d, d + a > u ? u : d + a));
-                            return 1 === n ? (t = e[r - 1], o += l[t >> 2], o += l[t << 4 & 63], o += "==") : 2 === n && (t = (e[r - 2] << 8) + e[r - 1], o += l[t >> 10], o += l[t >> 4 & 63], o += l[t << 2 & 63], o += "="), i.push(o), i.join("")
+                            for (var t, r = e.length, n = r % 3, o = "", a = [], i = 16383, d = 0, u = r - n; d < u; d += i) a.push(s(e, d, d + i > u ? u : d + i));
+                            return 1 === n ? (t = e[r - 1], o += l[t >> 2], o += l[t << 4 & 63], o += "==") : 2 === n && (t = (e[r - 2] << 8) + e[r - 1], o += l[t >> 10], o += l[t >> 4 & 63], o += l[t << 2 & 63], o += "="), a.push(o), a.join("")
                         }
-                        r.byteLength = o, r.toByteArray = i, r.fromByteArray = d;
+                        r.byteLength = o, r.toByteArray = a, r.fromByteArray = d;
                         for (var l = [], u = [], c = "undefined" != typeof Uint8Array ? Uint8Array : Array, f = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", h = 0, p = f.length; h < p; ++h) l[h] = f[h], u[f.charCodeAt(h)] = h;
                         u["-".charCodeAt(0)] = 62, u["_".charCodeAt(0)] = 63
                     }
@@ -1465,12 +1457,12 @@ var UnityLoader = UnityLoader || {
                     o = function(e, t) {
                         return e ? n(e.folder + "node_modules/" + t) || o(e.parent, t) : null
                     },
-                    i = function(e, t) {
+                    a = function(e, t) {
                         var r = t.match(/^\//) ? null : e ? t.match(/^\.\.?\//) ? n(e.folder + t) : o(e, t) : n(t);
                         if (!r) throw "module not found: " + t;
-                        return r.exports || (r.parent = e, r(i.bind(null, r), r, r.exports = {})), r.exports
+                        return r.exports || (r.parent = e, r(a.bind(null, r), r, r.exports = {})), r.exports
                     };
-                return i(null, e)
+                return a(null, e)
             },
             decompress: function(e) {
                 this.exports || (this.exports = this.require("decompress.js"));
@@ -1485,8 +1477,8 @@ var UnityLoader = UnityLoader || {
                     n = e[0] & (1 << r) - 1,
                     o = 1 + (Math.log(t.length - 1) / Math.log(2) >> 3);
                 if (commentOffset = r + 1 + 2 + 1 + 2 + (o << 3) + 7 >> 3, 17 == n || commentOffset > e.length) return !1;
-                for (var i = n + (6 + (o << 4) + (t.length - 1 << 6) << r), a = 0; a < commentOffset; a++, i >>>= 8)
-                    if (e[a] != (255 & i)) return !1;
+                for (var a = n + (6 + (o << 4) + (t.length - 1 << 6) << r), i = 0; i < commentOffset; i++, a >>>= 8)
+                    if (e[i] != (255 & a)) return !1;
                 return String.fromCharCode.apply(null, e.subarray(commentOffset, commentOffset + t.length)) == t
             }
         },
@@ -1525,7 +1517,7 @@ var UnityLoader = UnityLoader || {
                         var n = new e.Uint8Array(r);
                         var o = new e.Uint32Array(r);
 
-                        function i(e, t) {
+                        function a(e, t) {
                             e = e | 0;
                             t = t | 0;
                             var r = 0;
@@ -1533,7 +1525,7 @@ var UnityLoader = UnityLoader || {
                             o[1024 >> 2] = r
                         }
                         return {
-                            process: i
+                            process: a
                         }
                     }({
                         Uint8Array: Uint8Array,
@@ -1548,8 +1540,8 @@ var UnityLoader = UnityLoader || {
                     data: 1028
                 };
                 for (var o = 0; o < 256; o++) {
-                    for (var i = 255 ^ o, a = 0; a < 8; a++) i = i >>> 1 ^ (1 & i ? 3988292384 : 0);
-                    t.HEAPU32[o] = i
+                    for (var a = 255 ^ o, i = 0; i < 8; i++) a = a >>> 1 ^ (1 & a ? 3988292384 : 0);
+                    t.HEAPU32[o] = a
                 }
             }
             t.HEAPU32[t.crc32 >> 2] = 0;
@@ -1573,8 +1565,8 @@ var UnityLoader = UnityLoader || {
                             t = t | 0;
                             var r = 0,
                                 o = 0,
-                                i = 0,
                                 a = 0,
+                                i = 0,
                                 s = 0,
                                 d = 0,
                                 l = 0,
@@ -1583,31 +1575,31 @@ var UnityLoader = UnityLoader || {
                                 f = 0,
                                 h = 0,
                                 p = 0;
-                            r = n[128] | 0, o = n[129] | 0, i = n[130] | 0, a = n[131] | 0;
+                            r = n[128] | 0, o = n[129] | 0, a = n[130] | 0, i = n[131] | 0;
                             for (; t; e = e + 64 | 0, t = t - 1 | 0) {
                                 s = r;
                                 d = o;
-                                l = i;
-                                u = a;
+                                l = a;
+                                u = i;
                                 for (f = 0;
                                     (f | 0) < 512; f = f + 8 | 0) {
                                     p = n[f >> 2] | 0;
-                                    r = r + (n[f + 4 >> 2] | 0) + (n[e + (p >>> 14) >> 2] | 0) + ((f | 0) < 128 ? a ^ o & (i ^ a) : (f | 0) < 256 ? i ^ a & (o ^ i) : (f | 0) < 384 ? o ^ i ^ a : i ^ (o | ~a)) | 0;
+                                    r = r + (n[f + 4 >> 2] | 0) + (n[e + (p >>> 14) >> 2] | 0) + ((f | 0) < 128 ? i ^ o & (a ^ i) : (f | 0) < 256 ? a ^ i & (o ^ a) : (f | 0) < 384 ? o ^ a ^ i : a ^ (o | ~i)) | 0;
                                     h = (r << (p & 31) | r >>> 32 - (p & 31)) + o | 0;
-                                    r = a;
-                                    a = i;
-                                    i = o;
+                                    r = i;
+                                    i = a;
+                                    a = o;
                                     o = h
                                 }
                                 r = r + s | 0;
                                 o = o + d | 0;
-                                i = i + l | 0;
-                                a = a + u | 0
+                                a = a + l | 0;
+                                i = i + u | 0
                             }
                             n[128] = r;
                             n[129] = o;
-                            n[130] = i;
-                            n[131] = a
+                            n[130] = a;
+                            n[131] = i
                         }
                         return {
                             process: o
@@ -1626,14 +1618,16 @@ var UnityLoader = UnityLoader || {
             }
             t.HEAPU32.set(new Uint32Array([1732584193, 4023233417, 2562383102, 271733878]), t.md5 >> 2);
             for (var o = 0; o < e.length;) {
-                var i = -64 & Math.min(t.HEAPU8.length - t.data, e.length - o);
-                if (t.HEAPU8.set(e.subarray(o, o + i), t.data), o += i, t.process(t.data, i >> 6), e.length - o < 64) {
-                    if (i = e.length - o, t.HEAPU8.set(e.subarray(e.length - i, e.length), t.data), o += i, t.HEAPU8[t.data + i++] = 128, i > 56) {
-                        for (var a = i; a < 64; a++) t.HEAPU8[t.data + a] = 0;
-                        t.process(t.data, 1), i = 0
+                var a = -64 & Math.min(t.HEAPU8.length - t.data, e.length - o);
+                if (t.HEAPU8.set(e.subarray(o, o + a), t.data), o += a, t.process(t.data, a >> 6), e.length - o < 64) {
+                    if (a = e.length - o, t.HEAPU8.set(e.subarray(e.length - a, e.length), t.data), o += a, t.HEAPU8[t.data + a++] = 128, a > 56) {
+                        for (var i = a; i < 64; i++) t.HEAPU8[t.data + i] = 0;
+                        t.process(t.data, 1), a = 0
                     }
-                    for (var a = i; a < 64; a++) t.HEAPU8[t.data + a] = 0;
-                    for (var s = e.length, d = 0, a = 56; a < 64; a++, d = (224 & s) >> 5, s /= 256) t.HEAPU8[t.data + a] = ((31 & s) << 3) + d;
+                    for (i = a; i < 64; i++) t.HEAPU8[t.data + i] = 0;
+                    var s = e.length,
+                        d = 0;
+                    for (i = 56; i < 64; i++, d = (224 & s) >> 5, s /= 256) t.HEAPU8[t.data + i] = ((31 & s) << 3) + d;
                     t.process(t.data, 1)
                 }
             }
@@ -1652,8 +1646,8 @@ var UnityLoader = UnityLoader || {
                             t = t | 0;
                             var r = 0,
                                 o = 0,
-                                i = 0,
                                 a = 0,
+                                i = 0,
                                 s = 0,
                                 d = 0,
                                 l = 0,
@@ -1662,15 +1656,15 @@ var UnityLoader = UnityLoader || {
                                 f = 0,
                                 h = 0,
                                 p = 0;
-                            r = n[80] | 0, o = n[81] | 0, i = n[82] | 0, a = n[83] | 0, s = n[84] | 0;
+                            r = n[80] | 0, o = n[81] | 0, a = n[82] | 0, i = n[83] | 0, s = n[84] | 0;
                             for (; t; e = e + 64 | 0, t = t - 1 | 0) {
                                 d = r;
                                 l = o;
-                                u = i;
-                                c = a;
+                                u = a;
+                                c = i;
                                 f = s;
                                 for (p = 0;
-                                    (p | 0) < 320; p = p + 4 | 0, s = a, a = i, i = o << 30 | o >>> 2, o = r, r = h) {
+                                    (p | 0) < 320; p = p + 4 | 0, s = i, i = a, a = o << 30 | o >>> 2, o = r, r = h) {
                                     if ((p | 0) < 64) {
                                         h = n[e + p >> 2] | 0;
                                         h = h << 24 & 4278190080 | h << 8 & 16711680 | h >>> 8 & 65280 | h >>> 24 & 255
@@ -1679,18 +1673,18 @@ var UnityLoader = UnityLoader || {
                                         h = h << 1 | h >>> 31
                                     }
                                     n[p >> 2] = h;
-                                    h = h + ((r << 5 | r >>> 27) + s) + ((p | 0) < 80 ? (o & i | ~o & a | 0) + 1518500249 | 0 : (p | 0) < 160 ? (o ^ i ^ a) + 1859775393 | 0 : (p | 0) < 240 ? (o & i | o & a | i & a) + 2400959708 | 0 : (o ^ i ^ a) + 3395469782 | 0) | 0
+                                    h = h + ((r << 5 | r >>> 27) + s) + ((p | 0) < 80 ? (o & a | ~o & i | 0) + 1518500249 | 0 : (p | 0) < 160 ? (o ^ a ^ i) + 1859775393 | 0 : (p | 0) < 240 ? (o & a | o & i | a & i) + 2400959708 | 0 : (o ^ a ^ i) + 3395469782 | 0) | 0
                                 }
                                 r = r + d | 0;
                                 o = o + l | 0;
-                                i = i + u | 0;
-                                a = a + c | 0;
+                                a = a + u | 0;
+                                i = i + c | 0;
                                 s = s + f | 0
                             }
                             n[80] = r;
                             n[81] = o;
-                            n[82] = i;
-                            n[83] = a;
+                            n[82] = a;
+                            n[83] = i;
                             n[84] = s
                         }
                         return {
@@ -1710,38 +1704,37 @@ var UnityLoader = UnityLoader || {
             }
             t.HEAPU32.set(new Uint32Array([1732584193, 4023233417, 2562383102, 271733878, 3285377520]), t.sha1 >> 2);
             for (var o = 0; o < e.length;) {
-                var i = -64 & Math.min(t.HEAPU8.length - t.data, e.length - o);
-                if (t.HEAPU8.set(e.subarray(o, o + i), t.data), o += i, t.process(t.data, i >> 6), e.length - o < 64) {
-                    if (i = e.length - o, t.HEAPU8.set(e.subarray(e.length - i, e.length), t.data), o += i, t.HEAPU8[t.data + i++] = 128, i > 56) {
-                        for (var a = i; a < 64; a++) t.HEAPU8[t.data + a] = 0;
-                        t.process(t.data, 1), i = 0
+                var a = -64 & Math.min(t.HEAPU8.length - t.data, e.length - o);
+                if (t.HEAPU8.set(e.subarray(o, o + a), t.data), o += a, t.process(t.data, a >> 6), e.length - o < 64) {
+                    if (a = e.length - o, t.HEAPU8.set(e.subarray(e.length - a, e.length), t.data), o += a, t.HEAPU8[t.data + a++] = 128, a > 56) {
+                        for (var i = a; i < 64; i++) t.HEAPU8[t.data + i] = 0;
+                        t.process(t.data, 1), a = 0
                     }
-                    for (var a = i; a < 64; a++) t.HEAPU8[t.data + a] = 0;
-                    for (var s = e.length, d = 0, a = 63; a >= 56; a--, d = (224 & s) >> 5, s /= 256) t.HEAPU8[t.data + a] = ((31 & s) << 3) + d;
+                    for (i = a; i < 64; i++) t.HEAPU8[t.data + i] = 0;
+                    var s = e.length,
+                        d = 0;
+                    for (i = 63; i >= 56; i--, d = (224 & s) >> 5, s /= 256) t.HEAPU8[t.data + i] = ((31 & s) << 3) + d;
                     t.process(t.data, 1)
                 }
             }
-            for (var l = new Uint8Array(20), a = 0; a < l.length; a++) l[a] = t.HEAPU8[t.sha1 + (-4 & a) + 3 - (3 & a)];
+            var l = new Uint8Array(20);
+            for (i = 0; i < l.length; i++) l[i] = t.HEAPU8[t.sha1 + (-4 & i) + 3 - (3 & i)];
             return l
         }
     },
     Error: {
-        init: function() {
-            return Error.stackTraceLimit = 50, window.addEventListener("error", function(e) {
-                var t = UnityLoader.Error.getModule(e);
-                if (!t) return UnityLoader.Error.handler(e);
-                var r = t.useWasm ? t.wasmSymbolsUrl : t.asmSymbolsUrl;
-                if (!r) return UnityLoader.Error.handler(e, t);
-                var n = new XMLHttpRequest;
-                n.open("GET", t.resolveBuildUrl(r)), n.responseType = "arraybuffer", n.onload = function() {
-                    UnityLoader.loadCode(t, UnityLoader.Compression.decompress(new Uint8Array(n.response)), function(r) {
-                        t.demangleSymbol = UnityLoader[r](), UnityLoader.Error.handler(e, t)
-                    }, {
-                        isModularized: !1
-                    })
-                }, n.send()
-            }), !0
-        }(),
+        init: (Error.stackTraceLimit = 50, window.addEventListener("error", function(e) {
+            var t = UnityLoader.Error.getModule(e);
+            if (!t) return UnityLoader.Error.handler(e);
+            var r = t.useWasm ? t.wasmSymbolsUrl : t.asmSymbolsUrl;
+            if (!r) return UnityLoader.Error.handler(e, t);
+            var n = new XMLHttpRequest;
+            n.open("GET", t.resolveBuildUrl(r)), n.responseType = "arraybuffer", n.onload = function() {
+                UnityLoader.loadCode(UnityLoader.Compression.decompress(new Uint8Array(n.response)), function(r) {
+                    t.demangleSymbol = UnityLoader[r](), UnityLoader.Error.handler(e, t)
+                })
+            }, n.send()
+        }), !0),
         stackTraceFormat: -1 != navigator.userAgent.indexOf("Chrome") ? "(\\s+at\\s+)(([\\w\\d_\\.]*?)([\\w\\d_$]+)(/[\\w\\d_\\./]+|))(\\s+\\[.*\\]|)\\s*\\((blob:.*)\\)" : "(\\s*)(([\\w\\d_\\.]*?)([\\w\\d_$]+)(/[\\w\\d_\\./]+|))(\\s+\\[.*\\]|)\\s*@(blob:.*)",
         stackTraceFormatWasm: -1 != navigator.userAgent.indexOf("Chrome") ? "((\\s+at\\s*)\\s\\(<WASM>\\[(\\d+)\\]\\+\\d+\\))()" : "((\\s*)wasm-function\\[(\\d+)\\])@(blob:.*)",
         blobParseRegExp: new RegExp("^(blob:.*)(:\\d+:\\d+)$"),
@@ -1759,21 +1752,22 @@ var UnityLoader = UnityLoader || {
                 var r = e.match(new RegExp("^" + this.stackTraceFormat + "$")),
                     n = r[7].match(this.blobParseRegExp),
                     o = t.demangleSymbol ? t.demangleSymbol(r[4]) : r[4],
-                    i = n && UnityLoader.Blobs[n[1]] && UnityLoader.Blobs[n[1]].url ? UnityLoader.Blobs[n[1]].url : "blob";
-                return r[1] + o + (r[2] != o ? " [" + r[2] + "]" : "") + " (" + (n ? i.substr(i.lastIndexOf("/") + 1) + n[2] : r[7]) + ")"
+                    a = n && UnityLoader.Blobs[n[1]] && UnityLoader.Blobs[n[1]].url ? UnityLoader.Blobs[n[1]].url : "blob";
+                return r[1] + o + (r[2] != o ? " [" + r[2] + "]" : "") + " (" + (n ? a.substr(a.lastIndexOf("/") + 1) + n[2] : r[7]) + ")"
             }.bind(this)), t.useWasm && (r = r.replace(new RegExp(this.stackTraceFormatWasm, "g"), function(e) {
                 var r = e.match(new RegExp("^" + this.stackTraceFormatWasm + "$")),
                     n = t.demangleSymbol ? t.demangleSymbol(r[3]) : r[3],
                     o = r[4].match(this.blobParseRegExp),
-                    i = o && UnityLoader.Blobs[o[1]] && UnityLoader.Blobs[o[1]].url ? UnityLoader.Blobs[o[1]].url : "blob";
-                return (n == r[3] ? r[1] : r[2] + n + " [wasm:" + r[3] + "]") + (r[4] ? " (" + (o ? i.substr(i.lastIndexOf("/") + 1) + o[2] : r[4]) + ")" : "")
+                    a = o && UnityLoader.Blobs[o[1]] && UnityLoader.Blobs[o[1]].url ? UnityLoader.Blobs[o[1]].url : "blob";
+                return (n == r[3] ? r[1] : r[2] + n + " [wasm:" + r[3] + "]") + (r[4] ? " (" + (o ? a.substr(a.lastIndexOf("/") + 1) + o[2] : r[4]) + ")" : "")
             }.bind(this))), r) : r
         },
         handler: function(e, t) {
-            var r = t ? this.demangle(e, t) : e.message;
-            if (!(t && t.errorhandler && t.errorhandler(r, e.filename, e.lineno) || (console.log("Invoking error handler due to\n" + r), "function" == typeof dump && dump("Invoking error handler due to\n" + r), -1 != r.indexOf("UnknownError") || -1 != r.indexOf("Program terminated with exit(0)") || this.didShowErrorMessage))) {
-                var r = "An error occurred running the Unity content on this page. See your browser JavaScript console for more info. The error was:\n" + r; - 1 != r.indexOf("DISABLE_EXCEPTION_CATCHING") ? r = "An exception has occurred, but exception handling has been disabled in this build. If you are the developer of this content, enable exceptions in your project WebGL player settings to be able to catch the exception or see the stack trace." : -1 != r.indexOf("Cannot enlarge memory arrays") ? r = "Out of memory. If you are the developer of this content, try allocating more memory to your WebGL build in the WebGL player settings." : -1 == r.indexOf("Invalid array buffer length") && -1 == r.indexOf("Invalid typed array length") && -1 == r.indexOf("out of memory") && -1 == r.indexOf("could not allocate memory") || (r = "The browser could not allocate enough memory for the WebGL content. If you are the developer of this content, try allocating less memory to your WebGL build in the WebGL player settings."), alert(r), this.didShowErrorMessage = !0
-            }
+            var r = t ? this.demangle(e, t) : e.message,
+                n = "uncategorized"; - 1 != r.indexOf("UnknownError") ? n = "unknownError" : -1 != r.indexOf("DISABLE_EXCEPTION_CATCHING") ? n = "disabledExceptionCatching" : -1 != r.indexOf("Cannot enlarge memory arrays") ? n = "gameNeedsMoreMemory" : (-1 != r.indexOf("Invalid array buffer length") || -1 != r.indexOf("out of memory") || -1 != r.indexOf("Uncaught RangeError: Array buffer allocation failed") || r.indexOf("Invalid typed array length")) && (n = "browserOutOfMemory"), PokiSDK.customEvent("game", "crash", {
+                type: n,
+                message: r
+            }), t && t.errorhandler && t.errorhandler(r, e.filename, e.lineno) || (console.log("Invoking error handler due to\n" + r), "function" == typeof dump && dump("Invoking error handler due to\n" + r), -1 != r.indexOf("UnknownError") || -1 != r.indexOf("Program terminated with exit(0)") || this.didShowErrorMessage) || (r = "An error occurred running the Unity content on this page. See your browser JavaScript console for more info. The error was:\n" + r, -1 != r.indexOf("DISABLE_EXCEPTION_CATCHING") ? r = "An exception has occurred, but exception handling has been disabled in this build. If you are the developer of this content, enable exceptions in your project WebGL player settings to be able to catch the exception or see the stack trace." : -1 != r.indexOf("Cannot enlarge memory arrays") ? r = "Out of memory. If you are the developer of this content, try allocating more memory to your WebGL build in the WebGL player settings." : -1 == r.indexOf("Invalid array buffer length") && -1 == r.indexOf("Invalid typed array length") && -1 == r.indexOf("out of memory") && -1 == r.indexOf("could not allocate memory") || (r = "The browser could not allocate enough memory for the WebGL content. If you are the developer of this content, try allocating less memory to your WebGL build in the WebGL player settings."), alert(r), this.didShowErrorMessage = !0)
         },
         popup: function(e, t, r) {
             r = r || [{
@@ -1783,11 +1777,11 @@ var UnityLoader = UnityLoader || {
             n.style.cssText = "position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); text-align: center; border: 1px solid black; padding: 5px; background: #E8E8E8";
             var o = document.createElement("span");
             o.textContent = t, n.appendChild(o), n.appendChild(document.createElement("br"));
-            for (var i = 0; i < r.length; i++) {
-                var a = document.createElement("button");
-                r[i].text && (a.textContent = r[i].text), r[i].callback && (a.onclick = r[i].callback), a.style.margin = "5px", a.addEventListener("click", function() {
+            for (var a = 0; a < r.length; a++) {
+                var i = document.createElement("button");
+                r[a].text && (i.textContent = r[a].text), r[a].callback && (i.onclick = r[a].callback), i.style.margin = "5px", i.addEventListener("click", function() {
                     e.container.removeChild(n)
-                }), n.appendChild(a)
+                }), n.appendChild(i)
             }
             e.container.appendChild(n)
         }
@@ -1795,38 +1789,37 @@ var UnityLoader = UnityLoader || {
     Job: {
         schedule: function(e, t, r, n, o) {
             o = o || {};
-            var i = e.Jobs[t];
-            if (i || (i = e.Jobs[t] = {
+            var a = e.Jobs[t];
+            if (a || (a = e.Jobs[t] = {
                     dependencies: {},
                     dependants: {}
-                }), i.callback) throw "[UnityLoader.Job.schedule] job '" + t + "' has been already scheduled";
+                }), a.callback) throw "[UnityLoader.Job.schedule] job '" + t + "' has been already scheduled";
             if ("function" != typeof n) throw "[UnityLoader.Job.schedule] job '" + t + "' has invalid callback";
             if ("object" != typeof o) throw "[UnityLoader.Job.schedule] job '" + t + "' has invalid parameters";
-            i.callback = function(e, t) {
-                i.starttime = performance.now(), n(e, t)
-            }, i.parameters = o, i.complete = function(r) {
-                i.endtime = performance.now(), i.result = {
-                    value: r
-                };
-                for (var n in i.dependants) {
+            a.callback = function(e, t) {
+                a.starttime = performance.now(), n(e, t)
+            }, a.parameters = o, a.complete = function(r) {
+                for (var n in a.endtime = performance.now(), a.result = {
+                        value: r
+                    }, a.dependants) {
                     var o = e.Jobs[n];
-                    o.dependencies[t] = i.dependants[n] = !1;
-                    var a = "function" != typeof o.callback;
-                    for (var s in o.dependencies) a = a || o.dependencies[s];
-                    if (!a) {
+                    o.dependencies[t] = a.dependants[n] = !1;
+                    var i = "function" != typeof o.callback;
+                    for (var s in o.dependencies) i = i || o.dependencies[s];
+                    if (!i) {
                         if (o.executed) throw "[UnityLoader.Job.schedule] job '" + t + "' has already been executed";
                         o.executed = !0, setTimeout(o.callback.bind(null, e, o), 0)
                     }
                 }
             };
-            var a = !1;
+            var i = !1;
             r.forEach(function(r) {
                 var n = e.Jobs[r];
                 n || (n = e.Jobs[r] = {
                     dependencies: {},
                     dependants: {}
-                }), (i.dependencies[r] = n.dependants[t] = !n.result) && (a = !0)
-            }), a || (i.executed = !0, setTimeout(i.callback.bind(null, e, i), 0))
+                }), (a.dependencies[r] = n.dependants[t] = !n.result) && (i = !0)
+            }), i || (a.executed = !0, setTimeout(a.callback.bind(null, e, a), 0))
         },
         result: function(e, t) {
             var r = e.Jobs[t];
@@ -1853,9 +1846,9 @@ var UnityLoader = UnityLoader || {
                 var r = UnityLoader.Progress.Styles[e.Module.splashScreenStyle],
                     n = e.Module.progressLogoUrl ? e.Module.resolveBuildUrl(e.Module.progressLogoUrl) : r.progressLogoUrl,
                     o = e.Module.progressEmptyUrl ? e.Module.resolveBuildUrl(e.Module.progressEmptyUrl) : r.progressEmptyUrl,
-                    i = e.Module.progressFullUrl ? e.Module.resolveBuildUrl(e.Module.progressFullUrl) : r.progressFullUrl,
-                    a = "position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);";
-                e.logo || (e.logo = document.createElement("div"), e.logo.style.cssText = a + "background: url('" + n + "') no-repeat center / contain; width: 154px; height: 130px;", e.container.appendChild(e.logo)), e.progress || (e.progress = document.createElement("div"), e.progress.style.cssText = a + " height: 18px; width: 141px; margin-top: 90px;", e.progress.empty = document.createElement("div"), e.progress.empty.style.cssText = "background: url('" + o + "') no-repeat right / cover; float: right; width: 100%; height: 100%; display: inline-block;", e.progress.appendChild(e.progress.empty), e.progress.full = document.createElement("div"), e.progress.full.style.cssText = "background: url('" + i + "') no-repeat left / cover; float: left; width: 0%; height: 100%; display: inline-block;", e.progress.appendChild(e.progress.full), e.container.appendChild(e.progress)), e.progress.full.style.width = 100 * t + "%", e.progress.empty.style.width = 100 * (1 - t) + "%", 1 == t && (e.logo.style.display = e.progress.style.display = "none")
+                    a = e.Module.progressFullUrl ? e.Module.resolveBuildUrl(e.Module.progressFullUrl) : r.progressFullUrl,
+                    i = "position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);";
+                e.logo || (e.logo = document.createElement("div"), e.logo.style.cssText = i + "background: url('" + n + "') no-repeat center / contain; width: 154px; height: 130px;", e.container.appendChild(e.logo)), e.progress || (e.progress = document.createElement("div"), e.progress.style.cssText = i + " height: 18px; width: 141px; margin-top: 90px;", e.progress.empty = document.createElement("div"), e.progress.empty.style.cssText = "background: url('" + o + "') no-repeat right / cover; float: right; width: 100%; height: 100%; display: inline-block;", e.progress.appendChild(e.progress.empty), e.progress.full = document.createElement("div"), e.progress.full.style.cssText = "background: url('" + a + "') no-repeat left / cover; float: left; width: 0%; height: 100%; display: inline-block;", e.progress.appendChild(e.progress.full), e.container.appendChild(e.progress)), e.progress.full.style.width = 100 * t + "%", e.progress.empty.style.width = 100 * (1 - t) + "%", 1 == t && (e.logo.style.display = e.progress.style.display = "none")
             }
         },
         update: function(e, t, r) {
@@ -1885,15 +1878,15 @@ var UnityLoader = UnityLoader || {
                 l++, s += i.loaded, d += i.total, u++
             }
             var f = l ? (l - 0 - (d ? u * (d - s) / d : 0)) / l : 0;
-            f = Math.min(1, f), i.finished && 0 == i.loaded && (f = 1), e.unityInstance.onProgress(e.unityInstance, f)
+            f = Math.min(1, f), i.finished && 0 == i.loaded && (f = 1), e.gameInstance.onProgress(e.gameInstance, f)
         }
     },
     SystemInfo: function() {
         var e, t, r, o = navigator.appVersion,
-            i = navigator.userAgent,
-            a = navigator.appName,
+            a = navigator.userAgent,
+            i = navigator.appName,
             s = navigator.appVersion,
-            d = parseInt(navigator.appVersion, 10); - 1 != (t = i.indexOf("Opera")) ? (a = "Opera", s = i.substring(t + 6), -1 != (t = i.indexOf("Version")) && (s = i.substring(t + 8))) : -1 != (t = i.indexOf("MSIE")) ? (a = "Microsoft Internet Explorer", s = i.substring(t + 5)) : -1 != (t = i.indexOf("Edge")) ? (a = "Edge", s = i.substring(t + 5)) : -1 != (t = i.indexOf("Chrome")) ? (a = "Chrome", s = i.substring(t + 7)) : -1 != (t = i.indexOf("Safari")) ? (a = "Safari", s = i.substring(t + 7), -1 != (t = i.indexOf("Version")) && (s = i.substring(t + 8))) : -1 != (t = i.indexOf("Firefox")) ? (a = "Firefox", s = i.substring(t + 8)) : -1 != i.indexOf("Trident/") ? (a = "Microsoft Internet Explorer", s = i.substring(i.indexOf("rv:") + 3)) : (e = i.lastIndexOf(" ") + 1) < (t = i.lastIndexOf("/")) && (a = i.substring(e, t), s = i.substring(t + 1), a.toLowerCase() == a.toUpperCase() && (a = navigator.appName)), -1 != (r = s.indexOf(";")) && (s = s.substring(0, r)), -1 != (r = s.indexOf(" ")) && (s = s.substring(0, r)), -1 != (r = s.indexOf(")")) && (s = s.substring(0, r)), d = parseInt("" + s, 10), isNaN(d) ? (s = "" + parseFloat(navigator.appVersion), d = parseInt(navigator.appVersion, 10)) : s = "" + parseFloat(s);
+            d = parseInt(navigator.appVersion, 10); - 1 != (t = a.indexOf("Opera")) ? (i = "Opera", s = a.substring(t + 6), -1 != (t = a.indexOf("Version")) && (s = a.substring(t + 8))) : -1 != (t = a.indexOf("MSIE")) ? (i = "Microsoft Internet Explorer", s = a.substring(t + 5)) : -1 != (t = a.indexOf("Edge")) ? (i = "Edge", s = a.substring(t + 5)) : -1 != (t = a.indexOf("Chrome")) ? (i = "Chrome", s = a.substring(t + 7)) : -1 != (t = a.indexOf("Safari")) ? (i = "Safari", s = a.substring(t + 7), -1 != (t = a.indexOf("Version")) && (s = a.substring(t + 8))) : -1 != (t = a.indexOf("Firefox")) ? (i = "Firefox", s = a.substring(t + 8)) : -1 != a.indexOf("Trident/") ? (i = "Microsoft Internet Explorer", s = a.substring(a.indexOf("rv:") + 3)) : (e = a.lastIndexOf(" ") + 1) < (t = a.lastIndexOf("/")) && (i = a.substring(e, t), s = a.substring(t + 1), i.toLowerCase() == i.toUpperCase() && (i = navigator.appName)), -1 != (r = s.indexOf(";")) && (s = s.substring(0, r)), -1 != (r = s.indexOf(" ")) && (s = s.substring(0, r)), -1 != (r = s.indexOf(")")) && (s = s.substring(0, r)), d = parseInt("" + s, 10), isNaN(d) ? (s = "" + parseFloat(navigator.appVersion), d = parseInt(navigator.appVersion, 10)) : s = "" + parseFloat(s);
         var l = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(o),
             u = "-",
             c = [{
@@ -1980,7 +1973,7 @@ var UnityLoader = UnityLoader || {
             }];
         for (var f in c) {
             var h = c[f];
-            if (h.r.test(i)) {
+            if (h.r.test(a)) {
                 u = h.s;
                 break
             }
@@ -1988,10 +1981,10 @@ var UnityLoader = UnityLoader || {
         var p = "-";
         switch (/Windows/.test(u) && (p = /Windows (.*)/.exec(u)[1], u = "Windows"), u) {
             case "Mac OS X":
-                p = /Mac OS X (1[\.\_\d][\.\_\d]+)/.exec(i)[1];
+                p = /Mac OS X (1[\.\_\d][\.\_\d]+)/.exec(a)[1];
                 break;
             case "Android":
-                p = /Android ([\.\_\d]+)/.exec(i)[1];
+                p = /Android ([\.\_\d]+)/.exec(a)[1];
                 break;
             case "iOS":
                 p = /OS (\d+)_(\d+)_?(\d+)?/.exec(o), p = p[1] + "." + p[2] + "." + (0 | p[3])
@@ -1999,7 +1992,7 @@ var UnityLoader = UnityLoader || {
         return {
             width: screen.width ? screen.width : 0,
             height: screen.height ? screen.height : 0,
-            browser: a,
+            browser: i,
             browserVersion: s,
             mobile: l,
             os: u,
@@ -2026,21 +2019,9 @@ var UnityLoader = UnityLoader || {
             }(),
             hasFullscreen: function() {
                 var e = document.createElement("canvas");
-                return (e.requestFullScreen || e.mozRequestFullScreen || e.msRequestFullscreen || e.webkitRequestFullScreen) && (-1 == a.indexOf("Safari") || s >= 10.1) ? 1 : 0
+                return (e.requestFullScreen || e.mozRequestFullScreen || e.msRequestFullscreen || e.webkitRequestFullScreen) && (-1 == i.indexOf("Safari") || s >= 10.1) ? 1 : 0
             }(),
-            hasThreads: "undefined" != typeof SharedArrayBuffer,
-            hasWasm: "object" == typeof WebAssembly && "function" == typeof WebAssembly.validate && "function" == typeof WebAssembly.compile,
-            hasWasmThreads: function() {
-                if ("object" != typeof WebAssembly) return !1;
-                if ("undefined" == typeof SharedArrayBuffer) return !1;
-                var e = new WebAssembly.Memory({
-                        initial: 1,
-                        maximum: 1,
-                        shared: !0
-                    }),
-                    t = e.buffer instanceof SharedArrayBuffer;
-                return delete e, t
-            }()
+            hasWasm: "object" == typeof WebAssembly && "function" == typeof WebAssembly.validate && "function" == typeof WebAssembly.compile
         }
     }(),
     compatibilityCheck: function(e, t, r) {
@@ -2055,39 +2036,25 @@ var UnityLoader = UnityLoader || {
             callback: r
         }])
     },
-    buildCompatibilityCheck: function(e, t, r) {
-        ! function() {
-            if (void 0 === e.graphicsAPI) return !0;
-            for (var t = 0; t < e.graphicsAPI.length; t++) {
-                var r = e.graphicsAPI[t];
-                if ("WebGL 2.0" == r && 2 == UnityLoader.SystemInfo.hasWebGL) return !0;
-                if ("WebGL 1.0" == r && UnityLoader.SystemInfo.hasWebGL >= 1) return !0;
-                e.print("Warning: Unsupported graphics API " + r)
-            }
-            return !1
-        }() ? r("Your browser does not support any of the required graphics API for this content."): !UnityLoader.SystemInfo.hasThreads && e.multithreading ? r("Your browser does not support multithreading.") : t()
-    },
     Blobs: {},
-    loadCode: function(e, t, r, n) {
-        var o = [].slice.call(UnityLoader.Cryptography.md5(t)).map(function(e) {
+    loadCode: function(e, t, r) {
+        var n = [].slice.call(UnityLoader.Cryptography.md5(e)).map(function(e) {
                 return ("0" + e.toString(16)).substr(-2)
             }).join(""),
-            i = document.createElement("script"),
-            a = (n.isModularized ? function(e) {
-                return new Blob([e], {
-                    type: "application/javascript"
-                })
-            } : function(e, t) {
-                return new Blob(['UnityLoader["' + t + '"]=', e], {
-                    type: "text/javascript"
-                })
-            })(t, o),
-            s = URL.createObjectURL(a);
-        UnityLoader.Blobs[s] = n, e.deinitializers.push(function() {
-            delete UnityLoader.Blobs[s], delete UnityLoader[o], document.body.removeChild(document.getElementById(o))
-        }), i.src = s, i.id = o, i.onload = function() {
-            e.developmentBuild || URL.revokeObjectURL(s), r(o, a), delete i.onload
-        }, document.body.appendChild(i)
+            o = document.createElement("script"),
+            a = URL.createObjectURL(new Blob(['UnityLoader["' + n + '"]=', e], {
+                type: "text/javascript"
+            }));
+        UnityLoader.Blobs[a] = r, o.src = a, o.onload = function() {
+            URL.revokeObjectURL(a), t(n)
+        }, document.body.appendChild(o)
+    },
+    allocateHeapJob: function(e, t) {
+        for (var r = e.TOTAL_STACK || 5242880, n = e.TOTAL_MEMORY || (e.buffer ? e.buffer.byteLength : 268435456), o = 65536, a = 16777216, i = o; i < n || i < 2 * r;) i += i < a ? i : a;
+        i != n && e.printErr("increasing TOTAL_MEMORY to " + i + " to be compliant with the asm.js spec (and given that TOTAL_STACK=" + r + ")"), n = i, t.parameters.useWasm ? (e.wasmMemory = new WebAssembly.Memory({
+            initial: n / o,
+            maximum: n / o
+        }), e.buffer = e.wasmMemory.buffer) : e.buffer ? e.buffer.byteLength != n && (e.printErr("provided buffer should be " + n + " bytes, but it is " + e.buffer.byteLength + ", reallocating the buffer"), e.buffer = new ArrayBuffer(n)) : e.buffer = new ArrayBuffer(n), e.TOTAL_MEMORY = e.buffer.byteLength, t.complete()
     },
     setupIndexedDBJob: function(e, t) {
         function r(n) {
@@ -2100,56 +2067,74 @@ var UnityLoader = UnityLoader || {
                 e.preventDefault(), r()
             }, o.onsuccess = function() {
                 o.result.close(), r(n)
-            }
+            }, setTimeout(r, 1e3)
         } catch (e) {
             r()
         }
     },
+    initWasmCache: function(e, t) {
+        e.cacheControl && -1 != ["must-revalidate", "immutable"].indexOf(e.cacheControl[t] || e.cacheControl.default) && (e.wasmCache = {
+            update: function() {
+                var e = this;
+                e.cache && e.download && e.request && (e.cache.module && e.cache.md5 == e.download.md5 ? e.request.wasmInstantiate(e.cache.module).then(function(t) {
+                    console.log("[Unity Cache] WebAssembly module '" + e.cache.url + "' successfully loaded from the indexedDB cache"), e.request.callback(t)
+                }) : e.request.wasmInstantiate(e.download.binary).then(function(t) {
+                    e.cache.module = t.module, e.cache.md5 = e.download.md5, UnityLoader.UnityCache.WebAssembly.put(e.cache, function() {
+                        console.log("[Unity Cache] WebAssembly module '" + e.cache.url + "' successfully stored in the indexedDB cache")
+                    }, function(t) {
+                        console.log("[Unity Cache] WebAssembly module '" + e.cache.url + "' not stored in the indexedDB cache due to the error: " + t)
+                    }), e.request.callback(t.instance)
+                }))
+            }
+        }, UnityLoader.UnityCache.WebAssembly.get(e.resolveBuildUrl(e[t]), function(t) {
+            e.wasmCache.cache = t, e.wasmCache.update()
+        }))
+    },
     processWasmCodeJob: function(e, t) {
-        e.wasmBinary = UnityLoader.Job.result(e, "downloadWasmCode"), t.complete()
+        e.wasmBinary = UnityLoader.Job.result(e, "downloadWasmCode"), e.wasmCache && (e.wasmCache.download = {
+            binary: e.wasmBinary,
+            md5: [].slice.call(UnityLoader.Cryptography.md5(e.wasmBinary)).map(function(e) {
+                return ("0" + e.toString(16)).substr(-2)
+            }).join("")
+        }, e.wasmCache.update()), t.complete()
     },
     processWasmFrameworkJob: function(e, t) {
-        var r = UnityLoader.Job.result(e, "downloadWasmFramework");
-        UnityLoader.loadCode(e, r, function(r, n) {
-            e.mainScriptUrlOrBlob = n, e.isModularized && (UnityLoader[r] = UnityModule), UnityLoader[r](e), t.complete()
+        UnityLoader.loadCode(UnityLoader.Job.result(e, "downloadWasmFramework"), function(r) {
+            UnityLoader[r](e), t.complete()
         }, {
             Module: e,
-            url: e.wasmFrameworkUrl,
-            isModularized: e.isModularized
+            url: e.wasmFrameworkUrl
         })
     },
     processAsmCodeJob: function(e, t) {
         var r = UnityLoader.Job.result(e, "downloadAsmCode");
-        UnityLoader.loadCode(e, Math.fround ? r : UnityLoader.Utils.optimizeMathFround(r), function(r, n) {
-            e.isModularized ? e.asmJsUrlOrBlob = n : e.asm = UnityLoader[r], t.complete()
+        UnityLoader.loadCode(Math.fround ? r : UnityLoader.Utils.optimizeMathFround(r), function(r) {
+            e.asm = UnityLoader[r], t.complete()
         }, {
             Module: e,
-            url: e.asmCodeUrl,
-            isModularized: e.isModularized
+            url: e.asmCodeUrl
         })
     },
     processAsmFrameworkJob: function(e, t) {
-        var r = UnityLoader.Job.result(e, "downloadAsmFramework");
-        UnityLoader.loadCode(e, r, function(r, n) {
-            e.isModularized && (e.mainScriptUrlOrBlob = n, UnityLoader[r] = UnityModule), UnityLoader[r](e), t.complete()
+        UnityLoader.loadCode(UnityLoader.Job.result(e, "downloadAsmFramework"), function(r) {
+            UnityLoader[r](e), t.complete()
         }, {
             Module: e,
-            url: e.asmFrameworkUrl,
-            isModularized: e.isModularized
+            url: e.asmFrameworkUrl
         })
     },
-    processMemoryInitializerJob: function(e, t) {
-        e.memoryInitializerRequest.status = 200, e.memoryInitializerRequest.response = UnityLoader.Job.result(e, "downloadMemoryInitializer"), e.memoryInitializerRequest.callback && e.memoryInitializerRequest.callback(), t.complete()
+    processAsmMemoryJob: function(e, t) {
+        e.memoryInitializerRequest.status = 200, e.memoryInitializerRequest.response = UnityLoader.Job.result(e, "downloadAsmMemory"), e.memoryInitializerRequest.callback && e.memoryInitializerRequest.callback(), t.complete()
     },
     processDataJob: function(e, t) {
         var r = UnityLoader.Job.result(e, "downloadData"),
             n = new DataView(r.buffer, r.byteOffset, r.byteLength),
             o = 0,
-            i = "UnityWebData1.0\0";
-        if (!String.fromCharCode.apply(null, r.subarray(o, o + i.length)) == i) throw "unknown data format";
-        o += i.length;
-        var a = n.getUint32(o, !0);
-        for (o += 4; o < a;) {
+            a = "UnityWebData1.0\0";
+        if (!String.fromCharCode.apply(null, r.subarray(o, o + a.length)) == a) throw "unknown data format";
+        o += a.length;
+        var i = n.getUint32(o, !0);
+        for (o += 4; o < i;) {
             var s = n.getUint32(o, !0);
             o += 4;
             var d = n.getUint32(o, !0);
@@ -2187,18 +2172,11 @@ var UnityLoader = UnityLoader || {
             } : null
         })
     },
-    loadModule: function(e, t) {
-        if (e.useWasm = e.wasmCodeUrl && UnityLoader.SystemInfo.hasWasm, e.useWasm) {
-            if (e.multithreading && !UnityLoader.SystemInfo.hasWasmThreads) return void t("Your browser does not support WebAssembly Threads.");
-            var r = ["downloadWasmFramework", "setupIndexedDB"];
-            e.wasmCodeUrl.endsWith(".unityweb") && (UnityLoader.scheduleBuildDownloadJob(e, "downloadWasmCode", "wasmCodeUrl"), UnityLoader.Job.schedule(e, "processWasmCode", ["downloadWasmCode"], UnityLoader.processWasmCodeJob), r.push("processWasmCode")), e.wasmMemoryUrl && (UnityLoader.scheduleBuildDownloadJob(e, "downloadMemoryInitializer", "wasmMemoryUrl"), UnityLoader.Job.schedule(e, "processMemoryInitializer", ["downloadMemoryInitializer"], UnityLoader.processMemoryInitializerJob), e.memoryInitializerRequest = {
-                addEventListener: function(t, r) {
-                    e.memoryInitializerRequest.callback = r
-                }
-            }), UnityLoader.scheduleBuildDownloadJob(e, "downloadWasmFramework", "wasmFrameworkUrl"), UnityLoader.Job.schedule(e, "processWasmFramework", r, UnityLoader.processWasmFrameworkJob)
-        } else {
-            if (!e.asmCodeUrl) return void t("Your browser does not support WebAssembly.");
-            UnityLoader.scheduleBuildDownloadJob(e, "downloadAsmCode", "asmCodeUrl"), UnityLoader.Job.schedule(e, "processAsmCode", ["downloadAsmCode"], UnityLoader.processAsmCodeJob), UnityLoader.scheduleBuildDownloadJob(e, "downloadMemoryInitializer", "asmMemoryUrl"), UnityLoader.Job.schedule(e, "processMemoryInitializer", ["downloadMemoryInitializer"], UnityLoader.processMemoryInitializerJob), e.memoryInitializerRequest = {
+    loadModule: function(e) {
+        if (e.useWasm = e.wasmCodeUrl && UnityLoader.SystemInfo.hasWasm, e.useWasm) UnityLoader.initWasmCache(e, "wasmCodeUrl"), UnityLoader.scheduleBuildDownloadJob(e, "downloadWasmCode", "wasmCodeUrl"), UnityLoader.Job.schedule(e, "processWasmCode", ["downloadWasmCode"], UnityLoader.processWasmCodeJob), UnityLoader.scheduleBuildDownloadJob(e, "downloadWasmFramework", "wasmFrameworkUrl"), UnityLoader.Job.schedule(e, "processWasmFramework", ["downloadWasmFramework", "processWasmCode", "setupIndexedDB"], UnityLoader.processWasmFrameworkJob);
+        else {
+            if (!e.asmCodeUrl) throw "WebAssembly support is not detected in this browser.";
+            UnityLoader.scheduleBuildDownloadJob(e, "downloadAsmCode", "asmCodeUrl"), UnityLoader.Job.schedule(e, "processAsmCode", ["downloadAsmCode"], UnityLoader.processAsmCodeJob), UnityLoader.scheduleBuildDownloadJob(e, "downloadAsmMemory", "asmMemoryUrl"), UnityLoader.Job.schedule(e, "processAsmMemory", ["downloadAsmMemory"], UnityLoader.processAsmMemoryJob), e.memoryInitializerRequest = {
                 addEventListener: function(t, r) {
                     e.memoryInitializerRequest.callback = r
                 }
@@ -2209,65 +2187,41 @@ var UnityLoader = UnityLoader || {
         })
     },
     instantiate: function(e, t, r) {
-        function n(e, n) {
+        function n(e, r) {
             if ("string" == typeof e && !(e = document.getElementById(e))) return !1;
-            e.innerHTML = "", e.style.border = e.style.margin = e.style.padding = 0, "static" == getComputedStyle(e).getPropertyValue("position") && (e.style.position = "relative"), e.style.width = n.width || e.style.width, e.style.height = n.height || e.style.height, n.container = e;
-            var o = n.Module;
-            o.canvas = document.createElement("canvas"), o.canvas.style.width = "100%", o.canvas.style.height = "100%", o.canvas.addEventListener("contextmenu", function(e) {
+            e.innerHTML = "", e.style.border = e.style.margin = e.style.padding = 0, "static" == getComputedStyle(e).getPropertyValue("position") && (e.style.position = "relative"), e.style.width = r.width || e.style.width, e.style.height = r.height || e.style.height, r.container = e;
+            var n = r.Module;
+            return n.canvas = document.createElement("canvas"), n.canvas.style.width = "100%", n.canvas.style.height = "100%", n.canvas.addEventListener("contextmenu", function(e) {
                 e.preventDefault()
-            }), o.canvas.id = "#canvas", e.appendChild(o.canvas), o.deinitializers.push(function() {
-                e.removeChild(o.canvas)
-            });
-            var i = !0;
-            return n.compatibilityCheck(n, function() {
+            }), n.canvas.id = "#canvas", e.appendChild(n.canvas), r.compatibilityCheck(r, function() {
                 var t = new XMLHttpRequest;
-                t.open("GET", n.url, !0), t.responseType = "text", t.onerror = function() {
-                    o.print("Could not download " + n.url), 0 == document.URL.indexOf("file:") && alert("It seems your browser does not support running Unity WebGL content from file:// urls. Please upload it to an http server, or try a different browser.")
+                t.open("GET", r.url, !0), t.responseType = "text", t.onerror = function() {
+                    n.print("Could not download " + r.url), 0 == document.URL.indexOf("file:") && alert("It seems your browser does not support running Unity WebGL content from file:// urls. Please upload it to an http server, or try a different browser.")
                 }, t.onload = function() {
-                    var a = JSON.parse(t.responseText);
-                    for (var s in a) void 0 === o[s] && (o[s] = a[s]);
-                    if (o.unityVersion) {
-                        var d = o.unityVersion.match(/(\d+)\.(\d+)\.(\d+)(.+)/);
-                        d && (o.unityVersion = {
-                            string: o.unityVersion,
-                            version: parseInt(d[0]),
-                            major: parseInt(d[1]),
-                            minor: parseInt(d[2]),
-                            suffix: d[3]
-                        })
+                    var o = JSON.parse(t.responseText);
+                    for (var a in o) void 0 === n[a] && (n[a] = o[a]);
+                    for (var i = !1, s = 0; s < n.graphicsAPI.length; s++) {
+                        var d = n.graphicsAPI[s];
+                        "WebGL 2.0" == d && 2 == UnityLoader.SystemInfo.hasWebGL ? i = !0 : "WebGL 1.0" == d && UnityLoader.SystemInfo.hasWebGL >= 1 ? i = !0 : n.print("Warning: Unsupported graphics API " + d)
                     }
-                    o.isModularized = o.unityVersion && o.unityVersion.version >= 2019, UnityLoader.buildCompatibilityCheck(o, function() {
-                        e.style.background = o.backgroundUrl ? "center/cover url('" + o.resolveBuildUrl(o.backgroundUrl) + "')" : o.backgroundColor ? " " + o.backgroundColor : "", n.onProgress(n, 0), i = UnityLoader.loadModule(o, r.onerror)
-                    }, r.onerror)
+                    return i ? (e.style.background = n.backgroundUrl ? "center/cover url('" + n.resolveBuildUrl(n.backgroundUrl) + "')" : n.backgroundColor ? " " + n.backgroundColor : "", r.onProgress(r, 0), void UnityLoader.loadModule(n)) : void r.popup("Your browser does not support any of the required graphics API for this content: " + n.graphicsAPI, [{
+                        text: "OK"
+                    }])
                 }, t.send()
             }, function() {
-                var e = "Instantiation of '" + t + "' terminated due to the failed compatibility check.";
-                "object" == typeof r && "function" == typeof r.onerror ? r.onerror(e) : o.printErr(e)
-            }), i
+                n.printErr("Instantiation of the '" + t + "' terminated due to the failed compatibility check.")
+            }), !0
         }
 
         function o(e) {
             return o.link = o.link || document.createElement("a"), o.link.href = e, o.link.href
         }
-        void 0 === r && (r = {}), void 0 === r.onerror && (r.onerror = function(e) {
-            i.popup(e, [{
-                text: "OK"
-            }])
-        });
-        var i = {
+        var a = {
             url: t,
             onProgress: UnityLoader.Progress.handler,
             compatibilityCheck: UnityLoader.compatibilityCheck,
             Module: {
-                deinitializers: [],
-                intervals: {},
-                setInterval: function(e, t) {
-                    var r = window.setInterval(e, t);
-                    return this.intervals[r] = !0, r
-                },
-                clearInterval: function(e) {
-                    delete this.intervals[e], window.clearInterval(e)
-                },
+                graphicsAPI: ["WebGL 2.0", "WebGL 1.0"],
                 onAbort: function(e) {
                     throw void 0 !== e ? (this.print(e), this.printErr(e), e = JSON.stringify(e)) : e = "", "abort(" + e + ") at " + this.stackTrace()
                 },
@@ -2282,50 +2236,39 @@ var UnityLoader = UnityLoader || {
                 Jobs: {},
                 buildDownloadProgress: {},
                 resolveBuildUrl: function(e) {
-                    return e.match(/(http|https|ftp|file):\/\//) ? e : t.substring(0, t.lastIndexOf("/") + 1) + e
+                    var url = e.match(/(http|https|ftp|file):\/\//) ? e : t.substring(0, t.lastIndexOf("/") + 1) + e;
+                    return window.config && void 0 != window.config.cacheVersion && void 0 != window.config.gameSlug && (url = url.replace("Build/", "https://game-cdn.poki.com/" + window.config.gameSlug + "/v" + window.config.cacheVersion + "/Build/")), url
                 },
                 streamingAssetsUrl: function() {
                     return o(this.resolveBuildUrl("../StreamingAssets"))
                 },
-                locateFile: function(e) {
-                    return "Build/".concat("build.wasm" == e ? this.wasmCodeUrl : e)
+                wasmRequest: function(e, t) {
+                    this.wasmCache ? (this.wasmCache.request = {
+                        wasmInstantiate: e,
+                        callback: t
+                    }, this.wasmCache.update()) : e(this.wasmBinary).then(function(e) {
+                        t(e.instance)
+                    })
                 }
             },
             SetFullscreen: function() {
-                if (i.Module.SetFullscreen) return i.Module.SetFullscreen.apply(i.Module, arguments)
+                if (a.Module.SetFullscreen) return a.Module.SetFullscreen.apply(a.Module, arguments)
             },
             SendMessage: function() {
-                if (i.Module.SendMessage) return i.Module.SendMessage.apply(i.Module, arguments)
-            },
-            Quit: function(e) {
-                "function" == typeof e && (i.Module.onQuit = e), i.Module.shouldQuit = !0
+                if (a.Module.SendMessage) return a.Module.SendMessage.apply(a.Module, arguments)
             }
         };
-        i.Module.unityInstance = i, i.popup = function(e, t) {
-            return UnityLoader.Error.popup(i, e, t)
-        }, i.Module.postRun.push(function() {
-            i.onProgress(i, 1), "object" == typeof r && "function" == typeof r.onsuccess && r.onsuccess(i.Module)
-        });
-        for (var a in r)
-            if ("Module" == a)
-                for (var s in r[a]) i.Module[s] = r[a][s];
-            else i[a] = r[a];
-        return n(e, i) || document.addEventListener("DOMContentLoaded", function() {
-            n(e, i)
-        }), i
-    },
-    instantiateAsync: function(e, t, r) {
-        return new Promise(function(n, o) {
-            const i = Object.assign({
-                onsuccess: function(e) {
-                    n(e)
-                },
-                onerror: function(e) {
-                    o(e)
-                }
-            }, r);
-            UnityLoader.instantiate(e, t, i)
-        })
+        for (var i in a.Module.gameInstance = a, a.popup = function(e, t) {
+                return UnityLoader.Error.popup(a, e, t)
+            }, a.Module.postRun.push(function() {
+                a.onProgress(a, 1)
+            }), r)
+            if ("Module" == i)
+                for (var s in r[i]) a.Module[s] = r[i][s];
+            else a[i] = r[i];
+        return n(e, a) || document.addEventListener("DOMContentLoaded", function() {
+            n(e, a)
+        }), a
     },
     Utils: {
         assert: function(e, t) {
@@ -2337,19 +2280,19 @@ var UnityLoader = UnityLoader || {
                     LOOKING_FOR_MODULE: 0,
                     SCANNING_MODULE_VARIABLES: 1,
                     SCANNING_MODULE_FUNCTIONS: 2
-                }, n = ["EMSCRIPTEN_START_ASM", "EMSCRIPTEN_START_FUNCS", "EMSCRIPTEN_END_FUNCS"], i = "global.Math.fround;", a = 0, s = t ? r.LOOKING_FOR_MODULE : r.SCANNING_MODULE_VARIABLES, d = 0, l = 0; s <= r.SCANNING_MODULE_FUNCTIONS && a < e.length; a++)
-                if (47 == e[a] && 47 == e[a + 1] && 32 == e[a + 2] && String.fromCharCode.apply(null, e.subarray(a + 3, a + 3 + n[s].length)) === n[s]) s++;
-                else if (s != r.SCANNING_MODULE_VARIABLES || l || 61 != e[a] || String.fromCharCode.apply(null, e.subarray(a + 1, a + 1 + i.length)) !== i) {
-                if (l && 40 == e[a]) {
-                    for (var u = 0; u < l && e[a - 1 - u] == e[d - u];) u++;
+                }, n = ["EMSCRIPTEN_START_ASM", "EMSCRIPTEN_START_FUNCS", "EMSCRIPTEN_END_FUNCS"], a = "global.Math.fround;", i = 0, s = t ? r.LOOKING_FOR_MODULE : r.SCANNING_MODULE_VARIABLES, d = 0, l = 0; s <= r.SCANNING_MODULE_FUNCTIONS && i < e.length; i++)
+                if (47 == e[i] && 47 == e[i + 1] && 32 == e[i + 2] && String.fromCharCode.apply(null, e.subarray(i + 3, i + 3 + n[s].length)) === n[s]) s++;
+                else if (s != r.SCANNING_MODULE_VARIABLES || l || 61 != e[i] || String.fromCharCode.apply(null, e.subarray(i + 1, i + 1 + a.length)) !== a) {
+                if (l && 40 == e[i]) {
+                    for (var u = 0; u < l && e[i - 1 - u] == e[d - u];) u++;
                     if (u == l) {
-                        var c = e[a - 1 - u];
+                        var c = e[i - 1 - u];
                         if (c < 36 || 36 < c && c < 48 || 57 < c && c < 65 || 90 < c && c < 95 || 95 < c && c < 97 || 122 < c)
-                            for (; u; u--) e[a - u] = 32
+                            for (; u; u--) e[i - u] = 32
                     }
                 }
             } else {
-                for (d = a - 1; 32 != e[d - l];) l++;
+                for (d = i - 1; 32 != e[d - l];) l++;
                 l && "var" === String.fromCharCode.apply(null, e.subarray(d - l - "var".length, d - l)) || (d = l = 0)
             }
             return e
@@ -2379,7 +2322,7 @@ var UnityLoader = UnityLoader || {
             }
 
             function r() {
-                var e = o.open(a.name, a.version);
+                var e = o.open(i.name, i.version);
                 e.onupgradeneeded = function(e) {
                     var t = e.target.result;
                     t.objectStoreNames.contains(d.name) || t.createObjectStore(d.name)
@@ -2393,27 +2336,27 @@ var UnityLoader = UnityLoader || {
             n.queue = [];
             try {
                 var o = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB,
-                    i = o.open(a.name);
-                i.onupgradeneeded = function(e) {
+                    a = o.open(i.name);
+                a.onupgradeneeded = function(e) {
                     var t = e.target.result.createObjectStore(s.name, {
                         keyPath: "url"
                     });
                     ["version", "company", "product", "updated", "revalidated", "accessed"].forEach(function(e) {
                         t.createIndex(e, e)
                     })
-                }, i.onsuccess = function(e) {
+                }, a.onsuccess = function(e) {
                     var n = e.target.result;
-                    n.version < a.version ? (n.close(), r()) : t(n)
-                }, i.onerror = function() {
+                    n.version < i.version ? (n.close(), r()) : t(n)
+                }, a.onerror = function() {
                     t(null)
-                }
+                }, setTimeout(a.onerror, 1e3)
             } catch (e) {
                 t(null)
             }
         }
 
         function o(e, t, r, n, o) {
-            var i = {
+            var a = {
                 url: e,
                 version: s.version,
                 company: t,
@@ -2425,13 +2368,13 @@ var UnityLoader = UnityLoader || {
                 xhr: {}
             };
             return o && (["Last-Modified", "ETag"].forEach(function(e) {
-                i.responseHeaders[e] = o.getResponseHeader(e)
+                a.responseHeaders[e] = o.getResponseHeader(e)
             }), ["responseURL", "status", "statusText", "response"].forEach(function(e) {
-                i.xhr[e] = o[e]
-            })), i
+                a.xhr[e] = o[e]
+            })), a
         }
 
-        function i(t) {
+        function a(t) {
             this.cache = {
                 enabled: !1
             }, t && (this.cache.control = t.cacheControl, this.cache.company = t.companyName, this.cache.product = t.productName), this.xhr = new XMLHttpRequest(t), this.xhr.addEventListener("load", function() {
@@ -2444,7 +2387,7 @@ var UnityLoader = UnityLoader || {
                 })) : e("'" + r.result.url + "' request failed with status: " + t.status + " " + t.statusText))
             }.bind(this))
         }
-        var a = {
+        var i = {
                 name: "UnityCache",
                 version: 2
             },
@@ -2458,43 +2401,44 @@ var UnityLoader = UnityLoader || {
             };
         n.prototype.execute = function(e, t, r, n, o) {
             if (this.database) try {
-                var i = this.database.transaction([e], -1 != ["put", "delete", "clear"].indexOf(t) ? "readwrite" : "readonly").objectStore(e);
-                "openKeyCursor" == t && (i = i.index(r[0]), r = r.slice(1));
-                var a = i[t].apply(i, r);
-                "function" == typeof n && (a.onsuccess = function(e) {
+                var a = this.database.transaction([e], -1 != ["put", "delete", "clear"].indexOf(t) ? "readwrite" : "readonly").objectStore(e);
+                "openKeyCursor" == t && (a = a.index(r[0]), r = r.slice(1));
+                var i = a[t].apply(a, r);
+                "function" == typeof n && (i.onsuccess = function(e) {
                     n(e.target.result)
-                }), a.onerror = o
+                }), i.onerror = o
             } catch (e) {
                 "function" == typeof o && o(e)
             } else void 0 === this.database ? this.queue.push(arguments) : "function" == typeof o && o(new Error("indexedDB access denied"))
         };
         var l = new n;
-        i.prototype.send = function(t) {
+        a.prototype.send = function(t) {
             var n = this.xhr,
                 o = this.cache,
-                i = arguments;
+                a = arguments;
             return o.enabled = o.enabled && "arraybuffer" == n.responseType && !t, o.enabled ? void l.execute(s.name, "get", [o.result.url], function(t) {
-                if (!t || t.version != s.version) return void n.send.apply(n, i);
-                if (o.result = t, o.result.accessed = Date.now(), "immutable" == o.control) o.revalidated = !0, l.execute(s.name, "put", [o.result]), n.dispatchEvent(new Event("load")), e("'" + o.result.url + "' served from the indexedDB cache without revalidation");
-                else if (r(o.result.url) && (o.result.responseHeaders["Last-Modified"] || o.result.responseHeaders.ETag)) {
-                    var a = new XMLHttpRequest;
-                    a.open("HEAD", o.result.url), a.onload = function() {
+                if (t && t.version == s.version)
+                    if (o.result = t, o.result.accessed = Date.now(), "immutable" == o.control) o.revalidated = !0, l.execute(s.name, "put", [o.result]), n.dispatchEvent(new Event("load")), e("'" + o.result.url + "' served from the indexedDB cache without revalidation");
+                    else if (r(o.result.url) && (o.result.responseHeaders["Last-Modified"] || o.result.responseHeaders.ETag)) {
+                    var i = new XMLHttpRequest;
+                    i.open("HEAD", o.result.url), i.onload = function() {
                         o.revalidated = ["Last-Modified", "ETag"].every(function(e) {
-                            return !o.result.responseHeaders[e] || o.result.responseHeaders[e] == a.getResponseHeader(e)
-                        }), o.revalidated ? (o.result.revalidated = o.result.accessed, l.execute(s.name, "put", [o.result]), n.dispatchEvent(new Event("load")), e("'" + o.result.url + "' successfully revalidated and served from the indexedDB cache")) : n.send.apply(n, i)
-                    }, a.send()
-                } else o.result.responseHeaders["Last-Modified"] ? (n.setRequestHeader("If-Modified-Since", o.result.responseHeaders["Last-Modified"]), n.setRequestHeader("Cache-Control", "no-cache")) : o.result.responseHeaders.ETag && (n.setRequestHeader("If-None-Match", o.result.responseHeaders.ETag), n.setRequestHeader("Cache-Control", "no-cache")), n.send.apply(n, i)
+                            return !o.result.responseHeaders[e] || o.result.responseHeaders[e] == i.getResponseHeader(e)
+                        }), o.revalidated ? (o.result.revalidated = o.result.accessed, l.execute(s.name, "put", [o.result]), n.dispatchEvent(new Event("load")), e("'" + o.result.url + "' successfully revalidated and served from the indexedDB cache")) : n.send.apply(n, a)
+                    }, i.send()
+                } else o.result.responseHeaders["Last-Modified"] ? (n.setRequestHeader("If-Modified-Since", o.result.responseHeaders["Last-Modified"]), n.setRequestHeader("Cache-Control", "no-cache")) : o.result.responseHeaders.ETag && (n.setRequestHeader("If-None-Match", o.result.responseHeaders.ETag), n.setRequestHeader("Cache-Control", "no-cache")), n.send.apply(n, a);
+                else n.send.apply(n, a)
             }, function(e) {
-                n.send.apply(n, i)
-            }) : n.send.apply(n, i)
-        }, i.prototype.open = function(e, r, n, i, a) {
-            return this.cache.result = o(t(r), this.cache.company, this.cache.product, Date.now()), this.cache.enabled = -1 != ["must-revalidate", "immutable"].indexOf(this.cache.control) && "GET" == e && this.cache.result.url.match("^https?://") && (void 0 === n || n) && void 0 === i && void 0 === a, this.cache.revalidated = !1, this.xhr.open.apply(this.xhr, arguments)
-        }, i.prototype.setRequestHeader = function(e, t) {
+                n.send.apply(n, a)
+            }) : n.send.apply(n, a)
+        }, a.prototype.open = function(e, r, n, a, i) {
+            return this.cache.result = o(t(r), this.cache.company, this.cache.product, Date.now()), this.cache.enabled = -1 != ["must-revalidate", "immutable"].indexOf(this.cache.control) && "GET" == e && this.cache.result.url.match("^https?://") && (void 0 === n || n) && void 0 === a && void 0 === i, this.cache.revalidated = !1, this.xhr.open.apply(this.xhr, arguments)
+        }, a.prototype.setRequestHeader = function(e, t) {
             return this.cache.enabled = !1, this.xhr.setRequestHeader.apply(this.xhr, arguments)
         };
         var u = new XMLHttpRequest;
-        for (var c in u) i.prototype.hasOwnProperty(c) || function(e) {
-            Object.defineProperty(i.prototype, e, "function" == typeof u[e] ? {
+        for (var c in u) a.prototype.hasOwnProperty(c) || function(e) {
+            Object.defineProperty(a.prototype, e, "function" == typeof u[e] ? {
                 value: function() {
                     return this.xhr[e].apply(this.xhr, arguments)
                 }
@@ -2508,7 +2452,7 @@ var UnityLoader = UnityLoader || {
             })
         }(c);
         return {
-            XMLHttpRequest: i,
+            XMLHttpRequest: a,
             WebAssembly: {
                 get: function(e, r) {
                     var n = {

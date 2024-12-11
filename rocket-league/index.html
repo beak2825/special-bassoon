@@ -1,50 +1,43 @@
+<!-- Play on Poki -->
 <!DOCTYPE html>
-<html>
 
 <head>
-    <script type="text/javascript">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Rocket Soccer </title>
+    <meta name="robots" content="noindex,nofollow" />
+    <script>
         window.config = {
+            loader: 'unity',
             debug: false,
             maxRatio: 16 / 9,
             minRatio: 9 / 16,
-            numScreenshots: 0,
-            unityWebglBuildUrl: 'https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/Build/RSD 1.1.0rc4.json',
-            unityWebglLoaderUrl: 'https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/UnityLoader.js'
+
+            title: 'Rocket Soccer',
+
+            thumbnail: 'e521bbbf13a6480b60d75421e7edc8d8d0e1edadaccd7d43438864b62a74088a.png',
+            numScreenshots: 4,
+
+            unityWebglBuildUrl: 'Build/RSD 1.1.0rc4.json',
+            unityWebglLoaderUrl: 'UnityLoader.js',
+
+            // **** Optional Settings ****
+            fileSize: 27,
+            loadingComments: ['Loading...'],
+            cachedDecompressedFileSizes: {
+                'RSD 1.1.0rc4.wasm.framework.unityweb': 538308,
+                'RSD 1.1.0rc4.wasm.code.unityweb': 26620102,
+                'RSD 1.1.0rc4.data.unityweb': 29723236,
+            },
+            //
         };
     </script>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Rocket Soccer</title>
-    <meta name="robots" content="noindex,nofollow" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/style.css" />
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/api1.js"></script>
 </head>
 
 <body>
-    <div id="loader">
-        <div id="slideshow">
-            <div id="slideshow-top">
-                <img alt="Rocket Soccer" title="Rocket Soccer" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/thumbnail.jpg" id="thumbnail" />
-                <div id="slideshow-top-container">
-                    <div id="game-title">
-                        <h1>Rocket Soccer</h1>
-                    </div>
-                    <div id="progress-container">
-                        <div id="progress-bar">
-                            <div id="progress-fill" style="width:0%"></div>
-                        </div>
-                        <div id="progress-amount">0%</div>
-                    </div>
-                </div>
-            </div>
-            <div id="slideshow-images"></div>
-            <div id="slideshow-nav"></div>
-        </div>
-    </div>
-    <div id="game-container">
-        <div id="game"></div>
-    </div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/rocket-league/loader1.js"></script>
+    <!-- <script src="https://game-cdn.poki.com/loaders/v2/master-loader.js"></script> -->
+    <script src="/master-loader.js"></script>
 </body>
 
 </html>
