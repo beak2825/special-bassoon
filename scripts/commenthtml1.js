@@ -1,7 +1,7 @@
 // Function to fetch comments
 async function fetchComments() {
     try {
-        const response = await fetch('https://script.cfgoogfe.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?get');
+        const response = await fetch('https://script.google.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?get');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
