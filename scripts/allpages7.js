@@ -30,8 +30,6 @@
 
   // Only send URL from the server-side (from ANALYTICS_PAGE injected by doGet)
 function fetchAndSend(ipOverride = null) {
-  const timestamp = new Date().toISOString(); // precise ISO timestamp in UTC
-
   const payload = new URLSearchParams({
     url: pageUrl,
     referrer: document.referrer,
@@ -39,11 +37,12 @@ function fetchAndSend(ipOverride = null) {
     screen: `${screen.width}x${screen.height}`,
     ip: ipOverride || ip || '',
     sidentifier: sidentifier,
-    timestamp: timestamp // ⬅️ send ISO UTC timestamp
+    timestamp: new Date().toISOString() // <== Forcefully include ISO timestamp
   });
 
   fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`);
 }
+
 
   if (!ip) {
     fetch('https://api.ipify.org?format=json')
