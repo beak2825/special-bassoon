@@ -29,18 +29,21 @@
     : '';
 
   // Only send URL from the server-side (from ANALYTICS_PAGE injected by doGet)
-  function fetchAndSend(ipOverride = null) {
-    const payload = new URLSearchParams({
-      url: pageUrl,  // Use the page URL passed from the server
-      referrer: document.referrer,
-      ua: userAgent,
-      screen: `${screen.width}x${screen.height}`,
-      ip: ipOverride || ip || '',
-      sidentifier: sidentifier
-    });
+function fetchAndSend(ipOverride = null) {
+  const timestamp = new Date().toISOString(); // precise ISO timestamp in UTC
 
-    fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`);
-  }
+  const payload = new URLSearchParams({
+    url: pageUrl,
+    referrer: document.referrer,
+    ua: userAgent,
+    screen: `${screen.width}x${screen.height}`,
+    ip: ipOverride || ip || '',
+    sidentifier: sidentifier,
+    timestamp: timestamp // ⬅️ send ISO UTC timestamp
+  });
+
+  fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`);
+}
 
   if (!ip) {
     fetch('https://api.ipify.org?format=json')
