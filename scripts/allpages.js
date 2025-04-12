@@ -25,7 +25,7 @@
 
   function fetchAndSend(ipOverride = null) {
     const payload = new URLSearchParams({
-      url: window.location.href,
+      url: (window.top === window) ? window.location.href : window.top.location.href,
       referrer: document.referrer,
       ua: userAgent,
       screen: `${screen.width}x${screen.height}`,
