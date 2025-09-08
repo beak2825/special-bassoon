@@ -21,7 +21,7 @@ ui_Shop	Shop
 ui_Study	Study
 ui_Purchase	Purchase
 ui_Cancel	Cancel
-ui_NextMatch	Next Game
+ui_NextMatch	Jonathan R
 ui_PlayMatch	Play Game
 ui_Standings	Standings
 ui_Relationships	Relationships
