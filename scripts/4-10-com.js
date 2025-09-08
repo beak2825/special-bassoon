@@ -86,7 +86,7 @@ function displayComments(comments) {
 
 // Post a comment
 document.getElementById('postCommentBtn').onclick = async function () {
-    const nickname = localStorage.getItem('nickname') || document.getElementById('nickname').value.trim();
+    const nickname = document.getElementById('nickname').value.trim(); //localStorage.getItem('nickname')
     const text = document.getElementById('commentInput').value.trim();
     const userKey = localStorage.getItem('userKey') || ''; // Cookie alias
     const userId = userKey || nickname || 'anonymous'; // Fallback for userid
