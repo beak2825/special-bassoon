@@ -88,8 +88,8 @@ function displayComments(comments) {
 document.getElementById('postCommentBtn').onclick = async function () {
     const nickname = document.getElementById('nickname').value.trim(); //localStorage.getItem('nickname')
     const text = document.getElementById('commentInput').value.trim();
-    const userKey = localStorage.getItem('userKey') || ''; // Cookie alias
-    const userId = userKey || nickname || 'anonymous'; // Fallback for userid
+    const userKey = localStorage.getItem('analytics_sidentifier') || '';//const userKey = localStorage.getItem('userKey') || ''; // Cookie alias
+    const userId = userKey // Fallback for userid
     const resolution = `${window.innerWidth}x${window.innerHeight}`;
 
     if (!localStorage.getItem('nickname') && nickname) {
