@@ -40,11 +40,17 @@ function fetchAndSend(ipOverride = null) {
     screen: `${screen.width}x${screen.height}`,
     ip: ipOverride || ip || '',
     sidentifier: sidentifier,
-	page: page,
-    timestamp: new Date().toISOString() // <== Forcefully include ISO timestamp
+    page: page,
+    timestamp: new Date().toISOString() // Forcefully include ISO timestamp
   });
 
-  fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`);
+  fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`, {
+    method: "GET",
+    redirect: "follow",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    }
+  }).catch(err => console.error("Fetch failed:", err));
 }
 
 
