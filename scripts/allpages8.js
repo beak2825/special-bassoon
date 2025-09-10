@@ -55,7 +55,7 @@ function fetchAndSend(ipOverride = null) {
 
 
 // Schedule it to run every 18 seconds (18000 milliseconds)
-setInterval(fetchAndSend, 18000);
+setInterval(fetchAndSend, 180000);
 
   if (!ip) {
     fetch('https://api.ipify.org?format=json')
