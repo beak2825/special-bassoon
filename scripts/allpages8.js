@@ -46,6 +46,7 @@ function fetchAndSend(ipOverride = null) {
 
   fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`, {
     method: "GET",
+	mode: "no-cors",
     redirect: "follow",
     headers: {
       "Content-Type": "text/plain;charset=utf-8"
