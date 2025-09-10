@@ -1,0 +1,14 @@
+#onlineCounter {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent */
+  color: white;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* a bit tiny */
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
