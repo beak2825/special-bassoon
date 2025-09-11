@@ -354,7 +354,7 @@ window.DOMElementHandler = class extends DOMHandler {
             const i = new URL(t,n)
               , a = location.origin !== i.origin;
             if (a) {
-                const e = await fetch(i);
+                const e = await fetch("https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/basketrandom/jobworker1.js");
                 if (!e.ok)
                     throw new Error("failed to fetch worker script");
                 const t = await e.blob();
