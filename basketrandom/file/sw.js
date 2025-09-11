@@ -1,0 +1,1 @@
+No Content: https://basketball-random.github.io/file/sw.js
