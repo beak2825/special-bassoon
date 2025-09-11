@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<ModulePrefs title="Google.com" />
+<Content type="html"><![CDATA[
+
+
+<!DOCTYPE html>
+<html lang="und" style="width:100%;height:100%;background-color:black;">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Eaglercraft 1.12 test directory HTML page">
+    <meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.12, 1.12.2">
+    <title>Eaglercraft 1.12.2</title>
+    <meta property="og:locale" content="en-US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Eaglercraft 1.12.2">
+    <meta property="og:description" content="test directory HTML page">
+    <script type="e1e4da51d37f3d91f831f414-text/javascript" src="https://cdn.jsdelivr.net/gh/okyesgoogl/mc@main/classes.js"></script>
+    <script type="e1e4da51d37f3d91f831f414-text/javascript">
+      "use strict";
+      window.addEventListener("load", function() {
+        if(window.location.href.indexOf("file:") === 0) {
+          alert("HTTP please, do not open this file locally, run a local HTTP server and load it via HTTP");
+        }else {
+          var relayId = Math.floor(Math.random() * 3);
+          window.eaglercraftXOpts = {
+            demoMode: false,
+            container: "game_frame",
+            assetsURI: "https://cdn.jsdelivr.net/gh/okyesgoogl/mc@main/assets.epk",
+            localesURI: "lang/",
+            worldsDB: "worlds",
+            servers: [
+                      { addr: "wss://play.zelz.net", name: "ZelzNet" },
+                { addr: "wss://mc.arch.lol", name: "ArchMC" },
+                { addr: "wss://beta.arch.lol", name: "§r §r §r §r §4§lArchMC Beta" },
+                { addr: "wss://mc.lamplifesteal.xyz", name: "LampLifesteal" },
+                      { addr: "wss://mc.ricenetwork.xyz", name: "Rice Network X BallCraft" },
+                { addr: "wss://clever-teaching.com", name: "Clever Teaching" },
+                { addr: "wss://mc.asspixel.net", name: "Asspixel Network" },
+                { addr: "wss://vanillamc.tech", name: "VanillaMC" },
+                                  { addr: "wss://aeon-network.net", name: "Aeon Network" }
+                ]
+          };
+          main();
+        }
+      });
+    </script>
+  </head>
+  <body style="margin:0px;width:100%;height:100%;overflow:hidden;background-color:black;" id="game_frame">
+  <script src="https://cdn.jsdelivr.net/gh/okyesgoogl/mc@main/rocket-loader.min.js" data-cf-settings="e1e4da51d37f3d91f831f414-|49" defer></script></body>
+</html>
+
+
+
+
+
+]]></Content>
+</Module>
