@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script> -->
+<html lang="en">
+<head>
+
+
+
+<!-- On list of thinsg todo:
+ Make a whole one play button that loads the website into a blob, which has caching, super caching, offline caching even. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/sw1.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/key.js"></script> -->
+  <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
+  <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, unblocked, school games">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle1.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
+  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
+  <script type="text/javascript" id="home" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages8.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
+  <!-- Random Title and H1 Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Predefined lists of titles and H1 content
+      const titles = [
+        "His Games",
+        "jr Games"
+
+      ];
+
+      const h1List = [
+		  "You Know Who's Games",
+		  "jr games",
+      ];
+
+      // Pick random title and h1
+      const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+      const randomH1 = h1List[Math.floor(Math.random() * h1List.length)];
+
+      // Set the document title
+      document.title = randomTitle;
+
+      // Update the h1 content
+      const h1Element = document.querySelector("h1");
+      if (h1Element) {
+        h1Element.textContent = randomH1;
+      }
+    });
+  </script>
+
+
+</head>
+<body>
+  <h1>Mr Miller's Games</h1>
+
+
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search | Most Games Have a speedhack, press numbers one through seven ingame." onkeyup="filterGames()">
+      <img src="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/search.png" alt="Search Icon" class="search-icon">
+    </div>
+  </div>
+
+
+<div id="gamesContainer"></div>
+
+<div class="box" data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/index.html" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/getaway.png');">
+  <p class="game-title">Getaway Shootout</p>
+</div>
+
+<div class="box" data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/soccerphysics/index.html" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/soccerphysics.png');">
+  <p class="game-title">Soccer Physics</p>
+</div>
+
+<script>
+document.querySelectorAll(".box").forEach(box => {
+  box.addEventListener("click", async () => {
+    const url = box.dataset.url;
+    try {
+      const response = await fetch(url, { cache: "no-store" });
+      if (!response.ok) throw new Error("Network error");
+      const html = await response.text();
+
+      // Optional: replace current document content
+      document.open();
+      document.write(html);
+      document.close();
+    } catch (err) {
+      console.error("Failed to load page:", err);
+      alert("Failed to load game.");
+    }
+  });
+});
+
+</script>
+
+
+<script>
+(function() {
+    const apiUrl = "https://script.google.com/macros/s/AKfycbzrdGnkXaoyv-vEg6ZSaorWXNuIAZgMTxh_ZiRGalhs_UXvMJYsNNoA83xSDDg42BNj/exec";
+
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        const onlineEl = document.getElementById("onlineUsers");
+        const totalEl = document.getElementById("totalUsers");
+
+        async function updateCounter() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Failed to fetch counter JSON");
+                const data = await response.json();
+
+                onlineEl.textContent = data.online ?? 0;
+                totalEl.textContent = data.total_users ?? 0;
+            } catch (err) {
+                console.error("Error fetching counter:", err);
+            }
+        }
+
+        // Initial fetch
+        updateCounter();
+
+        // Refresh every 30 seconds
+        setInterval(updateCounter, 300000);
+    });
+})();
+
+</script>
+
+<div id="onlineCounter">
+  Online: <span id="onlineUsers">...</span><br>
+  Total Visitors: <span id="totalUsers">...</span>
+</div>
+
+<div class="comments-container">
+  <input type="text" id="nickname" placeholder="Enter your nickname" />
+  <textarea id="commentInput" class="comment-input" placeholder="Live Chat... SAY HI NOW"></textarea>
+  <button class="button-82-pushable" id="postCommentBtn">
+    <span class="button-82-shadow"></span>
+    <span class="button-82-edge"></span>
+    <span class="button-82-front text">Send</span>
+  </button>
+  <div class="comments-section"></div>
+</div>
+
+
+
+
+<style>
+/* Base button styles */
+.button-82-pushable {
+  background-color: #007bff; /* Blue color */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 25px; /* Rounded corners */
+  padding: 12px 24px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Cursor to pointer on hover */
+  text-align: center;
+  transition: all 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow behind the button */
+  position: relative; /* For positioning the checkmark */
+}
+
+/* Hover effect */
+.button-82-pushable:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight expansion on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+/* Pressed state (active) */
+.button-82-pushable:active {
+  transform: scale(0.95); /* Slight shrink when pressed */
+  background-color: #00408b; /* Even darker blue */
+  box-shadow: none; /* Remove shadow when pressed */
+}
+
+/* Add checkmark inside the button */
+.button-82-pushable .checkmark {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px; /* Checkmark size */
+  color: white;
+  animation: fadeInOut 1s ease forwards; /* Animation for checkmark */
+}
+
+/* Checkmark appearance and disappearance animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* When the button is in its 'processing' state */
+.button-82-pushable.processing {
+  opacity: 0; /* Fading out the button */
+  pointer-events: none; /* Disable interaction during processing */
+}
+
+/* Styling for the text when fading */
+.button-82-pushable.processing-text {
+  opacity: 0; /* Text fade */
+}
+
+
+/* Styling for the nickname input field */
+#nickname {
+  width: 100%; /* Full width */
+  padding: 12px; /* Padding inside the input */
+  font-size: 16px; /* Font size */
+  border-radius: 25px; /* Rounded corners */
+  border: 2px solid #ccc; /* Light grey border */
+  background-color: #f9f9f9; /* Light background color */
+  color: #333; /* Dark text color */
+  outline: none; /* Remove default outline on focus */
+  transition: all 0.3s ease; /* Smooth transitions for focus and hover */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+
+/* Focus state */
+#nickname:focus {
+  border-color: #007bff; /* Blue border on focus */
+  background-color: #fff; /* White background on focus */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Light blue shadow on focus */
+}
+
+/* Placeholder text styling */
+#nickname::placeholder {
+  color: #aaa; /* Grey placeholder text */
+  font-style: italic; /* Italicize placeholder */
+}
+
+/* Optional: when the input is disabled */
+#nickname:disabled {
+  background-color: #e0e0e0; /* Grey background when disabled */
+  border-color: #bbb; /* Lighter border */
+}
+
+
+
+</style>
+ 
+
+</body>
+</html>
