@@ -30,9 +30,9 @@
         }
 
         var buildUrl = "Build";
-        var loaderUrl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/soccerphysics/Build/webglbuild.loader.js";
+        var loaderUrl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/soccerphysics/Build/1webglbuild.loader.js";
         var config = {
-            dataUrl: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/soccerphysics/Build/1webglbuild.data",
+            dataUrl: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/soccerphysics/Build/webglbuild.data",
             frameworkUrl: "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/soccerphysics/Build/webglbuild.framework.js",
             codeUrl: "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/soccerphysics/Build/webglbuild.wasm",
             streamingAssetsUrl: "StreamingAssets",
