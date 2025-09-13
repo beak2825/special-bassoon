@@ -1,9 +1,65 @@
 <!DOCTYPE html>
+<!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script> -->
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Hub</title>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("overlay");
+  const gameFrame = document.getElementById("gameFrame");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const content = document.getElementById("content");
+
+  // Open game when box clicked
+  document.querySelectorAll(".box").forEach(box => {
+    box.addEventListener("click", async () => {
+      const url = box.dataset.url;
+      try {
+        const res = await fetch(url);
+        const html = await res.text();
+        const blob = new Blob([html], { type: "text/html" });
+        const blobUrl = URL.createObjectURL(blob);
+
+        gameFrame.src = blobUrl;
+        content.classList.add("blurred");
+        overlay.style.display = "flex";
+      } catch (err) {
+        console.error("Failed to load game:", err);
+      }
+    });
+  });
+
+  // Fullscreen toggle
+  fullscreenBtn.addEventListener("click", () => {
+    if (overlay.style.top === "0%") {
+      overlay.style.top = "10%";
+      overlay.style.left = "10%";
+      overlay.style.width = "80%";
+      overlay.style.height = "80%";
+    } else {
+      overlay.style.top = "0%";
+      overlay.style.left = "0%";
+      overlay.style.width = "100%";
+      overlay.style.height = "100%";
+    }
+  });
+
+  // Close overlay
+  closeBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    content.classList.remove("blurred");
+    gameFrame.src = ""; // unload game
+  });
+
+  // Reset overlay on load
+  overlay.style.display = "none";
+  content.classList.remove("blurred");
+  gameFrame.src = "";
+});
+</script>
+
+
 <style>
   body {
     margin: 0;
@@ -20,27 +76,6 @@
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
-  }
-  .box {
-    width: 200px;
-    height: 150px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-  }
-  .game-title {
-    background: rgba(0,0,0,0.6);
-    width: 100%;
-    text-align: center;
-    padding: 5px;
-    border-radius: 0 0 10px 10px;
   }
   /* Overlay */
   #overlay {
@@ -84,33 +119,246 @@
     background: #ddd;
   }
 </style>
+
+<!-- On list of thinsg todo:
+ Make a whole one play button that loads the website into a blob, which has caching, super caching, offline caching even. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/sw1.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/key.js"></script> -->
+  <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
+  <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, unblocked, school games">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle1.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
+  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
+  <!-- Random Title and H1 Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Predefined lists of titles and H1 content
+      const titles = [
+        "His Games",
+        "jr Games"
+
+      ];
+
+      const h1List = [
+		  "You Know Who's Games",
+		  "jr games",
+      ];
+
+      // Pick random title and h1
+      const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+      const randomH1 = h1List[Math.floor(Math.random() * h1List.length)];
+
+      // Set the document title
+      document.title = randomTitle;
+
+      // Update the h1 content
+      const h1Element = document.querySelector("h1");
+      if (h1Element) {
+        h1Element.textContent = randomH1;
+      }
+    });
+  </script>
+
+
 </head>
 <body>
-  <!-- Home content -->
-  <div id="content">
-    <h1 style="padding:20px;">Game Hub</h1>
-    <div class="games">
-      <div class="box" 
-           data-url="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/nut-simulator/game.html" 
-           style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/nut.png');">
-        <p class="game-title">Nut Simulator</p>
-      </div>
+	<script type="text/javascript" id="home" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages10.js"></script>
+  <h1>Mr Miller's Games</h1>
 
-      <div class="box" 
-           data-url="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/rooftop-snipers/index.html" 
-           style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/rooftopsnipers.png');">
-        <p class="game-title">Rooftop Snipers</p>
-      </div>
 
-      <div class="box" 
-           data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/__index.html" 
-           style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/getaway-shootout.png');">
-        <p class="game-title">Getaway Shootout</p>
-      </div>
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search | Most Games Have a speedhack, press numbers one through seven ingame." onkeyup="filterGames()">
+      <img src="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/search.png" alt="Search Icon" class="search-icon">
     </div>
   </div>
 
-  <!-- Overlay -->
+
+<div id="content">
+
+<a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=the%20new%20game%20site%20is%20https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec&tf=1" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png');">
+    <p class="game-title">Send to Others</p>
+  </div>
+</a>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drifthunters/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
+  <p class="game-title">Drift Hunters</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/nut-simulator/game.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/nut.png');">
+  <p class="game-title">Nut Simulator</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rooftop-snipers/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/rooftopsnipers.png');">
+  <p class="game-title">Rooftop Snipers</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/__index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/getaway-shootout.png');">
+  <p class="game-title">Getaway Shootout</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/volleyrandom/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/volleyrandom.png');">
+  <p class="game-title">Volley Random</p>
+</div>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=volleyrandom" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/volleyrandom.png');">
+    <p class="game-title">Volley Random</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=basketrandom" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/basketrandom.png');">
+    <p class="game-title">Basket Random</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=houseofhazards" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
+    <p class="game-title">House of Hazards</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=subwaysurfers" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/subway.png');">
+    <p class="game-title">Subway Surfers</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=retrobowl" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/retrobowl.png');">
+    <p class="game-title">RetroBowl FIXED</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=soccerflash" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/1on1soccer.png');">
+    <p class="game-title">Soccer Flash</p>
+  </div>
+</a>
+
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=ultrapong" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/ultrapong.png');">
+    <p class="game-title">Ultra Pong</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=sm64" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/sm64.png');">
+    <p class="game-title">SM64</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=mc1" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/mc.png');">
+    <p class="game-title">Eaglercraft FIXED</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=rocket" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/rocket.png');">
+    <p class="game-title">Rocket Soccer Derby</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=baldi" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/baldi.png');">
+    <p class="game-title">Baldi</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=bitlife" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/bitlife.png');">
+    <p class="game-title">Bitlife</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=blockblast" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/blockblast.png');">
+    <p class="game-title">Block Blast</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=bungee-go-boom" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/bungee-go-boom.png');">
+    <p class="game-title">Bungee Go Boom</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=cluster-rush" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/cluster-rush.png');">
+    <p class="game-title">Cluster Rush</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=csgoclicker" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/csgoclicker.png');">
+    <p class="game-title">CSGO Clicker</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=demolition-derby" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/demolition-derby.png');">
+    <p class="game-title">Demolition Derby</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=drift-hunters" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
+    <p class="game-title">Drift Hunters</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=kawairun2" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/kawairun2.png');">
+    <p class="game-title">Kawai Run 2</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=block-eat-block" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/block-eat-block.png');">
+    <p class="game-title">Block Eat Block!</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=cellmachine" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/cellmachine.png');">
+    <p class="game-title">Cell Machine</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=1on1soccer" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/soccer_physics.png');">
+    <p class="game-title">1 on 1 Soccer</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=ypokemon" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/ypokemon.png');">
+    <p class="game-title">Yellow Pokemon</p>
+  </div>
+</a>
+
+</div>
+
+
   <div id="overlay">
     <iframe id="gameFrame"></iframe>
     <div id="controlBar">
@@ -120,62 +368,169 @@
   </div>
 
 <script>
-const overlay = document.getElementById("overlay");
-const gameFrame = document.getElementById("gameFrame");
-const fullscreenBtn = document.getElementById("fullscreenBtn");
-const closeBtn = document.getElementById("closeBtn");
-const content = document.getElementById("content");
+(function() {
+    const apiUrl = "https://script.google.com/macros/s/AKfycbzrdGnkXaoyv-vEg6ZSaorWXNuIAZgMTxh_ZiRGalhs_UXvMJYsNNoA83xSDDg42BNj/exec";
 
-// Open game when box clicked
-document.querySelectorAll(".box").forEach(box => {
-  box.addEventListener("click", async () => {
-    try {
-      const url = box.dataset.url;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch game HTML.");
-      const htmlContent = await response.text();
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        const onlineEl = document.getElementById("onlineUsers");
+        const totalEl = document.getElementById("totalUsers");
 
-      // Make a blob URL so iframe renders as HTML
-      const blob = new Blob([htmlContent], { type: "text/html" });
-      const blobUrl = URL.createObjectURL(blob);
+        async function updateCounter() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Failed to fetch counter JSON");
+                const data = await response.json();
 
-      gameFrame.src = blobUrl;
-      content.classList.add("blurred");
-      overlay.style.display = "flex";
-    } catch (err) {
-      alert("Error loading game: " + err.message);
-    }
-  });
-});
+                onlineEl.textContent = data.online ?? 0;
+                totalEl.textContent = data.total_users ?? 0;
+            } catch (err) {
+                console.error("Error fetching counter:", err);
+            }
+        }
 
-// Fullscreen toggle
-fullscreenBtn.addEventListener("click", () => {
-  if (overlay.style.top === "0%") {
-    overlay.style.top = "10%";
-    overlay.style.left = "10%";
-    overlay.style.width = "80%";
-    overlay.style.height = "80%";
-  } else {
-    overlay.style.top = "0%";
-    overlay.style.left = "0%";
-    overlay.style.width = "100%";
-    overlay.style.height = "100%";
-  }
-});
+        // Initial fetch
+        updateCounter();
 
-// Close overlay
-closeBtn.addEventListener("click", () => {
-  overlay.style.display = "none";
-  content.classList.remove("blurred");
-  gameFrame.src = ""; // unload game
-});
+        // Refresh every 30 seconds
+        setInterval(updateCounter, 100000);
+    });
+})();
 
-// Reset overlay on refresh
-window.addEventListener("load", () => {
-  overlay.style.display = "none";
-  content.classList.remove("blurred");
-  gameFrame.src = "";
-});
 </script>
+
+<div id="onlineCounter">
+  Online: <span id="onlineUsers">...</span><br>
+  Total Visitors: <span id="totalUsers">...</span>
+</div>
+
+<div id="s-identifier-ui" class="s-identifier-ui"></div>
+
+<div class="comments-container">
+  <input type="text" id="nickname" placeholder="Enter your nickname" />
+  <textarea id="commentInput" class="comment-input" placeholder="Live Chat... SAY HI NOW"></textarea>
+  <button class="button-82-pushable" id="postCommentBtn">
+    <span class="button-82-shadow"></span>
+    <span class="button-82-edge"></span>
+    <span class="button-82-front text">Send</span>
+  </button>
+  <div class="comments-section"></div>
+</div>
+
+
+
+
+<style>
+/* Base button styles */
+.button-82-pushable {
+  background-color: #007bff; /* Blue color */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 25px; /* Rounded corners */
+  padding: 12px 24px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Cursor to pointer on hover */
+  text-align: center;
+  transition: all 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow behind the button */
+  position: relative; /* For positioning the checkmark */
+}
+
+/* Hover effect */
+.button-82-pushable:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight expansion on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+/* Pressed state (active) */
+.button-82-pushable:active {
+  transform: scale(0.95); /* Slight shrink when pressed */
+  background-color: #00408b; /* Even darker blue */
+  box-shadow: none; /* Remove shadow when pressed */
+}
+
+/* Add checkmark inside the button */
+.button-82-pushable .checkmark {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px; /* Checkmark size */
+  color: white;
+  animation: fadeInOut 1s ease forwards; /* Animation for checkmark */
+}
+
+/* Checkmark appearance and disappearance animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* When the button is in its 'processing' state */
+.button-82-pushable.processing {
+  opacity: 0; /* Fading out the button */
+  pointer-events: none; /* Disable interaction during processing */
+}
+
+/* Styling for the text when fading */
+.button-82-pushable.processing-text {
+  opacity: 0; /* Text fade */
+}
+
+
+/* Styling for the nickname input field */
+#nickname {
+  width: 100%; /* Full width */
+  padding: 12px; /* Padding inside the input */
+  font-size: 16px; /* Font size */
+  border-radius: 25px; /* Rounded corners */
+  border: 2px solid #ccc; /* Light grey border */
+  background-color: #f9f9f9; /* Light background color */
+  color: #333; /* Dark text color */
+  outline: none; /* Remove default outline on focus */
+  transition: all 0.3s ease; /* Smooth transitions for focus and hover */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+
+/* Focus state */
+#nickname:focus {
+  border-color: #007bff; /* Blue border on focus */
+  background-color: #fff; /* White background on focus */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Light blue shadow on focus */
+}
+
+/* Placeholder text styling */
+#nickname::placeholder {
+  color: #aaa; /* Grey placeholder text */
+  font-style: italic; /* Italicize placeholder */
+}
+
+/* Optional: when the input is disabled */
+#nickname:disabled {
+  background-color: #e0e0e0; /* Grey background when disabled */
+  border-color: #bbb; /* Lighter border */
+}
+
+
+
+</style>
+ 
+
 </body>
 </html>
