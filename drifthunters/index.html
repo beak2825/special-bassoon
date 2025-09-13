@@ -33,7 +33,28 @@
             }
         }
     </script>
+	<script>
+	
+	document.addEventListener("DOMContentLoaded", () => {
+    // Load external CSS
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/css_page/home.css";
+    document.head.appendChild(link);
 
+    // Create div with class 'home-icon'
+    const homeDiv = document.createElement("div");
+    homeDiv.classList.add("home-icon");
+
+    // Insert at the very top of body
+    if (document.body.firstChild) {
+        document.body.insertBefore(homeDiv, document.body.firstChild);
+    } else {
+        document.body.appendChild(homeDiv);
+    }
+});
+	
+	</script>
     <style>
         body {
             margin: 0px;
