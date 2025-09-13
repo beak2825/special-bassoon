@@ -92,8 +92,9 @@ setInterval(fetchAndSend, 180000);
   }
 
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => showSIdentifierUI(sidentifier));
-} else {
-  showSIdentifierUI(sidentifier);
+	if (document.readyState === "loading") {
+	  document.addEventListener("DOMContentLoaded", () => showSIdentifierUI(sidentifier));
+	} else {
+	  showSIdentifierUI(sidentifier);
+	}
 }
