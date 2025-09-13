@@ -72,23 +72,30 @@ setInterval(fetchAndSend, 180000);
 
   // UI: Display SIdentifier
   function showSIdentifierUI(id) {
-    const box = document.createElement('div');
+    // ensure container exists
+    let container = document.querySelector(".s-identifier-ui");
+    if (!container) {
+      container = document.createElement("div");
+      container.className = "s-identifier-ui";
+      document.body.appendChild(container);
+    }
+
+    // create new box
+    const box = document.createElement("div");
     box.textContent = id;
     Object.assign(box.style, {
-      position: 'fixed',
-      bottom: '10px',
-      right: '10px',
       backgroundColor: '#000',
       color: '#fff',
       padding: '6px 12px',
       fontSize: '12px',
       fontFamily: 'monospace',
       borderRadius: '8px',
-      zIndex: 9999,
+      marginTop: '5px',
       opacity: 0.75,
       pointerEvents: 'none'
     });
-    document.body.appendChild(box);
+
+    container.appendChild(box);
   }
 
   showSIdentifierUI(sidentifier);
