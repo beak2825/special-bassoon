@@ -97,4 +97,4 @@ setInterval(fetchAndSend, 180000);
 	} else {
 	  showSIdentifierUI(sidentifier);
 	}
-}
+})();
