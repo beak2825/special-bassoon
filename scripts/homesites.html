@@ -59,78 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-  }
-  #content {
-    transition: filter 0.3s ease;
-  }
-  .blurred {
-    filter: blur(5px);
-  }
-  .games {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-  }
-  /* Overlay */
-  #overlay {
-    display: none;
-    position: fixed;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 80%;
-    background: white;
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-	justify-conent: center;
-	align-items: center;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  #gameFrame {
-    flex: 1;
-    width: 100%;
-    border: none;
-  }
-  #controlBar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background: #fff;
-    padding: 5px 10px;
-    border-top: 1px solid #ccc;
-  }
-  #controlBar button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    background: #eee;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  #controlBar button:hover {
-    background: #ddd;
-  }
-</style>
-
-<!-- On list of thinsg todo:
- Make a whole one play button that loads the website into a blob, which has caching, super caching, offline caching even. -->
-
-
-<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/sw1.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/key.js"></script> -->
   <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
-  <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, unblocked, school games">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle1.css">
+  <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, school games">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle4.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
   <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
@@ -185,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Popup container -->
 <div id="share-popup" class="popup-overlay">
   <div class="popup-content">
-    <h2>Share Game Site</h2>
+    <h2 style="color: black;">Share Game Site</h2>
     <label>Your Email:</label>
     <input type="text" id="yourEmail" placeholder="example: 28jsmith">
 
@@ -199,124 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </div>
 
-<style>
-.popup-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-/* Box */
-.popup-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 320px;
-  max-width: 90%;
-  font-family: sans-serif;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  animation: fadeIn 0.2s ease-in;
-}
-
-.popup-content h2 {
-  margin-top: 0;
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.popup-content label {
-  display: block;
-  margin-top: 10px;
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.popup-content input {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-/* Buttons */
-.popup-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.btn-share {
-  background: #007bff;
-  color: #fff;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-share:hover {
-  background: #0056b3;
-}
-
-.btn-close {
-  background: #ccc;
-  color: #000;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-close:hover {
-  background: #999;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.95);}
-  to {opacity: 1; transform: scale(1);}
-}
-</style>
 
 
-<!-- Popup script -->
-<script>
-document.getElementById("share-trigger").addEventListener("click", () => {
-  document.getElementById("share-popup").style.display = "flex";
-});
-
-document.getElementById("closeBtn").addEventListener("click", () => {
-  document.getElementById("share-popup").style.display = "none";
-});
-
-document.getElementById("shareBtn").addEventListener("click", () => {
-  const yourEmail = document.getElementById("yourEmail").value.trim();
-  const sendTo = document.getElementById("sendTo").value.trim();
-
-  if (!yourEmail || !sendTo) {
-    alert("Please fill in both fields.");
-    return;
-  }
-
-  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
-  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(sendTo)}`;
-  const gmailUrl =
-    `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(sendTo)}&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
-
-  window.open(gmailUrl, "_blank");
-
-  document.getElementById("share-popup").style.display = "none";
-});
-</script>
 
 
 <div id="content">
@@ -499,6 +315,37 @@ document.getElementById("shareBtn").addEventListener("click", () => {
       <button id="closeBtn">✖</button>
     </div>
   </div>
+
+
+<!-- Popup script -->
+<script>
+document.getElementById("share-trigger").addEventListener("click", () => {
+  document.getElementById("share-popup").style.display = "flex";
+});
+
+document.getElementById("closeBtn").addEventListener("click", () => {
+  document.getElementById("share-popup").style.display = "none";
+});
+
+document.getElementById("shareBtn").addEventListener("click", () => {
+  const yourEmail = document.getElementById("yourEmail").value.trim();
+  const sendTo = document.getElementById("sendTo").value.trim();
+
+  if (!yourEmail || !sendTo) {
+    alert("Please fill in both fields.");
+    return;
+  }
+
+  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
+  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}`;
+  const gmailUrl =
+    `https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
+
+  window.open(gmailUrl, "_blank");
+
+  document.getElementById("share-popup").style.display = "none";
+});
+</script>
 
 <script>
 (function() {
