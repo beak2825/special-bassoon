@@ -47,10 +47,31 @@ h1 {
     flex-shrink: 0; /* Prevent shrinking when screen size changes */
 }
 
+.box1 {
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    margin: 20px;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 15px;
+    border: 2px solid white;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0; /* Prevent shrinking when screen size changes */
+}
+
 .box:hover {
     transform: scale(1.1);
     cursor: pointer;
 }
+
+.box1:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 
 .game-title {
     position: absolute;

@@ -2,47 +2,153 @@
 <!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script> -->
 <html lang="en">
 <head>
-<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/key.js"></script>
-<meta name="google-site-verification" content="tEag4pLN4Q8oYMyonEzHh2Pm89memFFRUR2mjqGRuKM" />
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("overlay");
+  const gameFrame = document.getElementById("gameFrame");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const content = document.getElementById("content");
+
+  // Open game when box clicked
+  document.querySelectorAll(".box").forEach(box => {
+    box.addEventListener("click", async () => {
+      const url = box.dataset.url;
+      try {
+        const res = await fetch(url);
+        const html = await res.text();
+        const blob = new Blob([html], { type: "text/html" });
+        const blobUrl = URL.createObjectURL(blob);
+
+        gameFrame.src = blobUrl;
+        content.classList.add("blurred");
+        overlay.style.display = "flex";
+      } catch (err) {
+        console.error("Failed to load game:", err);
+      }
+    });
+  });
+
+  // Fullscreen toggle
+  fullscreenBtn.addEventListener("click", () => {
+    if (overlay.style.top === "0%") {
+      overlay.style.top = "10%";
+      overlay.style.left = "10%";
+      overlay.style.width = "80%";
+      overlay.style.height = "80%";
+    } else {
+      overlay.style.top = "0%";
+      overlay.style.left = "0%";
+      overlay.style.width = "100%";
+      overlay.style.height = "100%";
+    }
+  });
+
+  // Close overlay
+  closeBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    content.classList.remove("blurred");
+    gameFrame.src = ""; // unload game
+  });
+
+  // Reset overlay on load
+  overlay.style.display = "none";
+  content.classList.remove("blurred");
+  gameFrame.src = "";
+});
+</script>
+
+
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  #content {
+    transition: filter 0.3s ease;
+  }
+  .blurred {
+    filter: blur(5px);
+  }
+  .games {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  /* Overlay */
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+	justify-conent: center;
+	align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  #gameFrame {
+    flex: 1;
+    width: 100%;
+    border: none;
+  }
+  #controlBar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #fff;
+    padding: 5px 10px;
+    border-top: 1px solid #ccc;
+  }
+  #controlBar button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background: #eee;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  #controlBar button:hover {
+    background: #ddd;
+  }
+</style>
+
+<!-- On list of thinsg todo:
+ Make a whole one play button that loads the website into a blob, which has caching, super caching, offline caching even. -->
+
+
+<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/sw1.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/key.js"></script> -->
   <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
   <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, unblocked, school games">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle1.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css"> <!-- Include comments CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
+  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
+  
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
-
   <!-- Random Title and H1 Script -->
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       // Predefined lists of titles and H1 content
       const titles = [
-        "Asher Tupia's Games",
-        "Korben Tapin's Games",
-        "Clayton Rector's Games",
-        "Tucker Marshall's Games",
-        "Brayden C's Games",
-		"Raven Sprague's Games",
-		"Gavin Taylor's Games",
-		"Joshua Bowman's Games",
-		"Grayson Fults's Games",
-		"Micheal South's Games",
-		"Owen Pursel's Games",
-		"Isabella Mui's Games",
-		"Mr Miller's Games"
+        "His Games",
+        "jr Games"
 
       ];
 
       const h1List = [
-        "Mr Miller The Science Teacher's Games | Asher Tupia's Games",
-        "Mr Miller The Science Teacher's Games | Joshua Bowman's Games",
-        "Kaylee Althiser's Games",
-        "Mr Miller's Games | Jase Cole's Games",
-        "Mr Miller The Science Teacher's Games",
-		"Mr Miller's Games",
-		"Kieran's games",
-		"Korben's Games",
-		"Asher Tupia's games",
-		"Tucker Marshall's games",
-		"Jaxon Davien Googdad's Games"
+		  "You Know Who's Games",
+		  "jr games",
       ];
 
       // Pick random title and h1
@@ -59,9 +165,13 @@
       }
     });
   </script>
+
+
 </head>
 <body>
-  <h1>Mr Miller's Games | Asher Tupia's Games</h1>
+	<script type="text/javascript" id="home-<?= REF ?>" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages10.js"></script>
+  <h1>Mr Miller's Games</h1>
+
 
   <div class="search-bar">
     <div class="search-container">
@@ -72,108 +182,362 @@
 
 
 
-<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=form" target="_blank">
-  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/add.png');">
-    <p class="game-title">Add Game!/Questions Form</p>
+<!-- Popup container -->
+<div id="share-popup" class="popup-overlay">
+  <div class="popup-content">
+    <h2>Share Game Site</h2>
+    <label>Your Email:</label>
+    <input type="text" id="yourEmail" placeholder="example: 28jsmith">
+
+    <label>Sending To:</label>
+    <input type="text" id="sendTo" placeholder="recipient@example.com">
+
+    <div class="popup-actions">
+      <button id="shareBtn" class="btn-share">Share</button>
+      <button id="closeBtn" class="btn-close">Cancel</button>
+    </div>
   </div>
-</a>
+</div>
+
+<style>
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Box */
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  max-width: 90%;
+  font-family: sans-serif;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  animation: fadeIn 0.2s ease-in;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.popup-content label {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.popup-content input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn-share {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-share:hover {
+  background: #0056b3;
+}
+
+.btn-close {
+  background: #ccc;
+  color: #000;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-close:hover {
+  background: #999;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+</style>
 
 
-<div id="gamesContainer"></div>
-
+<!-- Popup script -->
 <script>
-// Formatting: {GAMEPATH}:{GAMENAME}:{THUMBNAMIL}
-// The Links are autoadded by the generate boxes script. Including initial game link and initial images link.
-const games = [
-  "retrobowl:Retro Bowl:retrobowl.png",
-  "csgoclicker:CSGO Clicker:csgoclicker.png",
-  "flash-games/learntofly1:Learn To Fly 1:learntofly1.png",
-  "flash-games/learntofly2:Learn To Fly 2:learntofly2.png",
-  "flash-games/kawairun2:Kawai Run 2 (2P):kawairun2.png",
-  "flash-games/1on1soccer:1 on 1 Soccer (2P):1on1soccer.png",
-  "unity-games/fortnite:Chinese Fortnite:fortnite.png",
-  "unity-games/holodisc:Holodisc AirHockey (2P):holodisc.png",
-  "unity-games/triangall:Triangall (2P):triangall.png",
-  "unity-games/tofight:To Fight Or Not To Fight (2P):tofight.png",
-  "unity-games/bungee-go-boom:Bungee Go Boom (2P):bungee-go-boom.png",
-  "unity-games/demoliton-derby:Demolition Derby:demoderby.png",
-  "unity-games/ultrapong:Ultra Pong (2P):ultrapong.png",
-  "unity-games/drift-hunters:Drift Hunters:drifthunters.png",
-  "unity-games/clusterrush:Cluster Rush Trucks:clusterrush.png",
-  "unity-games/baldis-basics:Baldi's Basics:baldi.png",
-  "unity-games/bitlife:BitLife:bitlife.png",
-  "unity-games/hole-io:Hole.io:holeio.png",
-  "unity-games/block-blast:Block Blast:blockblast.png",
-  "unity-games/rocket-league:Rocket Soccer League:rocket.png",
-  "unity-games/cell-machine:Cell Machine:cellmachine.png",
-  "unity-games/houseofhazards:House Of Hazards (2P):HouseOfHazards.png",
-  "unity-games/block-eat-block:Block Eat Block (2P):block-eat-block.png",
-  "unity-games/soccerphysics:Soccer Physics (2P):soccer_physics.png",
-  "unity-games/rooftop-snipers:Rooftop Snipers (2P):rooftopsnipers.png",
-  "unity-games/rooftop-snipers-2:Rooftop Snipers 2 (2P):rooftopsnipers2.png",
-  "unity-games/getaway-shootout:Getaway Shootout (2P NEW MAPS 2024):getaway-shootout.png",
-  "minecraft-eaglercraft:Minecraft (Eaglercraft):mc.png",
-  "fluidsim:Fluid Simulator:fluidsim.png",
-  "emulator/sm64:Super Mario 64(FIXED):sm64.png",
-  "emulator/doom:Doom Emulator:doom.png",
-  "emulator/pokemon-yellow:Pokemon Yellow:ypokemon.png",
-];
+document.getElementById("share-trigger").addEventListener("click", () => {
+  document.getElementById("share-popup").style.display = "flex";
+});
 
-// Function to generate game boxes
-function generateGameBoxes() {
-  const gamesContainer = document.getElementById('gamesContainer');  // Container to hold game boxes
+document.getElementById("closeBtn").addEventListener("click", () => {
+  document.getElementById("share-popup").style.display = "none";
+});
 
-  // Loop through each game in the games array
-  games.forEach(game => {
-    const [gamePath, gameName, gameThumbnail] = game.split(":");
+document.getElementById("shareBtn").addEventListener("click", () => {
+  const yourEmail = document.getElementById("yourEmail").value.trim();
+  const sendTo = document.getElementById("sendTo").value.trim();
 
-    const gameLink = `https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=${gamePath}`;
-    const thumbnailUrl = `https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/${gameThumbnail}`;
+  if (!yourEmail || !sendTo) {
+    alert("Please fill in both fields.");
+    return;
+  }
 
-    // Create the game box with all elements and structure
-    const gameBox = document.createElement('div');
-    gameBox.classList.add('game-box');  // Add class for styling
+  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
+  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(sendTo)}`;
+  const gmailUrl =
+    `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(sendTo)}&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
 
-    const gameLinkElement = document.createElement('a');
-    gameLinkElement.href = gameLink;
+  window.open(gmailUrl, "_blank");
 
-
-    const boxDiv = document.createElement('div');
-    boxDiv.classList.add('box');
-    boxDiv.style.backgroundImage = `url(${thumbnailUrl})`;
-
-    const gameTitle = document.createElement('p');
-    gameTitle.classList.add('game-title');
-    gameTitle.textContent = gameName;
-
-    // Structure and append elements
-    boxDiv.appendChild(gameTitle);
-    gameLinkElement.appendChild(boxDiv);
-    gameBox.appendChild(gameLinkElement);
-    gamesContainer.appendChild(gameBox); // Add game box to the container
-  });
-}
-
-// Call the function to generate the game boxes when the page loads
-generateGameBoxes();
-
-// Function to filter games based on the search input
-function filterGames() {
-  const searchInput = document.getElementById('searchInput').value.toLowerCase();  // Get search input
-  const gameBoxes = document.querySelectorAll('.game-box');  // Get all the game boxes
-
-  gameBoxes.forEach(box => {
-    const gameTitle = box.querySelector('.game-title').textContent.toLowerCase();
-    box.style.display = gameTitle.includes(searchInput) ? 'inline-block' : 'none';
-  });
-}
-
-// Attach the filterGames function to the search input event listener
-document.getElementById('searchInput').addEventListener('input', filterGames);
+  document.getElementById("share-popup").style.display = "none";
+});
 </script>
 
 
+<div id="content">
 
+<a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=the%20new%20game%20site%20is%20https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec&tf=1" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png');">
+    <p class="game-title">Send to Others</p>
+  </div>
+</a>
+
+<div id="share-trigger" class="box1" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png'); cursor:pointer;">
+  <p class="game-title">Send to Others</p>
+</div>
+
+
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drifthunters/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
+  <p class="game-title">Drift Hunters</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/nut-simulator/game.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/nut.png');">
+  <p class="game-title">Nut Simulator</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rooftop-snipers/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/rooftopsnipers.png');">
+  <p class="game-title">Rooftop Snipers</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/__index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/getaway-shootout.png');">
+  <p class="game-title">Getaway Shootout</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/volleyrandom/index_load.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/volleyrandom.png');">
+  <p class="game-title">Volley Random</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/basketrandom/index_load.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/basketrandom.png');">
+  <p class="game-title">Basket Random</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/soccerphysics/2index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/soccer_physics.png');">
+  <p class="game-title">Soccer Physics</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/HouseOfHazards/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
+  <p class="game-title">House of Hazards</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/subway-surfers-unity/indexload.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/subway.png');">
+  <p class="game-title">Subway Surfers</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/retrobowl/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/retrobowl.png');">
+  <p class="game-title">RetroBowl FIXED</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/flashgames/1on1soccer.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/1on1soccer.png');">
+  <p class="game-title">1 on 1 Soccer</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/ultrapong/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/ultrapong.png');">
+  <p class="game-title">Ultra Pong</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/emulator/1ypokemon.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/ypokemon.png');">
+  <p class="game-title">Yellow Pokemon FIXED</p>
+</div>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=sm64" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/sm64.png');">
+    <p class="game-title">SM64</p>
+  </div>
+</a>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/mc/loader.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/mc.png');">
+  <p class="game-title">EaglerCraft FIXED</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/rocket.png');">
+  <p class="game-title">Rocket Soccer Derby</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/baldi/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/baldi.png');">
+  <p class="game-title">Baldi</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/bitlife/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/bitlife.png');">
+  <p class="game-title">Bitlife</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/blockblast/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/blockblast.png');">
+  <p class="game-title">Block Blast</p>
+</div>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=bungee-go-boom" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/bungee-go-boom.png');">
+    <p class="game-title">Bungee Go Boom</p>
+  </div>
+</a>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/clusterrush/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/cluster-rush.png');">
+  <p class="game-title">Cluster Rush</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/csgoclicker/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/csgoclicker.png');">
+  <p class="game-title">CSGO Clicker</p>
+</div>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=demolition-derby" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/demolition-derby.png');">
+    <p class="game-title">Demolition Derby</p>
+  </div>
+</a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=kawairun2" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/kawairun2.png');">
+    <p class="game-title">Kawai Run 2</p>
+  </div>
+</a>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/block-eat/____index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/block-eat-block.png');">
+  <p class="game-title">Block Eat Block</p>
+</div>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=cellmachine" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/cellmachine.png');">
+    <p class="game-title">Cell Machine</p>
+  </div>
+</a>
+
+</div>
+
+
+  <div id="overlay">
+    <iframe id="gameFrame"></iframe>
+    <div id="controlBar">
+      <button id="fullscreenBtn">⛶</button>
+      <button id="closeBtn">✖</button>
+    </div>
+  </div>
+
+<script>
+(function() {
+    const apiUrl = "https://script.google.com/macros/s/AKfycbzrdGnkXaoyv-vEg6ZSaorWXNuIAZgMTxh_ZiRGalhs_UXvMJYsNNoA83xSDDg42BNj/exec";
+
+    // Wait until the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        const onlineEl = document.getElementById("onlineUsers");
+        const totalEl = document.getElementById("totalUsers");
+
+        async function updateCounter() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Failed to fetch counter JSON");
+                const data = await response.json();
+
+                onlineEl.textContent = data.online ?? 0;
+                totalEl.textContent = data.total_users ?? 0;
+            } catch (err) {
+                console.error("Error fetching counter:", err);
+            }
+        }
+
+        // Initial fetch
+        updateCounter();
+
+        // Refresh every 30 seconds
+        setInterval(updateCounter, 100000);
+    });
+})();
+
+</script>
+
+<div id="onlineCounter">
+  Online: <span id="onlineUsers">...</span><br>
+  Total Visitors: <span id="totalUsers">...</span>
+</div>
+
+<div id="s-identifier-ui" class="s-identifier-ui"></div>
 
 <div class="comments-container">
   <input type="text" id="nickname" placeholder="Enter your nickname" />
@@ -186,153 +550,8 @@ document.getElementById('searchInput').addEventListener('input', filterGames);
   <div class="comments-section"></div>
 </div>
 
-<script>
-// Function to fetch comments
-async function fetchComments() {
-    try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?get');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        // Check if the comments data is nested and adjust accordingly
-        const comments = data.comments ? data.comments : data;
 
-        // Ensure the result is an array
-        if (!Array.isArray(comments)) {
-            throw new Error('Expected an array of comments');
-        }
 
-        displayComments(comments);
-    } catch (error) {
-        console.error('Error fetching comments:', error);
-    }
-}
-
-// Function to escape HTML
-function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.innerText = str;
-    return div.innerHTML;
-}
-
-// Function to format relative time
-function formatRelativeTime(date) {
-    const now = new Date();
-    const secondsElapsed = Math.floor((now - date) / 1000);
-    
-    if (secondsElapsed < 60) return `${secondsElapsed} seconds ago`;
-    const minutesElapsed = Math.floor(secondsElapsed / 60);
-    if (minutesElapsed < 60) return `${minutesElapsed} minutes ago`;
-    const hoursElapsed = Math.floor(minutesElapsed / 60);
-    if (hoursElapsed < 24) return `${hoursElapsed} hours ago`;
-    const daysElapsed = Math.floor(hoursElapsed / 24);
-    if (daysElapsed < 7) return `${daysElapsed} days ago`;
-    const weeksElapsed = Math.floor(daysElapsed / 7);
-    if (weeksElapsed < 4) return `${weeksElapsed} weeks ago`;
-    const monthsElapsed = Math.floor(daysElapsed / 30);
-    if (monthsElapsed < 12) return `${monthsElapsed} months ago`;
-    const yearsElapsed = Math.floor(daysElapsed / 365);
-    return `${yearsElapsed} years ago`;
-}
-
-// Function to display comments
-function displayComments(comments) {
-    const commentsSection = document.querySelector('.comments-section');
-    commentsSection.innerHTML = ''; // Clear previous comments
-    const userIdLocalStorage = "test22";
-
-    // Array of profile picture URLs
-    const profilePics = [
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/pfp.png',
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/pfp2.png',
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/pfp3.png',
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/pfp4.png',
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/pfp1.png',
-        'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/pfp2.gif'
-    ];
-
-    // Array of crown placeholder cookies
-    const crownCookies = [
-        'z',
-        'z'
-    ];
-
-    comments.forEach(comment => {
-        const commentDiv = document.createElement('div');
-        commentDiv.className = 'comment';
-
-        // Select a random profile picture from the array
-        const profilePic = document.createElement('img');
-        const randomIndex = Math.floor(Math.random() * profilePics.length);
-        profilePic.src = profilePics[randomIndex];
-        profilePic.className = 'profile-pic';
-
-        const commentText = document.createElement('span');
-        commentText.className = 'comment-text';
-        commentText.innerHTML = `<strong class="nickname">${escapeHTML(comment.nickname)}</strong>: ${escapeHTML(comment.text)}`;
-
-        // Add timestamp with created_at and relative time
-        const timestamp = document.createElement('span');
-        timestamp.className = 'timestamp';
-        const createdAt = new Date(comment.created_at);
-        const relativeTime = formatRelativeTime(createdAt);
-        timestamp.innerHTML = ` - <span style="color: black; font-weight: bold;">${createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })} (${relativeTime})</span>`;
-
-        // Check if the comment's cookie matches one of the crown placeholder cookies
-        if (crownCookies.includes(comment.cookie)) {
-            const crownIcon = document.createElement('img');
-            crownIcon.src = 'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/crown.png';
-            crownIcon.className = 'crown-icon';
-            crownIcon.alt = 'Crown Icon';
-            commentDiv.appendChild(crownIcon);
-        }
-
-        commentDiv.appendChild(profilePic);
-        commentDiv.appendChild(commentText);
-        commentDiv.appendChild(timestamp);
-        commentsSection.appendChild(commentDiv);
-    });
-}
-
-// Fetch comments on page load
-window.onload = () => {
-    fetchComments(); // Initial fetch
-    setInterval(fetchComments, 19000);
-};
-
-// Handle posting comments
-document.getElementById('postCommentBtn').onclick = async function() {
-    const nickname = localStorage.getItem('nickname') || document.getElementById('nickname').value.trim();
-    const text = document.getElementById('commentInput').value.trim();
-    const userKey = localStorage.getItem('userKey');
-    const userId = localStorage.getItem('nickname') || document.getElementById('nickname').value.trim();
-// cookie was replaced with Userkey here.
-    if (!localStorage.getItem('nickname') && nickname) {
-        localStorage.setItem('nickname', nickname);
-        document.getElementById('nickname').disabled = true;
-    }
-
-    if (text) {
-        const response = await fetch(`https://script.google.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?post&nickname=${encodeURIComponent(nickname)}&text=${encodeURIComponent(text)}&cookie=${userKey}"`, {
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8',
-            },
-        });
-
-        if (response.ok) {
-            document.getElementById('commentInput').value = '';
-            fetchComments();
-        } else {
-            const errorMessage = await response.text();
-            alert(`Error posting comment: ${errorMessage}`);
-        }
-    } else {
-        alert('Please enter a comment.');
-    }
-};
-</script>
 
 <style>
 /* Base button styles */
