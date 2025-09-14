@@ -122,11 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
     <input type="text" id="yourEmail" placeholder="example: 28jsmith">
 
     <label>Sending To:</label>
-    <input type="text" id="sendTo" placeholder="recipient@example.com">
+    <input type="text" id="sendTo" placeholder="example: 28tsmith">
 
     <div class="popup-actions">
       <button id="shareBtn" class="btn-share">Share</button>
-      <button id="closeBtn" class="btn-close">Cancel</button>
+      <button id="2closeBtn" class="btn-close">Close</button>
     </div>
   </div>
 </div>
@@ -137,17 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <div id="content">
 
-<a href="https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=the%20new%20game%20site%20is%20https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec&tf=1" target="_blank">
-  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png');">
-    <p class="game-title">Send to Others</p>
-  </div>
-</a>
 
 <div id="share-trigger" class="box1" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png'); cursor:pointer;">
   <p class="game-title">Send to Others</p>
 </div>
-
-
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drifthunters/index.html" 
@@ -323,7 +316,7 @@ document.getElementById("share-trigger").addEventListener("click", () => {
   document.getElementById("share-popup").style.display = "flex";
 });
 
-document.getElementById("closeBtn").addEventListener("click", () => {
+document.getElementById("2closeBtn").addEventListener("click", () => {
   document.getElementById("share-popup").style.display = "none";
 });
 
@@ -336,8 +329,10 @@ document.getElementById("shareBtn").addEventListener("click", () => {
     return;
   }
 
+let sidentifier = localStorage.getItem('analytics_sidentifier');
+
   const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
-  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}`;
+  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
   const gmailUrl =
     `https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
 
