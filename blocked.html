@@ -4,7 +4,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
   
-  
+  <script>
+(function() {
+  const sidentifier = localStorage.getItem('analytics_sidentifier');
+  if (!sidentifier) return;
+
+  fetch('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/bans.txt')
+    .then(res => res.text())
+    .then(text => {
+      const blockedList = {};
+      text.split(/\r?\n/).forEach(line => {
+        const [id, reason] = line.split('|').map(s => s.trim());
+        if (id) blockedList[id] = reason || "Blocked.";
+      });
+
+      if (blockedList[sidentifier]) {
+        const reasonSpan = document.getElementById('reason');
+        reasonSpan.textContent = blockedList[sidentifier];
+      }
+    })
+    .catch(err => console.error("Failed to fetch bans.txt:", err));
+})();
+  </script>
 </head>
 <body>
 
