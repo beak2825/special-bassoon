@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, school games">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle4.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/shareModal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
   <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
   
@@ -384,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("shareModal");
   const closeBtn = document.getElementById("closeModal");
   const shareBtn = document.getElementById("shareBtn");
-
+  const userKey = localStorage.getItem('analytics_sidentifier') || '';
   shareBox.addEventListener("click", () => modal.style.display = "flex");
   closeBtn.addEventListener("click", () => modal.style.display = "none");
 
@@ -401,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const subject = encodeURIComponent("game site");
     const body = encodeURIComponent(
       "the new game site is https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?ref=" 
-      + encodeURIComponent(yourEmail) + encodeURIComponent(sendingTo)
+      + encodeURIComponent(yourEmail) + '-' + encodeURIComponent(sendingTo) + encodeURIComponent(userKey)
     );
     
     const mailUrl = `${baseUrl}&to=&su=${subject}&body=${body}&tf=1`;

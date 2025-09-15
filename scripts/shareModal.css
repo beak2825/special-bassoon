@@ -73,3 +73,119 @@
   #closeModal:hover {
     background: #ccc;
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+/* Base button styles */
+.button-82-pushable {
+  background-color: #007bff; /* Blue color */
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 25px; /* Rounded corners */
+  padding: 12px 24px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Cursor to pointer on hover */
+  text-align: center;
+  transition: all 0.3s ease; /* Smooth transitions */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow behind the button */
+  position: relative; /* For positioning the checkmark */
+}
+
+/* Hover effect */
+.button-82-pushable:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight expansion on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+}
+
+/* Pressed state (active) */
+.button-82-pushable:active {
+  transform: scale(0.95); /* Slight shrink when pressed */
+  background-color: #00408b; /* Even darker blue */
+  box-shadow: none; /* Remove shadow when pressed */
+}
+
+/* Add checkmark inside the button */
+.button-82-pushable .checkmark {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px; /* Checkmark size */
+  color: white;
+  animation: fadeInOut 1s ease forwards; /* Animation for checkmark */
+}
+
+/* Checkmark appearance and disappearance animation */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+/* When the button is in its 'processing' state */
+.button-82-pushable.processing {
+  opacity: 0; /* Fading out the button */
+  pointer-events: none; /* Disable interaction during processing */
+}
+
+/* Styling for the text when fading */
+.button-82-pushable.processing-text {
+  opacity: 0; /* Text fade */
+}
+
+
+/* Styling for the nickname input field */
+#nickname {
+  width: 100%; /* Full width */
+  padding: 12px; /* Padding inside the input */
+  font-size: 16px; /* Font size */
+  border-radius: 25px; /* Rounded corners */
+  border: 2px solid #ccc; /* Light grey border */
+  background-color: #f9f9f9; /* Light background color */
+  color: #333; /* Dark text color */
+  outline: none; /* Remove default outline on focus */
+  transition: all 0.3s ease; /* Smooth transitions for focus and hover */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+
+/* Focus state */
+#nickname:focus {
+  border-color: #007bff; /* Blue border on focus */
+  background-color: #fff; /* White background on focus */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Light blue shadow on focus */
+}
+
+/* Placeholder text styling */
+#nickname::placeholder {
+  color: #aaa; /* Grey placeholder text */
+  font-style: italic; /* Italicize placeholder */
+}
+
+/* Optional: when the input is disabled */
+#nickname:disabled {
+  background-color: #e0e0e0; /* Grey background when disabled */
+  border-color: #bbb; /* Lighter border */
+}
+
