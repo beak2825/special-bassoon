@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
   <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
-
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
   <!-- Random Title and H1 Script -->
@@ -119,10 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
 <div id="share-popup" class="popup-overlay">
   <div class="popup-content">
     <h2 style="color: black;">Share Game Site</h2>
-    <label>Your Email:</label>
+    <label style="color: black;">Your Email:</label>
     <input type="text" id="yourEmail" placeholder="example: 28jsmith">
 
-    <label>Sending To:</label>
+    <label style="color: black;">Sending To:</label>
     <input type="text" id="sendTo" placeholder="example: 28tsmith">
 
     <div class="popup-actions">
@@ -143,11 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <p class="game-title">Send to Others</p>
 </div>
 
-<div class="box" 
-      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drifthunters/index.html" 
-      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
-  <p class="game-title">Drift Hunters</p>
-</div>
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=drifthunters" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
+    <p class="game-title">Drift Hunters</p>
+  </div>
+</a>
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/nut-simulator/game.html" 
@@ -394,6 +393,9 @@ document.addEventListener("DOMContentLoaded", function() {
   </button>
   <div class="comments-section"></div>
 </div>
+
+
+
 
 <style>
 /* Base button styles */
