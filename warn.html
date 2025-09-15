@@ -83,12 +83,24 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!agreeBtn) return; // safety check
 
     agreeBtn.addEventListener("click", function () {
-        // Get current count
-        let count = parseInt(localStorage.getItem("acknowledge")) || 0;
-        localStorage.setItem("acknowledge", count + 1);
-
         // Ensure analytics_sidentifier exists
         let sid = localStorage.getItem("analytics_sidentifier") || "unknown";
+
+        // Example: suppose we know the warn ID (last part of the line in warns.txt)
+        // You would normally fetch this from the file or context.
+        const warnId = "a"; // Replace dynamically if needed
+
+        // Get current acknowledged list (stored as comma-separated)
+        let acknowledged = localStorage.getItem("acknowledge");
+        let list = acknowledged ? acknowledged.split(",") : [];
+
+        // Add warnId only if not already acknowledged
+        if (!list.includes(warnId)) {
+            list.push(warnId);
+        }
+
+        // Save back to localStorage
+        localStorage.setItem("acknowledge", list.join(","));
 
         // Build target URL
         const targetUrl = `http://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?ref=warn-from-${encodeURIComponent(sid)}`;
