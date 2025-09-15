@@ -98,3 +98,37 @@ setInterval(fetchAndSend, 180000);
 	  showSIdentifierUI(sidentifier);
 	}
 })();
+
+
+
+
+
+
+
+
+(function() {
+  const sidentifier = localStorage.getItem('analytics_sidentifier');
+  if (!sidentifier) return;
+
+  fetch('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/bans.txt')
+    .then(res => res.text())
+    .then(text => {
+      const blockedList = {};
+      text.split(/\r?\n/).forEach(line => {
+        const [id, reason] = line.split('|').map(s => s.trim());
+        if (id) blockedList[id] = reason || "Blocked.";
+      });
+
+      if (blockedList[sidentifier]) {
+        const reasonText = blockedList[sidentifier];
+        document.getElementById('reason').textContent = reasonText;
+
+        // Build Gmail appeal link with reason included
+        const mailBody = encodeURIComponent(`im appealing from the reason of ${reasonText}, I deserve to be unbanned because `);
+        const appealUrl = `https://mail.google.com/mail/u/0/?fs=1&to=28jrivera@carthagecsd.org&su=unban+request&body=${mailBody}&tf=cm`;
+
+        document.getElementById('appealLink').setAttribute('href', appealUrl);
+      }
+    })
+    .catch(err => console.error("Failed to fetch bans.txt:", err));
+})();
