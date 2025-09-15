@@ -1,9 +1,7 @@
+<!DOCTYPE html>
 <!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script> -->
 <html lang="en">
 <head>
-
-
-<!-- Popup script -->
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,39 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fullscreenBtn = document.getElementById("fullscreenBtn");
   const closeBtn = document.getElementById("closeBtn");
   const content = document.getElementById("content");
-  const shareTrigger = document.getElementById("shareTrigger");
-  const o_closeBtn = document.getElementById("o_closeBtn");
-  const shareBtn = document.getElementById("shareBtn");
-  const sharePopup = document.getElementById("sharePopup");
-  
-  shareTrigger.addEventListener("click", () => {
-	sharePopup.style.display = "flex";
-  });
-  
-  o_closeBtn.addEventListener("click", () => {
-	sharePopup.style.display = "none";
-  });
-  
-  shareBtn.addEventListener("click", () => {
-	const yourEmail = document.getElementById("yourEmail").value.trim();
-	const sendTo = document.getElementById("sendTo").value.trim();
-	
-	if (!yourEmail || !sendTo) {
-		alert("Please fill in both fields.");
-		return;
-	}
-	let sidentifier = localStorage.getItem('analytics_sidentifier');
-		
-	  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
-	  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
-	  const gmailUrl =
-		`https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
 
-	  window.open(gmailUrl, "_blank");
-
-	  document.getElementById("share-popup").style.display = "none";
-	});
-	
   // Open game when box clicked
   document.querySelectorAll(".box").forEach(box => {
     box.addEventListener("click", async () => {
@@ -66,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Fullscreen toggle
   fullscreenBtn.addEventListener("click", () => {
-	const currentTop = getComputedStyle(overlay).top;
-    if (currentTop === "0px" || currentTop === "0%") {
+    if (overlay.style.top === "0%") {
       overlay.style.top = "10%";
       overlay.style.left = "10%";
       overlay.style.width = "80%";
@@ -150,18 +115,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <!-- Popup container -->
-<div id="sharePopup" class="popup-overlay">
+<div id="share-popup" class="popup-overlay">
   <div class="popup-content">
     <h2 style="color: black;">Share Game Site</h2>
-    <label style="color: black;">Your Email:
+    <label style="color: black;">Your Email:</label>
     <input type="text" id="yourEmail" placeholder="example: 28jsmith">
-	</label>
-    <label style="color: black;">Sending To:
+
+    <label style="color: black;">Sending To:</label>
     <input type="text" id="sendTo" placeholder="example: 28tsmith">
-	</label>
+
     <div class="popup-actions">
       <button id="shareBtn" class="btn-share">Share</button>
-      <button id="o_closeBtn" class="btn-close">Close</button>
+      <button id="2closeBtn" class="btn-close">Close</button>
     </div>
   </div>
 </div>
@@ -173,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <div id="content">
 
 
-<div id="shareTrigger" class="box1" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png'); cursor:pointer;">
+<div id="share-trigger" class="box1" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png'); cursor:pointer;">
   <p class="game-title">Send to Others</p>
 </div>
 
@@ -345,7 +310,39 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 
 
+<!-- Popup script -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("share-trigger").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "flex";
+	});
 
+	document.getElementById("2closeBtn").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "none";
+	});
+
+	document.getElementById("shareBtn").addEventListener("click", () => {
+	  const yourEmail = document.getElementById("yourEmail").value.trim();
+	  const sendTo = document.getElementById("sendTo").value.trim();
+
+	  if (!yourEmail || !sendTo) {
+		alert("Please fill in both fields.");
+		return;
+	  }
+
+	let sidentifier = localStorage.getItem('analytics_sidentifier');
+
+	  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
+	  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
+	  const gmailUrl =
+		`https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
+
+	  window.open(gmailUrl, "_blank");
+
+	  document.getElementById("share-popup").style.display = "none";
+	});
+});
+</script>
 
 <script>
 (function() {
