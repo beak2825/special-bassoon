@@ -1,7 +1,41 @@
-<!DOCTYPE html>
 <!-- <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script> -->
 <html lang="en">
 <head>
+
+
+<!-- Popup script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+	document.getElementById("share-trigger").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "flex";
+	});
+
+	document.getElementById("o_closeBtn").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "none";
+	});
+
+	document.getElementById("shareBtn").addEventListener("click", () => {
+	  const yourEmail = document.getElementById("yourEmail").value.trim();
+	  const sendTo = document.getElementById("sendTo").value.trim();
+
+	  if (!yourEmail || !sendTo) {
+		alert("Please fill in both fields.");
+		return;
+	  }
+
+	let sidentifier = localStorage.getItem('analytics_sidentifier');
+
+	  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
+	  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
+	  const gmailUrl =
+		`https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
+
+	  window.open(gmailUrl, "_blank");
+
+	  document.getElementById("share-popup").style.display = "none";
+	});
+});
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -126,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div class="popup-actions">
       <button id="shareBtn" class="btn-share">Share</button>
-      <button id="2closeBtn" class="btn-close">Close</button>
+      <button id="o_closeBtn" class="btn-close">Close</button>
     </div>
   </div>
 </div>
@@ -310,39 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 
 
-<!-- Popup script -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-	document.getElementById("share-trigger").addEventListener("click", () => {
-	  document.getElementById("share-popup").style.display = "flex";
-	});
 
-	document.getElementById("2closeBtn").addEventListener("click", () => {
-	  document.getElementById("share-popup").style.display = "none";
-	});
-
-	document.getElementById("shareBtn").addEventListener("click", () => {
-	  const yourEmail = document.getElementById("yourEmail").value.trim();
-	  const sendTo = document.getElementById("sendTo").value.trim();
-
-	  if (!yourEmail || !sendTo) {
-		alert("Please fill in both fields.");
-		return;
-	  }
-
-	let sidentifier = localStorage.getItem('analytics_sidentifier');
-
-	  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
-	  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
-	  const gmailUrl =
-		`https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
-
-	  window.open(gmailUrl, "_blank");
-
-	  document.getElementById("share-popup").style.display = "none";
-	});
-});
-</script>
 
 <script>
 (function() {
