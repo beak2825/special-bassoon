@@ -78,39 +78,60 @@ font-size: 12px;
 <body>
 
 <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const agreeBtn = document.getElementById("agreeBtn");
     if (!agreeBtn) return; // safety check
 
-    agreeBtn.addEventListener("click", function () {
-        // Ensure analytics_sidentifier exists
-        let sid = localStorage.getItem("analytics_sidentifier") || "unknown";
+    agreeBtn.addEventListener("click", async function () {
+        const warnsUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/warns.txt";
+        const sid = localStorage.getItem("analytics_sidentifier") || "unknown";
 
-        // Example: suppose we know the warn ID (last part of the line in warns.txt)
-        // You would normally fetch this from the file or context.
-        const warnId = "a"; // Replace dynamically if needed
+        try {
+            // Fetch warns.txt
+            const response = await fetch(warnsUrl, { cache: "no-store" });
+            if (!response.ok) throw new Error("Failed to fetch warns list");
 
-        // Get current acknowledged list (stored as comma-separated)
-        let acknowledged = localStorage.getItem("acknowledge");
-        let list = acknowledged ? acknowledged.split(",") : [];
+            const text = await response.text();
+            const lines = text.split("\n").map(line => line.trim()).filter(Boolean);
 
-        // Add warnId only if not already acknowledged
-        if (!list.includes(warnId)) {
-            list.push(warnId);
+            // Load acknowledged IDs
+            let acknowledged = localStorage.getItem("acknowledge");
+            let ackList = acknowledged ? acknowledged.split(",") : [];
+
+            // Find the first unacknowledged warn for this cookie
+            let chosenWarnId = null;
+            for (const line of lines) {
+                const [cookie, reason, warnId] = line.split("|");
+                if (cookie && warnId && cookie.trim() === sid) {
+                    if (!ackList.includes(warnId.trim())) {
+                        chosenWarnId = warnId.trim();
+                        break; // stop at first unacknowledged
+                    }
+                }
+            }
+
+            if (!chosenWarnId) {
+                console.log("All warns acknowledged for this cookie.");
+                return;
+            }
+
+            // Add chosen warn ID to acknowledged
+            ackList.push(chosenWarnId);
+            localStorage.setItem("acknowledge", ackList.join(","));
+
+            // Build target URL
+            const targetUrl = `http://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?ref=warn-from-${encodeURIComponent(sid)}----${encodeURIComponent(chosenWarnId)}`;
+
+            // Open new tab
+            window.open(targetUrl, "_blank");
+
+            // Make current screen all white
+            document.body.style.backgroundColor = "white";
+            document.body.innerHTML = "";
+        } catch (err) {
+            console.error("Error checking warns:", err);
         }
-
-        // Save back to localStorage
-        localStorage.setItem("acknowledge", list.join(","));
-
-        // Build target URL
-        const targetUrl = `http://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?ref=warn-from-${encodeURIComponent(sid)}`;
-
-        // Open new tab
-        window.open(targetUrl, "_blank");
-
-        // Make current screen all white
-        document.body.style.backgroundColor = "white";
-        document.body.innerHTML = "";
     });
 });
 </script>
