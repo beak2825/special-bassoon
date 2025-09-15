@@ -86,11 +86,20 @@ function displayComments(comments) {
 
 // Post a comment
 document.getElementById('postCommentBtn').onclick = async function () {
+	const btn = this;
+	btn.disabled= true;
+	setTimeout(() => btn.disabled = false, 5000);
     const nickname = document.getElementById('nickname').value.trim(); //localStorage.getItem('nickname')
     const text = document.getElementById('commentInput').value.trim();
     const userKey = localStorage.getItem('analytics_sidentifier') || '';//const userKey = localStorage.getItem('userKey') || ''; // Cookie alias
     const userId = userKey // Fallback for userid
     const resolution = `${window.innerWidth}x${window.innerHeight}`;
+
+	if (nickname.length > 20) {
+		document.getElementById('nickname').value = 'Your name is too long...............................';
+		document.getElementById('commentInput').value = '';
+		return;
+	}
 
     if (!localStorage.getItem('nickname') && nickname) {
         localStorage.setItem('nickname', nickname);

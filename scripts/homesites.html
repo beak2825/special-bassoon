@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
   <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
+
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
   <!-- Random Title and H1 Script -->
@@ -312,33 +313,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- Popup script -->
 <script>
-document.getElementById("share-trigger").addEventListener("click", () => {
-  document.getElementById("share-popup").style.display = "flex";
-});
+document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("share-trigger").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "flex";
+	});
 
-document.getElementById("2closeBtn").addEventListener("click", () => {
-  document.getElementById("share-popup").style.display = "none";
-});
+	document.getElementById("2closeBtn").addEventListener("click", () => {
+	  document.getElementById("share-popup").style.display = "none";
+	});
 
-document.getElementById("shareBtn").addEventListener("click", () => {
-  const yourEmail = document.getElementById("yourEmail").value.trim();
-  const sendTo = document.getElementById("sendTo").value.trim();
+	document.getElementById("shareBtn").addEventListener("click", () => {
+	  const yourEmail = document.getElementById("yourEmail").value.trim();
+	  const sendTo = document.getElementById("sendTo").value.trim();
 
-  if (!yourEmail || !sendTo) {
-    alert("Please fill in both fields.");
-    return;
-  }
+	  if (!yourEmail || !sendTo) {
+		alert("Please fill in both fields.");
+		return;
+	  }
 
-let sidentifier = localStorage.getItem('analytics_sidentifier');
+	let sidentifier = localStorage.getItem('analytics_sidentifier');
 
-  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
-  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
-  const gmailUrl =
-    `https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
+	  const baseUrl = "https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec";
+	  const body = `the new game site is ${baseUrl}?ref=${encodeURIComponent(yourEmail)}+${encodeURIComponent(sendTo)}-from${encodeURIComponent(sidentifier)}`;
+	  const gmailUrl =
+		`https://mail.google.com/mail/?view=cm&fs=1&to=&su=game%20site&body=${encodeURIComponent(body)}&tf=1`;
 
-  window.open(gmailUrl, "_blank");
+	  window.open(gmailUrl, "_blank");
 
-  document.getElementById("share-popup").style.display = "none";
+	  document.getElementById("share-popup").style.display = "none";
+	});
 });
 </script>
 
@@ -391,9 +394,6 @@ let sidentifier = localStorage.getItem('analytics_sidentifier');
   </button>
   <div class="comments-section"></div>
 </div>
-
-
-
 
 <style>
 /* Base button styles */
