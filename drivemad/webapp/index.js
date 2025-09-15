@@ -1721,8 +1721,7 @@ function createWasm() {
 
     function instantiateAsync() {
         if (!wasmBinary && typeof WebAssembly.instantiateStreaming == "function" && !isDataURI(wasmBinaryFile) && !isFileURI(wasmBinaryFile) && !ENVIRONMENT_IS_NODE && typeof fetch == "function") {
-            return fetch(wasmBinaryFile, {
-                credentials: "same-origin"
+            return fetch("http://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drivemad/webapp/index.wasm", {
             }).then(function(response) {
                 var result = WebAssembly.instantiateStreaming(response, info);
                 return result.then(receiveInstantiationResult, function(reason) {
