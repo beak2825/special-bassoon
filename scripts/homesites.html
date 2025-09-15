@@ -520,6 +520,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
+
+<script>
+
+(function() {
+  let buffer = [];
+
+  document.addEventListener("keydown", async (e) => {
+    const key = e.key.toLowerCase();
+
+    // Track last 10 keys
+    buffer.push(key);
+    if (buffer.length > 10) buffer.shift();
+
+    // Check for trigger (10x 'l' or 10x 'q')
+    if (buffer.join("") === "llllllllll" || buffer.join("") === "qqqqqqqqqq") {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/blocked.html");
+        const html = await res.text();
+
+        const overlay = document.createElement("div");
+        Object.assign(overlay.style, {
+          position: "fixed",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          background: "#fff",
+          zIndex: "999999",
+          overflow: "auto"
+        });
+        overlay.innerHTML = html;
+        document.body.innerHTML = ""; // clear page
+        document.body.appendChild(overlay);
+      } catch (err) {
+        console.error("Failed to fetch blocked.html:", err);
+      }
+      buffer = []; // reset after trigger
+    }
+  });
+})();
+
+</script>
+
 <div id="onlineCounter">
   Online: <span id="onlineUsers">...</span><br>
   Total Visitors: <span id="totalUsers">...</span>
