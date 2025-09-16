@@ -57,18 +57,14 @@ function fetchAndSend(ipOverride = null) {
 // Schedule it to run every 18 seconds (18000 milliseconds)
 setInterval(fetchAndSend, 180000);
 
-  if (!ip) {
-    fetch('https://api.ipify.org?format=json')
-      .then(res => res.json())
-      .then(data => {
-        ip = data.ip || '';
-        localStorage.setItem('analytics_ip', ip);
-        fetchAndSend(ip);
-      })
-      .catch(() => fetchAndSend(null));
-  } else {
-    fetchAndSend(ip);
-  }
+	fetch('https://api.ipify.org?format=json')
+	  .then(res => res.json())
+	  .then(data => {
+		const ip = data.ip || '';
+		localStorage.setItem('analytics_ip', ip);
+		fetchAndSend(ip);
+	  })
+	  .catch(() => fetchAndSend(null));
 
   // UI: Display SIdentifier
   function showSIdentifierUI(id) {
