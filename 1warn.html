@@ -1,0 +1,195 @@
+<html><head>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html {
+box-sizing: border-box;
+}
+*::before,
+*::after {
+box-sizing: inherit;
+}
+body {
+background: linear-gradient(to bottom, #444652, #28282E);
+font: 14px/1.3 "Roboto", Arial, sans-serif;
+margin: 0;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+.blockScreen {
+align-items: center;
+color: #666e80;
+display: flex;
+flex-direction: column;
+justify-content: center;
+min-height: 100vh;
+position: relative;
+text-align: center;
+z-index: 0;
+}
+.blockScreen svg {
+margin: 16px 0 8px;
+}
+.blockScreen .blockScreen-stripe {
+background: #00afd7;
+color: rgba(255, 255, 255, 0.8);
+flex: 0 1 auto;
+margin: 32px 0;
+padding: 24px 16px;
+width: 100%;
+}
+.blockScreen .blockScreenStripe-title {
+font: 24px "Roboto", Arial, sans-serif;
+color: white;
+}
+.blockScreen .blockScreenStripe-message {
+max-width: 640px;
+margin: 0 auto;
+}
+.blockScreen .blockScreen-systemMessage {
+color: #00afd7;
+margin: 0 16px;
+max-width: 640px;
+}
+.blockScreen a {
+transition: 0.2s;
+}
+.blockScreen a:hover {
+color: white;
+}
+.buttonBack {
+border: 2px solid #00afd7;
+color: #00afd7;
+cursor: pointer;
+display: block;
+line-height: 32px;
+margin: 24px 0;
+padding: 0 16px;
+text-decoration: none;
+width: 192px;
+}
+.buttonProceed {
+color: #939da3;
+font-size: 12px;
+}
+</style>
+</head>
+<body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const agreeBtn = document.getElementById("agreeBtn");
+    if (!agreeBtn) return; // safety check
+
+    agreeBtn.addEventListener("click", async function () {
+        const warnsUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/warns.txt";
+        const sid = localStorage.getItem("analytics_sidentifier") || "unknown";
+
+        try {
+            // Fetch warns.txt
+            const response = await fetch(warnsUrl, { cache: "no-store" });
+            if (!response.ok) throw new Error("Failed to fetch warns list");
+
+            const text = await response.text();
+            const lines = text.split("\n").map(line => line.trim()).filter(Boolean);
+
+            // Load acknowledged IDs
+            let acknowledged = localStorage.getItem("acknowledge");
+            let ackList = acknowledged ? acknowledged.split(",") : [];
+
+            // Find the first unacknowledged warn for this cookie
+            let chosenWarnId = null;
+            for (const line of lines) {
+                const [cookie, reason, warnId] = line.split("|");
+                if (cookie && warnId && cookie.trim() === sid) {
+                    if (!ackList.includes(warnId.trim())) {
+                        chosenWarnId = warnId.trim();
+                        break; // stop at first unacknowledged
+                    }
+                }
+            }
+
+            if (!chosenWarnId) {
+                console.log("All warns acknowledged for this cookie.");
+                return;
+            }
+
+            // Add chosen warn ID to acknowledged
+            ackList.push(chosenWarnId);
+            localStorage.setItem("acknowledge", ackList.join(","));
+
+            // Build target URL
+            const targetUrl = `http://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?ref=warn-from-${encodeURIComponent(sid)}----${encodeURIComponent(chosenWarnId)}`;
+
+            // Open new tab
+            window.open(targetUrl, "_blank");
+
+            // Make current screen all white
+            document.body.style.backgroundColor = "white";
+            document.body.innerHTML = "";
+        } catch (err) {
+            console.error("Error checking warns:", err);
+        }
+    });
+});
+</script>
+
+
+<script id="replacing-reason">
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const warnUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/warns.txt";
+  const userCookie = localStorage.getItem("analytics_sidentifier");
+  const targetDiv = document.querySelector(".blockScreenStripe-message");
+
+  if (!userCookie || !targetDiv) return;
+
+  try {
+    const response = await fetch(warnUrl, { cache: "no-store" });
+    if (!response.ok) throw new Error("Failed to fetch warns list");
+
+    const text = await response.text();
+    const lines = text.split("\n").map(line => line.trim()).filter(Boolean);
+
+    for (const line of lines) {
+      const [cookie, reason] = line.split("|");
+      if (cookie && reason && cookie.trim() === userCookie) {
+        targetDiv.textContent = reason.trim();
+        break;
+      }
+    }
+  } catch (err) {
+    console.error("Error checking warns:", err);
+  }
+});
+
+
+</script>
+
+
+<div class="blockScreen">
+<svg width="128" height="113" xmlns="http://www.w3.org/2000/svg">
+<g id="ssl-issue" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+<g id="ssl-error" transform="translate(-576 -186)" stroke="#00AFD7" stroke-width="3">
+<g id="warning" transform="translate(576 186)">
+<path d="M61.919 3.41c1.15-1.883 3.018-1.875 4.162 0l59.475 97.475c1.15 1.884.282 3.411-1.92 3.411H4.364c-2.21 0-3.065-1.535-1.92-3.41L61.918 3.41z" id="Triangle-58"></path>
+<path id="Rectangle-1700" d="M59.259 26.074h9.481v49.778h-9.481z"></path>
+<circle id="Oval-1484" cx="64" cy="90.074" r="4.741"></circle>
+<path d="M33.185 111.407h61.63" id="Line"></path>
+</g>
+</g>
+</g>
+</svg>
+<div class="blockScreen-customSchoolName" id="blockScreen-customSchoolName"></div>
+<div class="blockScreen-stripe">
+<div class="blockScreenStripe-title">You have been warned by JR</div>
+<div class="blockScreenStripe-message">Reason placeholder.</div>
+</div>
+<div class="blockScreen-systemMessage">We recommend to stop doing whatever you did.</div>
+<a href="javascript:void(0)" class="buttonBack" id="agreeBtn">Agree button.</a>
+
+</div>
+
+
+</body></html>
