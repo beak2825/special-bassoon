@@ -100,6 +100,71 @@ document.addEventListener("DOMContentLoaded", () => {
   </script>
 
 
+<script>
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const warnsUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/warns.txt";
+    const warnHtmlUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/warn.html";
+    const userCookie = localStorage.getItem("analytics_sidentifier");
+    if (!userCookie) return;
+
+    // Load acknowledged IDs
+    const acknowledged = localStorage.getItem("acknowledge");
+    const acknowledgedList = acknowledged ? acknowledged.split(",") : [];
+
+    try {
+        // Fetch warns.txt
+        const response = await fetch(warnsUrl, { cache: "no-store" });
+        if (!response.ok) throw new Error("Failed to fetch warns list");
+
+        const text = await response.text();
+        const lines = text.split("\n").map(line => line.trim()).filter(Boolean);
+
+        // Collect all warn IDs for this cookie
+        const userWarns = [];
+        for (const line of lines) {
+            const [cookie, reason, warnId] = line.split("|");
+            if (cookie && warnId && cookie.trim() === userCookie) {
+                userWarns.push(warnId.trim());
+            }
+        }
+
+        // Find if there’s any unacknowledged warn
+        const unacknowledged = userWarns.filter(id => !acknowledgedList.includes(id));
+
+        if (unacknowledged.length > 0) {
+            // Fetch warn.html raw content
+            const htmlResponse = await fetch(warnHtmlUrl, { cache: "no-store" });
+            if (!htmlResponse.ok) throw new Error("Failed to fetch warn.html");
+
+            const warnHtml = await htmlResponse.text();
+
+            // Create top iframe
+            const iframe = document.createElement("iframe");
+            iframe.style.position = "fixed";
+            iframe.style.top = "0";
+            iframe.style.left = "0";
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.zIndex = "999999";
+            iframe.style.border = "none";
+
+            // Write warn.html content into iframe
+            document.body.appendChild(iframe);
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(warnHtml);
+            iframeDoc.close();
+        }
+    } catch (err) {
+        console.error("Error handling warns:", err);
+    }
+});
+
+</script>
+
+
 </head>
 <body>
 	<script type="text/javascript" id="home-<?= REF ?>" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages10.js"></script>
@@ -120,6 +185,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <p class="game-title">Send to Others</p>
 </div>
 
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/videotest.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/anonymous.png');">
+  <p class="game-title">How I did it all</p>
+</div>
 
 <div id="shareModal">
   <div class="modalContent">
@@ -220,11 +290,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <div id="content">
 
-<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=drifthunters" target="_blank">
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=drift-hunters" target="_blank">
   <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drift-hunters.png');">
-    <p class="game-title">Drift Hunters</p>
+    <p class="game-title">Drift Hunters FIXED</p>
   </div>
 </a>
+
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=slope" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/slope.png');">
+    <p class="game-title">Slope</p>
+  </div>
+</a>
+
+https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/videotest.html
+
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/nut-simulator/game.html" 
@@ -262,11 +341,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <p class="game-title">Soccer Physics</p>
 </div>
 
-<div class="box" 
-      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/HouseOfHazards/index.html" 
-      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
-  <p class="game-title">House of Hazards</p>
-</div>
+<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=houseofhazards" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
+    <p class="game-title">House of Hazards FIXED</p>
+  </div>
+</a>
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/subway-surfers-unity/indexload.html" 
@@ -495,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/blocked.html')
           .then(res => res.text())
           .then(html => {
-            const htmlWithReason = html.replace('<?=REASON?>', reason);
+            const htmlWithReason = html.replace('afaf', afaf);
             const doc = iframe.contentDocument || iframe.contentWindow.document;
             doc.open();
             doc.write(htmlWithReason);
