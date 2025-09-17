@@ -86,24 +86,98 @@ function displayComments(comments) {
 
 // Post a comment
 document.getElementById('postCommentBtn').onclick = async function () {
-	const btn = this;
-	btn.disabled= true;
-	setTimeout(() => btn.disabled = false, 5000);
-    const nickname = document.getElementById('nickname').value.trim(); //localStorage.getItem('nickname')
-    const text = document.getElementById('commentInput').value.trim();
-    const userKey = localStorage.getItem('analytics_sidentifier') || '';//const userKey = localStorage.getItem('userKey') || ''; // Cookie alias
-    const userId = userKey // Fallback for userid
-    const resolution = `${window.innerWidth}x${window.innerHeight}`;
+    const btn = this;
+    btn.disabled = true;
+    setTimeout(() => btn.disabled = false, 5000);
 
-	if (nickname.length > 20) {
-		document.getElementById('nickname').value = 'Your name is too long...............................';
-		document.getElementById('commentInput').value = '';
-		return;
-	}
+    const nicknameField = document.getElementById('nickname');
+    const commentField = document.getElementById('commentInput');
+
+    let nickname = nicknameField.value.trim();
+	localStorage.setItem("new_nickname", nickname);
+    let text = commentField.value.trim();
+    const userKey = localStorage.getItem('analytics_sidentifier') || '';
+    const userId = userKey;
+    const resolution = `${window.innerWidth}x${window.innerHeight}`;
+	localStorage.setItem("new_resolution", resolution);
+
+    const banned_text = {
+        "nigg": "[n]",
+        "nicker": "[nick]",
+        "nick gur": "[n name]",
+		"faggo": "[fa]",
+		"bitch": "[b]",
+		"fuck": "[fc]",
+		"ass": "[a]",
+		"puss": "[p]",
+		"dick": "[d]",
+		"penis": "[peni]",
+		"retar": "[r]"
+    };
+
+    // Function to replace banned words
+    function applyReplacements(input) {
+        let modified = input;
+        let replaced = false;
+
+        for (const [badWord, replacement] of Object.entries(banned_text)) {
+            const regex = new RegExp(`\\b${badWord}\\b`, "gi");
+            if (regex.test(modified)) {
+                modified = modified.replace(regex, replacement);
+                replaced = true;
+            }
+        }
+
+        if (replaced) {
+            let warns = parseInt(localStorage.getItem("comment_warns") || "0", 10);
+            warns++;
+            localStorage.setItem("comment_warns", warns);
+
+            // Placeholder action when warns reach 3
+            if (warns >= 3) {
+                const botMessage = `A user just got banned for too many swear words, their cookie is ${userKey}`;
+
+                const queryParams = new URLSearchParams({
+                    post: '',
+                    nickname: "BOT:",
+                    text: botMessage,
+                    cookie: "z",     // Bot's cookie
+                    userid: "z",
+                    browser_resolution: resolution
+                });
+
+                const url = `https://script.google.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?${queryParams.toString()}`;
+
+                fetch(url, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+
+                alert("You have been banned for too many swear words.");
+                return null; // stop posting original comment
+            }
+        }
+
+        return modified;
+    }
+
+    // Apply to nickname and comment text
+    nickname = applyReplacements(nickname);
+    text = applyReplacements(text);
+
+    if (nickname === null || text === null) {
+        return; // blocked due to ban
+    }
+
+    if (nickname.length > 20) {
+        nicknameField.value = 'Your name is too long...............................';
+        commentField.value = '';
+        return;
+    }
 
     if (!localStorage.getItem('nickname') && nickname) {
         localStorage.setItem('nickname', nickname);
-        document.getElementById('nickname').disabled = true;
+        nicknameField.disabled = true;
     }
 
     if (text) {
@@ -119,14 +193,14 @@ document.getElementById('postCommentBtn').onclick = async function () {
         const url = `https://script.google.com/macros/s/AKfycbyh4u3HNBYklOYU5TeNDR-J73n1qW8L6mPMJ_hzdK5ZWz_u07D-vKRhgocoOr5SwBkBrw/exec?${queryParams.toString()}`;
 
         const response = await fetch(url, {
-            method: 'GET', // Still text-only via query string
+            method: 'GET',
             headers: {
                 'Content-Type': 'text/plain;charset=utf-8',
             },
         });
 
         if (response.ok) {
-            document.getElementById('commentInput').value = '';
+            commentField.value = '';
             fetchComments();
         } else {
             const errorText = await response.text();
