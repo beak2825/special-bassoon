@@ -7,6 +7,7 @@
   <script>
 (function() {
   const sidentifier = localStorage.getItem('analytics_sidentifier');
+  const warns = parseInt(localStorage.getItem('comment_warns') || "0", 10);
   if (!sidentifier) return;
 
   fetch('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/bans.txt')
@@ -18,16 +19,29 @@
         if (id) blockedList[id] = reason || "Blocked.";
       });
 
+      let reasonText;
+      let mailBody;
+
       if (blockedList[sidentifier]) {
-        const reasonText = blockedList[sidentifier];
-        document.getElementById('reason').textContent = reasonText;
-
-        // Build Gmail appeal link with reason included
-        const mailBody = encodeURIComponent(`im appealing from the reason of ${reasonText}, I deserve to be unbanned because `);
-        const appealUrl = `https://mail.google.com/mail/u/0/?fs=1&to=28jrivera@carthagecsd.org&su=unban+request&body=${mailBody}&tf=cm`;
-
-        document.getElementById('appealLink').setAttribute('href', appealUrl);
+        // Case 1: Banned via bans.txt
+        reasonText = blockedList[sidentifier];
+        mailBody = `im appealing from the reason of ${reasonText}, I deserve to be unbanned because `;
+      } else if (warns >= 3) {
+        // Case 2: Locally banned for too many swear words
+        reasonText = "you put too many swear words in chat";
+        mailBody = `im appealing from the reason of ${reasonText}, I deserve to be unbanned because \n\nmy cookie is also ${sidentifier}`;
+      } else {
+        return; // Not banned, do nothing
       }
+
+      // Inject reason into the blocked page
+      document.getElementById('reason').textContent = reasonText;
+
+      // Build Gmail appeal link
+      const encodedBody = encodeURIComponent(mailBody);
+      const appealUrl = `https://mail.google.com/mail/u/0/?fs=1&to=28jrivera@carthagecsd.org&su=unban+request&body=${encodedBody}&tf=cm`;
+
+      document.getElementById('appealLink').setAttribute('href', appealUrl);
     })
     .catch(err => console.error("Failed to fetch bans.txt:", err));
 })();
@@ -176,7 +190,7 @@ form.rocketAuth { margin-bottom: 8px; }
       </div>
       <div class="blockScreenStripe-website"><span id="host">script.google.com</span></div>
       <div class="blockScreenStripe-bottom">
-        <span data-translation="is_not_available_because">is not available because</span> <span id="reason">you have been blocked by the owner of the games</span>.
+        <span data-translation="is_not_available_because">is not available because</span> <span id="reason">you have been blocked by the owner of the games, if you do not see a reason here you must appeal and say what you were doing</span>.
 		<span>Appeal (<a id="appealLink" class="appeal-link" href="#" target="_blank">here</a>)</span>
       </div>
     </div>
