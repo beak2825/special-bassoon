@@ -129,33 +129,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-<div class="box share-box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png'); cursor:pointer;">
-  <p class="game-title">Send to Others</p>
-</div>
-
-<div class="box" 
-      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/videotest.html" 
-      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/anonymous.png');">
-  <p class="game-title">How I did it all</p>
-</div>
-
-<div id="shareModal">
-  <div class="modalContent">
-    <h2 style="color: black;">Share Game</h2>
-    <label style="color: black;">
-      Your Email:
-      <input type="text" id="yourEmail" placeholder="example: 28jsmith">
-    </label>
-    <label style="color: black;">
-      Sending To:
-      <input type="text" id="sendingTo" placeholder="example: 28tsmith">
-    </label>
-    <div class="modalButtons">
-      <button id="shareBtn">Share</button>
-      <button id="closeModal">Cancel</button>
-    </div>
+<a href="https://drive.google.com/file/d/1QlvEB9t-k50A2ktdQ9X3x_z61vXVja_R/view?usp=sharing" target="_blank">
+  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png');">
+    <p class="game-title">Share Games</p>
   </div>
-</div>
+</a>
+
 
 <div id="content">
 
@@ -271,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/baldi/index.html" 
       style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/baldi.png');">
-  <p class="game-title">Running from Wyatt Newton</p>
+  <p class="game-title">Baldi</p>
 </div>
 
 <div class="box" 
@@ -379,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 (function() {
-  const sidentifier = localStorage.getItem('analytics_sidentifier');
+  const sidentifier = localStorage.getItem('userId');
   const warns = parseInt(localStorage.getItem('comment_warns') || "0", 10);
 
   // Helper: inject blocked.html with a reason
