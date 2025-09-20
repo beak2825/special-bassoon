@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     userInfoDiv.style.borderRadius = '5px';
     userInfoDiv.style.fontSize = '12px';
     userInfoDiv.style.zIndex = '1000';
-    userInfoDiv.textContent = `You are: ${displayValue}`;
+    userInfoDiv.textContent = `You are: ${displayValue}..........`;
 
     document.body.appendChild(userInfoDiv);
   }
