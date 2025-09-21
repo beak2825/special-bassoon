@@ -125,8 +125,8 @@ function postComment(text) {
         text: text,
         cookie: userKey,
         userid: userKey,
-        browser_resolution: resolution
-		ip: localStorage.getItem('analytics_ip') || '';
+        browser_resolution: resolution,
+		ip: ip
     });
 
     const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
@@ -192,14 +192,14 @@ document.getElementById('postCommentBtn').onclick = async function () {
             // Placeholder action when warns reach 3
             if (warns >= 3) {
                 const botMessage = `A user just got banned for too many swear words, their cookie is ${userKey}`;
-
+				const ip = localStorage.getItem('analytics_ip') || '';
                 const queryParams = new URLSearchParams({
                     nickname: "BOT:",
                     text: botMessage,
                     cookie: "z",     // Bot's cookie
                     userid: "z",
-                    browser_resolution: resolution
-					ip: localStorage.getItem('analytics_ip') || '';
+                    browser_resolution: resolution,
+					ip: ip
                 });
 
                 const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
@@ -238,13 +238,14 @@ document.getElementById('postCommentBtn').onclick = async function () {
     }
 
     if (text) {
+		const ip = localStorage.getItem('analytics_ip') || '';
         const queryParams = new URLSearchParams({
             nickname: nickname,
             text: text,
             cookie: userKey,
             userid: userId,
             browser_resolution: resolution,
-		    ip: localStorage.getItem('analytics_ip') || '';
+		    ip: ip
         });
 
         const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
