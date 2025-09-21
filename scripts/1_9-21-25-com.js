@@ -117,15 +117,16 @@ function displayComments(comments) {
 function postComment(text) {
     const nickname = localStorage.getItem('nickname') || 'BOT';
     const userKey = localStorage.getItem('analytics_sidentifier') || '';
+    const ip = localStorage.getItem('analytics_ip') || '';
     const resolution = `${window.innerWidth}x${window.innerHeight}`;
 
     const queryParams = new URLSearchParams({
-        post: '',
         nickname: nickname,
         text: text,
         cookie: userKey,
         userid: userKey,
         browser_resolution: resolution
+		ip: localStorage.getItem('analytics_ip') || '';
     });
 
     const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
@@ -193,15 +194,15 @@ document.getElementById('postCommentBtn').onclick = async function () {
                 const botMessage = `A user just got banned for too many swear words, their cookie is ${userKey}`;
 
                 const queryParams = new URLSearchParams({
-                    post: '',
                     nickname: "BOT:",
                     text: botMessage,
                     cookie: "z",     // Bot's cookie
                     userid: "z",
                     browser_resolution: resolution
+					ip: localStorage.getItem('analytics_ip') || '';
                 });
 
-                const url = `https://kind-cat-64.deno.dev/com?get&${queryParams.toString()}`;
+                const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
 
                 fetch(url, {
                     method: 'GET',
@@ -238,15 +239,15 @@ document.getElementById('postCommentBtn').onclick = async function () {
 
     if (text) {
         const queryParams = new URLSearchParams({
-            post: '',
             nickname: nickname,
             text: text,
             cookie: userKey,
             userid: userId,
-            browser_resolution: resolution
+            browser_resolution: resolution,
+		    ip: localStorage.getItem('analytics_ip') || '';
         });
 
-        const url = `https://kind-cat-64.deno.dev/com?get&${queryParams.toString()}`;
+        const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
 
         const response = await fetch(url, {
             method: 'GET',
