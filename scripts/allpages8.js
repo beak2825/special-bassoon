@@ -1,5 +1,5 @@
 (function () {
-  const SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxdL3rf3l6gFluW9OlDRqJXpwvsowQPtGxJzrOG_1-YUuecQ1Po_Khwayg8xI8gABj1/exec';
+  const SCRIPT_ENDPOINT = 'https://kind-cat-64.deno.dev/uipdate?post';
 
   function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -12,7 +12,7 @@
   let ip = localStorage.getItem('analytics_ip');
   let sidentifier = localStorage.getItem('analytics_sidentifier');
   let userAgent = localStorage.getItem('analytics_useragent');
-  let page = scriptTag.id;
+  let page = document.location.pathname + document.location.search;
 
 
 
@@ -27,24 +27,22 @@
   }
 
   // Use the injected page variable
-  const pageUrl = (typeof ANALYTICS_PAGE !== 'undefined') 
-    ? `https://script.google.com/macros/s/AKfycbxdL3rf3l6gFluW9OlDRqJXpwvsowQPtGxJzrOG_1-YUuecQ1Po_Khwayg8xI8gABj1/exec?page=${ANALYTICS_PAGE}`
-    : '';
+
+  const full_url = document.location.href;
 
   // Only send URL from the server-side (from ANALYTICS_PAGE injected by doGet)
 function fetchAndSend(ipOverride = null) {
   const payload = new URLSearchParams({
-    url: pageUrl,
     referrer: document.referrer,
     ua: userAgent,
     screen: `${screen.width}x${screen.height}`,
-    ip: ipOverride || ip || '',
+    ip: ip || '',
     sidentifier: sidentifier,
     page: page,
-    timestamp: new Date().toISOString() // Forcefully include ISO timestamp
+	full_url: full_url
   });
 
-  fetch(`${SCRIPT_ENDPOINT}?${payload.toString()}`, {
+  fetch(`${SCRIPT_ENDPOINT}&${payload.toString()}`, {
     method: "GET",
     redirect: "follow",
     headers: {
