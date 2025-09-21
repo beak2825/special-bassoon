@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Modal content always visible */
+  .modal-content {
+    background-color: #000;
+    border: 2px solid #fff;
+    box-shadow: 0 0 20px #fff;
+    padding: 30px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 8px;
+  }
+
+  .modal-content h2 {
+    margin: 0 0 10px 0;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+  }
+
+  label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #fff;
+  }
+
+  input {
+    padding: 10px;
+    border: 1px solid #fff;
+    background-color: #000;
+    color: #fff;
+    outline: none;
+    border-radius: 5px;
+  }
+
+  input::placeholder {
+    color: #888;
+  }
+
+  button {
+    padding: 10px;
+    background-color: #000;
+    border: 2px solid #fff;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s all ease-in-out;
+    text-transform: uppercase;
+  }
+
+  button:hover {
+    box-shadow: 0 0 10px #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="modal-content">
+  <h2>Send to Others</h2>
+
+  <label for="yourEmail">Your Email</label>
+  <input type="text" id="yourEmail" placeholder="example: 28abob">
+
+  <label for="sendingTo">Send To</label>
+  <input type="text" id="sendingTo" placeholder="example: 28abob">
+
+  <button id="shareBtn">Share</button>
+</div>
+
+<script>
+  const shareBtn = document.getElementById("shareBtn");
+  const userKey = localStorage.getItem('analytics_sidentifier') || '';
+
+  shareBtn.addEventListener("click", () => {
+    const yourEmail = document.getElementById("yourEmail").value.trim();
+    const sendingTo = document.getElementById("sendingTo").value.trim();
+
+    if (!sendingTo) {
+      alert("Please fill the 'Send To' field.");
+      return;
+    }
+
+    const baseUrl = "https://mail.google.com/mail/?view=cm&fs=1";
+    const subject = encodeURIComponent("game site");
+    const body = encodeURIComponent(
+      "The new game site is https://unpkg.com/carthagecsd/index.html?ref=" + 
+      encodeURIComponent(yourEmail) + '-' + encodeURIComponent(sendingTo) + encodeURIComponent(userKey)
+    );
+
+    const mailUrl = `${baseUrl}&to=&su=${subject}&body=${body}&tf=1`;
+
+    window.open(mailUrl, "_blank");
+  });
+</script>
+
+</body>
+</html>
