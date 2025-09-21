@@ -121,7 +121,6 @@ function postComment(text) {
     const resolution = `${window.innerWidth}x${window.innerHeight}`;
 
     const queryParams = new URLSearchParams({
-        post: '',
         nickname: nickname,
         text: text,
         cookie: userKey,
@@ -194,7 +193,6 @@ document.getElementById('postCommentBtn').onclick = async function () {
                 const botMessage = `A user just got banned for too many swear words, their cookie is ${userKey}`;
 
                 const queryParams = new URLSearchParams({
-                    post: '',
                     nickname: "BOT:",
                     text: botMessage,
                     cookie: "z",     // Bot's cookie
