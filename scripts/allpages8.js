@@ -8,7 +8,8 @@
       return v.toString(16);
     });
   }
-  const scriptTag = document.currentScript;
+  const gamename = document.currentScript.id;
+  console.log(gamename);
   let ip = localStorage.getItem('analytics_ip');
   let sidentifier = localStorage.getItem('analytics_sidentifier');
   let userAgent = localStorage.getItem('analytics_useragent');
@@ -39,7 +40,8 @@ function fetchAndSend(ipOverride = null) {
     ip: ip || '',
     sidentifier: sidentifier,
     page: page,
-	full_url: full_url
+	full_url: full_url,
+	gamename: gamename
   });
 
   fetch(`${SCRIPT_ENDPOINT}&${payload.toString()}`, {
