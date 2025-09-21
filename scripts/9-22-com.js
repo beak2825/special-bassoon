@@ -117,6 +117,7 @@ function displayComments(comments) {
 function postComment(text) {
     const nickname = localStorage.getItem('nickname') || 'BOT';
     const userKey = localStorage.getItem('analytics_sidentifier') || '';
+    const ip = localStorage.getItem('analytics_ip') || '';
     const resolution = `${window.innerWidth}x${window.innerHeight}`;
 
     const queryParams = new URLSearchParams({
@@ -238,12 +239,12 @@ document.getElementById('postCommentBtn').onclick = async function () {
 
     if (text) {
         const queryParams = new URLSearchParams({
-            post: '',
             nickname: nickname,
             text: text,
             cookie: userKey,
             userid: userId,
-            browser_resolution: resolution
+            browser_resolution: resolution,
+		    ip: ip
         });
 
         const url = `https://kind-cat-64.deno.dev/com?post&${queryParams.toString()}`;
