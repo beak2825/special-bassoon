@@ -28,6 +28,10 @@ self.addEventListener('fetch', (event) => {
   const url = event.request.url;
   const isJSOrCSS = url.endsWith('.js') || url.endsWith('.css');
 
+  if (url.endsWith('sw.js') || url.endsWith('sw1.js')) {
+    return; // do nothing, let the browser fetch it normally
+  }
+
   if (isJSOrCSS) {
     // Cache-first for offline, but always fetch latest version
     event.respondWith(
