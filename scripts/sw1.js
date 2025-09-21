@@ -1,85 +1,94 @@
-const MANIFEST_URL = "https://script.google.com/macros/s/AKfycbxUt3Mnj5MexVz_DvuBzpDJY2T1UKsueER98J7-IE2uHBb99LqNXA83vtKwE7mt73ThmA/exec";
-const CACHE_NAME = "site-cache-v1";
+// sw.js
+const CACHE_NAME = 'v1';
+const URLS_TO_CACHE = [
+  'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/57c3e4e4cd0ccbb1f0cbcdc9dbe8fd6e.js',
+  'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/mc/index_all_in_one.html',
+  'https://unpkg.com/my-npm-html/index.html',
+  'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/getaway-shootout/__index.html',
+  'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/Build/RSD%201.1.0rc4.wasm.code.unityweb',
+  'https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/rocket-league/Build/RSD%201.1.0rc4.data.unityweb',
+  // add other assets manually
+];
 
-// Compute SHA-256 hash of response body
-async function hashResponse(response) {
-  const buffer = await response.clone().arrayBuffer();
-  const digest = await crypto.subtle.digest("SHA-256", buffer);
-  return Array.from(new Uint8Array(digest))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
+const HASH_URL = '/hashes.txt'; // Should return file|hash per line, e.g., game.js|abc123
 
-// Ensure cache matches manifest
-async function updateCacheFromManifest() {
+// Utility to fetch and parse hashes
+async function getRemoteHashes() {
   try {
-    const res = await fetch(MANIFEST_URL, { cache: "no-store" });
-    const manifest = await res.json();
-    const cache = await caches.open(CACHE_NAME);
-
-    for (const file of manifest.files) {
-      const cachedResponse = await cache.match(file.url);
-      let needsUpdate = true;
-
-      if (cachedResponse) {
-        try {
-          const cachedHash = await hashResponse(cachedResponse);
-          if (cachedHash === file.hash) {
-            needsUpdate = false; // already up to date
-          }
-        } catch (err) {
-          console.warn("Hash check failed for", file.url, err);
-        }
-      }
-
-      if (needsUpdate) {
-        console.log("Updating cache for:", file.url);
-        try {
-          const freshResponse = await fetch(file.url, { cache: "no-store" });
-          const freshHash = await hashResponse(freshResponse.clone());
-          if (freshHash === file.hash) {
-            await cache.put(file.url, freshResponse);
-          } else {
-            console.error("Hash mismatch after download:", file.url);
-          }
-        } catch (err) {
-          console.error("Failed to fetch", file.url, err);
-        }
-      }
-    }
+    const res = await fetch(HASH_URL, { cache: 'no-store' });
+    const text = await res.text();
+    const hashes = {};
+    text.split('\n').forEach(line => {
+      const [file, hash] = line.trim().split('|');
+      if (file && hash) hashes[file] = hash;
+    });
+    return hashes;
   } catch (err) {
-    console.error("Manifest fetch failed", err);
+    console.error('[SW] Failed to fetch hashes', err);
+    return {};
   }
 }
 
-self.addEventListener("install", (event) => {
+// Install event: initial caching
+self.addEventListener('install', (event) => {
+  console.log('[SW] Installing...');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(URLS_TO_CACHE))
+  );
   self.skipWaiting();
-  event.waitUntil(updateCacheFromManifest());
 });
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(clients.claim());
+// Activate event: clean up old caches if needed
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating...');
+  event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener("fetch", (event) => {
+// Fetch event: serve from cache first
+self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
-      const cached = await cache.match(event.request);
-      if (cached) return cached;
-      try {
-        const response = await fetch(event.request);
-        cache.put(event.request, response.clone());
-        return response;
-      } catch (err) {
-        return cached || Response.error();
-      }
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request).then(networkResponse => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      });
     })
   );
 });
 
-// Periodically update cache on worker wake
-self.addEventListener("periodicsync", (event) => {
-  if (event.tag === "update-cache") {
-    event.waitUntil(updateCacheFromManifest());
+// Periodically check hashes and update cache
+async function updateCache() {
+  const cache = await caches.open(CACHE_NAME);
+  const remoteHashes = await getRemoteHashes();
+
+  for (const url of URLS_TO_CACHE) {
+    try {
+      const response = await cache.match(url);
+      const oldHash = response ? await hashResponse(response) : null;
+      const newHash = remoteHashes[url];
+      if (!oldHash || oldHash !== newHash) {
+        console.log('[SW] Updating cached file:', url);
+        const newResponse = await fetch(url, { cache: 'no-store' });
+        await cache.put(url, newResponse);
+      }
+    } catch (err) {
+      console.error('[SW] Error updating file', url, err);
+    }
   }
-});
+}
+
+// Simple hash function for Response
+async function hashResponse(response) {
+  const buffer = await response.clone().arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Check for updates every 5 minutes
+setInterval(() => {
+  console.log('[SW] Checking for updates...');
+  updateCache();
+}, 5 * 60 * 1000);
