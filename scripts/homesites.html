@@ -63,11 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <meta name="description" content="Explore 30+  games and chat live with fellow gamers! Discover endless fun with new games added regularly. Join now and play your favorites!">
   <meta name="keywords" content="online games,  games, comments, multiplayer, action games, strategy games, puzzle games, gaming community, school games">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/homestyle4.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/share1css.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/comments.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/shareModal1.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/shareModal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/counter.css"><!-- Include comments CSS -->
-  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/4-11-com.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/5th-com.js" defer></script>
+  <script type="text/javascript" src="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/scripts/sw1.js" defer></script>
 
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"> <!-- Font -->
@@ -105,17 +105,47 @@ document.addEventListener("DOMContentLoaded", () => {
 <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/warnscript.js">
 </script>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const apiUrl = "https://kind-cat-64.deno.dev/online?game";
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      // Select both .box inside <div> and <a>
+      document.querySelectorAll(".box").forEach(box => {
+        const style = box.getAttribute("style") || "";
+
+        // Match game name from .../images/{game}.png
+        const match = style.match(/images\/([^\/]+)\.png/);
+        if (!match) return;
+
+        const gameKey = match[1]; // e.g., "1v1" or "drift-hunters"
+        const count = data[gameKey] || 0;
+
+        // Find the title element inside the box
+        const titleEl = box.querySelector(".game-title");
+        if (titleEl) {
+          // Remove any old (N) already present
+          titleEl.textContent = titleEl.textContent.replace(/\s*\(\d+\)$/, "");
+          // Append new count
+          titleEl.textContent += ` (${count})`;
+        }
+      });
+    })
+    .catch(err => console.error("Error fetching online data:", err));
+});
+
+</script>
 
 </head>
 
 
 <body>
 
-  <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/fetchscript.js">
-  </script>
 
-
-	<script type="text/javascript" id="home-<?= REF ?>" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages10.js"></script>
+	<script type="text/javascript" id="home-" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/allpages8.js"></script>
   <h1>Mr Miller's Games</h1>
 
 
@@ -127,17 +157,20 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 
 
-
-
-<a href="https://drive.google.com/file/d/1QlvEB9t-k50A2ktdQ9X3x_z61vXVja_R/view?usp=sharing" target="_blank">
+<a href="https://unpkg.com/my-npm-html/share.html" target="_blank">
   <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/share.png');">
-    <p class="game-title">Share Games</p>
+    <p class="game-title">Send to Others</p>
   </div>
 </a>
 
-
 <div id="content">
 
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/holeio/hole-io.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/holeio.png');">
+  <p class="game-title">Hole.io</p>
+</div>
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/1v1/loader.html" 
@@ -157,11 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </a>
 
-<a href="webdata/drivemad/drivemad.html" target="_blank">
-  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drivemad.png');">
-    <p class="game-title">Drive Mad</p>
-  </div>
-</a>
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/drivemad/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/drivemad.png');">
+  <p class="game-title">Drive Mad</p>
+</div>
 
 <a href="webdata/cookie/index.html" target="_blank">
   <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/cookie.png');">
@@ -211,16 +244,22 @@ document.addEventListener("DOMContentLoaded", () => {
   <p class="game-title">Soccer Physics</p>
 </div>
 
-<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=houseofhazards" target="_blank">
-  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
-    <p class="game-title">House of Hazards FIXED</p>
-  </div>
-</a>
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/HouseOfHazards/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/HouseOfHazards.png');">
+  <p class="game-title">House of Hazards FIXED</p>
+</div>
 
 <div class="box" 
       data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/subway-surfers-unity/indexload.html" 
       style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/subway.png');">
   <p class="game-title">Subway Surfers</p>
+</div>
+
+<div class="box" 
+      data-url="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/demolition-derby/index.html" 
+      style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/demolition-derby.png');">
+  <p class="game-title">Demolition Derby</p>
 </div>
 
 <div class="box" 
@@ -301,11 +340,6 @@ document.addEventListener("DOMContentLoaded", () => {
   <p class="game-title">CSGO Clicker</p>
 </div>
 
-<a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=demolition-derby" target="_blank">
-  <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/demolition-derby.png');">
-    <p class="game-title">Demolition Derby</p>
-  </div>
-</a>
 
 <a href="https://script.google.com/macros/s/AKfycbyAWMq0wM0E1MaxRZd1yZ3sdesJ7HORSqUL1xSngz-PiDGk3JNdQqMdUrFXpt14suw64g/exec?page=kawairun2" target="_blank">
   <div class="box" style="background-image: url('https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/kawairun2.png');">
@@ -327,13 +361,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/mainshare.js">
-</script>
-<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/youarehome.js">
-</script>
-
-
   <div id="overlay">
     <iframe id="gameFrame"></iframe>
     <div id="controlBar">
@@ -344,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <script>
 (function() {
-    const apiUrl = "https://script.google.com/macros/s/AKfycbzrdGnkXaoyv-vEg6ZSaorWXNuIAZgMTxh_ZiRGalhs_UXvMJYsNNoA83xSDDg42BNj/exec";
+    const apiUrl = "https://kind-cat-64.deno.dev/online?get";
 
     // Wait until the DOM is fully loaded
     document.addEventListener("DOMContentLoaded", () => {
