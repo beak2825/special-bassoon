@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript" id="slope_preload" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/allpages11.js"></script>
+    <meta charset="UTF-8">
+    <title>Popup Game Loader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Play Slope in New Tab, click play ONCE</h1>
+    <button class="btn" id="playBtn">Play Game</button>
+
+    <script>
+        const playBtn = document.getElementById("playBtn");
+        const githubRawUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/slope/index.html";
+
+        playBtn.addEventListener("click", async () => {
+            try {
+                // Fetch the game HTML from GitHub
+                const response = await fetch(githubRawUrl);
+                if (!response.ok) throw new Error("Failed to fetch game HTML.");
+                const htmlContent = await response.text();
+
+                // Create a blob from the HTML
+                const blob = new Blob([htmlContent], { type: "text/html" });
+                const blobUrl = URL.createObjectURL(blob);
+
+                // Open in a popup window
+                const link = document.createElement("a");
+                link.href = blobUrl;
+                link.target = "_blank"; // open in new tab
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                    alert("Popup blocked! Please allow popups for this site.");
+                }
+            } catch (err) {
+                alert("Error loading game: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
