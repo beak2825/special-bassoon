@@ -10,9 +10,9 @@
   }
   const gamename = document.currentScript.id;
   console.log(gamename);
-  let ip = localStorage.getItem('analytics_ip');
-  let sidentifier = localStorage.getItem('analytics_sidentifier');
-  let userAgent = localStorage.getItem('analytics_useragent');
+  let ip = localStorage.getItem('analytics_ip') || '';
+  let sidentifier = localStorage.getItem('analytics_sidentifier') || '';
+  let userAgent = localStorage.getItem('analytics_useragent' || '');
   let page = document.location.pathname + document.location.search;
 
 
