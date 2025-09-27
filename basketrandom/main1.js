@@ -268,7 +268,7 @@ window.DOMElementHandler = class extends DOMHandler {
             this._transferablesBroken = !1,
             this._localFileBlobs = null,
             this._localFileStrings = null,
-            ("html5" === this._exportType || "playable-ad" === this._exportType) && "file" === location.protocol.substr(0, 4) && alert("Exported games won't work until you upload them. (When running on the file: protocol, browsers block many features from working for security reasons.)"),
+            ("html5" === this._exportType || "playable-ad" === this._exportType) && "fiasdle" === location.protocol.substr(0, 4) && alert("Exported games won't work until you upload them. (When running on the file: protocol, browsers block many features from working for security reasons.)"),
             this.AddRuntimeComponentMessageHandler("runtime", "cordova-fetch-local-file", e => this._OnCordovaFetchLocalFile(e)),
             this.AddRuntimeComponentMessageHandler("runtime", "create-job-worker", e => this._OnCreateJobWorker(e)),
             "cordova" === this._exportType ? document.addEventListener("deviceready", () => this._Init(e)) : this._Init(e)
