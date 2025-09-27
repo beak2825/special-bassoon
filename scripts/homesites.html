@@ -3,6 +3,9 @@
 <html lang="en">
 <head>
 
+
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("overlay");
@@ -535,4 +538,97 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
 </body>
+
+
+<script>
+
+
+(function() {
+    // Create overlay
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(0,0,0,0.5)";
+    overlay.style.display = "flex";
+    overlay.style.flexDirection = "column";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "9999";
+    overlay.style.fontFamily = "Arial, sans-serif";
+
+    // Create popup container
+    const popup = document.createElement("div");
+    popup.style.backgroundColor = "#1c1c1c";
+    popup.style.padding = "30px";
+    popup.style.borderRadius = "12px";
+    popup.style.textAlign = "center";
+    popup.style.color = "white";
+    popup.style.maxWidth = "400px";
+    popup.style.width = "90%";
+    popup.style.boxShadow = "0 4px 20px rgba(0,0,0,0.5)";
+    popup.style.display = "flex";
+    popup.style.flexDirection = "column";
+    popup.style.alignItems = "center";
+
+    // Message
+    const message = document.createElement("div");
+    message.innerHTML = "<b>New games have been added and fixed and games save now! Download now.</b>";
+    message.style.marginBottom = "20px";
+    popup.appendChild(message);
+
+    // Image
+    const img = document.createElement("img");
+    img.src = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/images/newui.png";
+    img.style.width = "80%";
+    img.style.maxWidth = "250px";
+    img.style.marginBottom = "20px";
+    popup.appendChild(img);
+
+    // Download button
+    const downloadBtn = document.createElement("a");
+    downloadBtn.href = "https://drive.google.com/uc?export=download&id=1QlvEB9t-k50A2ktdQ9X3x_z61vXVja_R";
+    downloadBtn.target = "_blank";
+    downloadBtn.textContent = "Download";
+    downloadBtn.style.display = "inline-block";
+    downloadBtn.style.padding = "12px 25px";
+    downloadBtn.style.backgroundColor = "#007BFF";
+    downloadBtn.style.color = "#fff";
+    downloadBtn.style.fontSize = "18px";
+    downloadBtn.style.fontWeight = "bold";
+    downloadBtn.style.borderRadius = "8px";
+    downloadBtn.style.textDecoration = "none";
+    downloadBtn.style.transition = "transform 0.2s ease, background-color 0.2s ease";
+    downloadBtn.style.marginBottom = "15px";
+    downloadBtn.addEventListener("mouseover", () => downloadBtn.style.transform = "scale(1.1)");
+    downloadBtn.addEventListener("mouseout", () => downloadBtn.style.transform = "scale(1)");
+    popup.appendChild(downloadBtn);
+
+    // No thanks button
+    const noBtn = document.createElement("button");
+    noBtn.textContent = "No thanks";
+    noBtn.style.padding = "10px 20px";
+    noBtn.style.border = "none";
+    noBtn.style.borderRadius = "8px";
+    noBtn.style.backgroundColor = "#555";
+    noBtn.style.color = "white";
+    noBtn.style.fontSize = "16px";
+    noBtn.style.cursor = "pointer";
+    noBtn.style.transition = "background-color 0.2s ease";
+    noBtn.addEventListener("mouseover", () => noBtn.style.backgroundColor = "#777");
+    noBtn.addEventListener("mouseout", () => noBtn.style.backgroundColor = "#555");
+    noBtn.addEventListener("click", () => {
+        document.body.removeChild(overlay);
+    });
+    popup.appendChild(noBtn);
+
+    // Add popup to overlay
+    overlay.appendChild(popup);
+    // Add overlay to body
+    document.body.appendChild(overlay);
+})();
+
+</script>
 </html>
