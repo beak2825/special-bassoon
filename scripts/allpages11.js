@@ -1,3 +1,31 @@
+//Time Spent + First Seen
+(function () {
+  const STORAGE_KEY_FIRST = "first_appeared";
+  const STORAGE_KEY_SPENT = "time_spent";
+
+  // Initialize first_appeared if not already set
+  if (!localStorage.getItem(STORAGE_KEY_FIRST)) {
+	const nowUTC = new Date().toISOString(); // UTC timestamp
+	localStorage.setItem(STORAGE_KEY_FIRST, nowUTC);
+  }
+
+  // Initialize time_spent if not already set
+  if (!localStorage.getItem(STORAGE_KEY_SPENT)) {
+	localStorage.setItem(STORAGE_KEY_SPENT, "0");
+  }
+
+  // Increment time_spent every second
+  setInterval(() => {
+	let spent = parseInt(localStorage.getItem(STORAGE_KEY_SPENT), 10) || 0;
+	spent += 1;
+	localStorage.setItem(STORAGE_KEY_SPENT, spent.toString());
+  }, 1000);
+})();
+
+
+
+
+
 (function () {
   const SCRIPT_ENDPOINT = 'https://kind-cat-64.deno.dev/uipdate?post';
 
