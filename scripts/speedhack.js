@@ -213,7 +213,13 @@
         speedConfig.speed = 10.0;
         break;
       case "6":
-        speedConfig.speed = 0.0;
+        speedConfig.speed = 0.01;
+        break;
+      case "7":
+        speedConfig.speed = 0.6;
+        break;
+      case "8":
+        speedConfig.speed = 1.5;
         break;
       default:
         return; // Ignore other keys
