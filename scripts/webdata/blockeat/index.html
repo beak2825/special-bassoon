@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<script type="text/javascript" id="block-eat-block" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/speedhack.js"></script>
+    <script type="text/javascript" id="block-eat-block" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages11.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Block Eating Simulator</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            padding: 0;
+            margin: 0;
+        }
+
+        div#gameContainer {
+            background: transparent !important;
+            position: absolute;
+        }
+
+        div#gameContainer canvas {
+            position: absolute;
+        }
+
+        div#gameContainer canvas[data-pixel-art="true"] {
+            position: absolute;
+            image-rendering: optimizeSpeed;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: optimize-contrast;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .loadingOut {
+            width: 250px;
+            position: fixed;
+            left: 50%;
+            top: calc(50% - 8px);
+            transform: translate(-50%);
+            border: 2px solid white;
+            height: 14px;
+        }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -150px;
+            margin-left: -250px;
+            width: 500px;
+        }
+    </style>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/block-eat/TemplateData/style.css">
+</head>
+
+<body class="dark">
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="loading-cover" style="display:none;">
+        <div id="unity-loading-bar">
+            <div id="unity-logo"><img src="https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/block-eat/logo.png"></div>
+            <div id="unity-progress-bar-empty" style="display: none;">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <script>
+        const hideFullScreenButton = "";
+        const buildUrl = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/block-eat/Build";
+        const loaderUrl = buildUrl + "/_9853637125e801e9aae48e78dbbdcfca.loader.js";
+        const config = {
+            dataUrl: buildUrl + "/a471ee521eadd1e5b53e9f391e8db78c.data.unityweb",
+            frameworkUrl: buildUrl + "/bbfbcfab22faa4eb76fd743d66cf70fa.framework.js.unityweb",
+            codeUrl: buildUrl + "/d3e2063a8a1a2883e889bf45fbe49cf4.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Cursora Labs O.Ü",
+            productName: "Block Eating Simulator",
+            productVersion: "0.1j",
+            webglContextAttributes: {
+                preserveDrawingBuffer: true,
+                powerPreference: "high-performance",
+            },
+        };
+
+        const container = document.querySelector("#unity-container");
+        const canvas = document.querySelector("#unity-canvas");
+        const loadingCover = document.querySelector("#loading-cover");
+        const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+        const spinner = document.querySelector('.spinner');
+
+        const canFullscreen = (function() {
+            for (const key of [
+                    'exitFullscreen',
+                    'webkitExitFullscreen',
+                    'webkitCancelFullScreen',
+                    'mozCancelFullScreen',
+                    'msExitFullscreen',
+                ]) {
+                if (key in document) {
+                    return true;
+                }
+            }
+            return false;
+        }());
+
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            container.className = "unity-mobile";
+        }
+        config.devicePixelRatio = 1.5;
+
+        canvas.style.background = "url('" + buildUrl + "/09e33349c112e2d43470798070a104c6.jpg') center / cover";
+        loadingCover.style.display = "";
+
+        // Explicitly setting the background image using JavaScript
+        document.body.style.backgroundImage = "url('Build.jpg')";
+        document.body.style.backgroundPosition = "center";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundSize = "cover";
+
+        var myGameInstance = null;
+
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                spinner.style.display = "none";
+                progressBarEmpty.style.display = "";
+                progressBarFull.style.width = `${100 * progress}%`;
+            }).then((unityInstance) => {
+                myGameInstance = unityInstance;
+                loadingCover.style.display = "none";
+                // Now that Unity is fully loaded, it's safe to interact with it
+                //checkDevice(); // Ensure this function is called here
+            }).catch((message) => {
+                alert(message);
+            });
+        };
+
+        document.body.appendChild(script);
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/block-eat/js/rhmApi.js"></script>
+	
+	<style>
+body {
+  background: #000e29;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Ensure the body takes full screen height */
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    position: relative; /* Ensure it's positioned relative to the alert */
+}
+
+/* Position the alert box in the bottom right */
+.alert-simple {
+    position: fixed; /* Fix it on screen */
+    bottom: 20px; /* Add space from the bottom */
+    right: 20px; /* Add space from the right */
+    z-index: 1000; /* Ensure the alert is above other content */
+    width: auto; /* Adjust to content */
+    padding: 15px;
+    max-width: 350px; /* Optional: Set a max width */
+}
+
+/* General alert styles */
+.alert-simple.alert-success {
+    border: 1px solid rgba(36, 241, 6, 0.46);
+    background-color: rgba(7, 149, 66, 0.12156862745098039);
+    box-shadow: 0px 0px 2px #259c08;
+    color: #0ad406;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-info {
+    border: 1px solid rgba(6, 44, 241, 0.46);
+    background-color: rgba(7, 73, 149, 0.12156862745098039);
+    box-shadow: 0px 0px 2px #0396ff;
+    color: #0396ff;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-warning {
+    border: 1px solid rgba(241, 142, 6, 0.81);
+    background-color: rgba(220, 128, 1, 0.16);
+    box-shadow: 0px 0px 2px #ffb103;
+    color: #ffb103;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-danger {
+    border: 1px solid rgba(241, 6, 6, 0.81);
+    background-color: rgba(220, 17, 1, 0.16);
+    box-shadow: 0px 0px 2px #ff0303;
+    color: #ff0303;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.alert-simple.alert-primary {
+    border: 1px solid rgba(6, 241, 226, 0.81);
+    background-color: rgba(1, 204, 220, 0.16);
+    box-shadow: 0px 0px 2px #03fff5;
+    color: #03d0ff;
+    text-shadow: 2px 1px #00040a;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.fa-times {
+    -webkit-animation: blink-1 2s infinite both;
+    animation: blink-1 2s infinite both;
+}
+
+@-webkit-keyframes blink-1 {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0;
+    }
+}
+
+@keyframes blink-1 {
+    0%, 50%, 100% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0;
+    }
+}
+
+@keyframes closeAlert {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-15px);
+    }
+    100% {
+        transform: translateX(100vw);
+    }
+}
+
+.alert.closing {
+    animation: closeAlert 0.55s ease-in-out forwards;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const closeButtons = document.querySelectorAll('.close.font__size-18');
+
+    closeButtons.forEach(button => {
+        const alertElement = button.closest('.alert');
+
+        // Manual close
+        button.addEventListener('click', function () {
+            if (alertElement) {
+                alertElement.classList.add('closing');
+                setTimeout(() => {
+                    alertElement.remove();
+                }, 550);
+            }
+        });
+
+        // Auto close after 3.5s
+        if (alertElement) {
+            setTimeout(() => {
+                alertElement.classList.add('closing');
+                setTimeout(() => {
+                    alertElement.remove();
+                }, 550);
+            }, 3500);
+        }
+    });
+});
+</script>
+
+<section>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+                <button type="button" class="close font__size-18" data-dismiss="alert">
+                    <span aria-hidden="true">
+                        <i class="fa fa-times blue-cross"></i>
+                    </span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <i class="start-icon  fa fa-info-circle faa-shake animated"></i>
+                <strong class="font__weight-semibold">Heads up!</strong> wait for it to load, takes a bit - Jonathan R
+            </div>
+        </div>
+    </div>
+</section>
+	
+</body>
+
+</html>

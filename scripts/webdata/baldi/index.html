@@ -1,0 +1,29 @@
+<html>
+<header>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/baldi/TemplateData/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/baldi/TemplateData/UnityProgress.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/baldi/baldi.js"></script>
+	<script type="text/javascript" id="baldi" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages11.js"></script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/baldi/baldi.json", {
+            onProgress: UnityProgress,
+            Module: {
+                onRuntimeInitialized: function() {
+                    UnityProgress(gameInstance, "complete")
+                }
+            }
+        });
+    </script>
+</header>
+
+<body style="margin: 0;">
+    <div class="webgl-content">
+        <div id="unityContainer" style="width: 960px; height: 600px; padding: 0px; margin: 0px; border: 0px; position: relative; background: rgb(35, 31, 32);">
+
+            <div id="gameContainer" style="width: 800px; height: 560px; margin: auto"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/baldi/firebase-app.js"></script>
+</body>
+
+</html>

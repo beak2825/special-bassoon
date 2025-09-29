@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Loader</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">Loading game...</div>
+
+<script>
+function loadGame(html) {
+  document.open();
+  document.write(html);
+  document.close();
+}
+
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const gamePath = params.get("game");
+
+  if (!gamePath) {
+    document.getElementById("loading").textContent = "No ?game= parameter given.";
+    return;
+  }
+
+  const baseUrl = "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/";
+  const fullUrl = baseUrl + gamePath;
+
+  try {
+    const res = await fetch(fullUrl);
+    if (!res.ok) throw new Error("Failed to fetch " + fullUrl);
+    const html = await res.text();
+    loadGame(html);  // completely refresh DOM with the fetched HTML
+  } catch (err) {
+    document.getElementById("loading").textContent = "Error: " + err.message;
+  }
+})();
+</script>
+</body>
+</html>

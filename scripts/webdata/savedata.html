@@ -1,0 +1,232 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" id="save-data" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/allpages11.js"></script>
+<title>Game Save & Load</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  h1 {
+    color: #00d8ff;
+    margin-bottom: 20px;
+  }
+  button, label {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    transition: 0.2s;
+    border: none;
+  }
+  button {
+    background: #00d8ff;
+    color: #121212;
+  }
+  button:hover { background: #00b0cc; }
+  label {
+    background: #ff6f61;
+    color: #fff;
+    display: inline-block;
+  }
+  label:hover { background: #e65c50; }
+  input[type="file"] { display: none; }
+  pre {
+    background: #1e1e1e;
+    color: #00ff88;
+    padding: 15px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+<h1>Game Data Save & Load</h1>
+<h1>This is just incase you somehow lose the data or your chromebook gets reset</h1>
+
+<button id="saveBtn">Save Game Data</button>
+<label for="loadFile">Load Game Data</label>
+<button id="deleteBtn">Delete All Data</button>
+<input type="file" id="loadFile" accept=".json">
+
+<pre id="output"></pre>
+
+
+<script>
+const deleteBtn = document.getElementById('deleteBtn');
+
+deleteBtn.addEventListener('click', async () => {
+  if (!confirm("Are you sure you want to delete ALL localStorage and IndexedDB data?")) return;
+
+  // --- Clear localStorage ---
+  localStorage.clear();
+
+  // --- Delete all IndexedDB databases ---
+  if (indexedDB.databases) {
+    const dbs = await indexedDB.databases();
+    for (const dbInfo of dbs) {
+      if (dbInfo.name) {
+        const deleteReq = indexedDB.deleteDatabase(dbInfo.name);
+        deleteReq.onsuccess = () => console.log(`Deleted DB: ${dbInfo.name}`);
+        deleteReq.onerror = () => console.error(`Failed to delete DB: ${dbInfo.name}`);
+      }
+    }
+  }
+
+  // --- Update summary ---
+  output.textContent = "All localStorage and IndexedDB data has been deleted.";
+});
+</script>
+
+
+<script>
+const output = document.getElementById('output');
+const saveBtn = document.getElementById('saveBtn');
+const loadFileInput = document.getElementById('loadFile');
+
+// --- Helper: Get all IndexedDB data ---
+function getAllIndexedDBData() {
+  return new Promise(async (resolve) => {
+    const dbs = indexedDB.databases ? await indexedDB.databases() : [];
+    const result = {};
+    let pending = dbs.length;
+    if (!pending) return resolve(result);
+
+    dbs.forEach(dbInfo => {
+      const name = dbInfo.name;
+      const openReq = indexedDB.open(name);
+      openReq.onsuccess = () => {
+        const db = openReq.result;
+        const txnData = {};
+        const stores = Array.from(db.objectStoreNames);
+        if (!stores.length) {
+          result[name] = txnData;
+          if (--pending === 0) resolve(result);
+          return;
+        }
+        let storesLeft = stores.length;
+        stores.forEach(storeName => {
+          const tx = db.transaction(storeName, "readonly");
+          const store = tx.objectStore(storeName);
+          const allReq = store.getAll();
+          allReq.onsuccess = () => {
+            txnData[storeName] = allReq.result;
+            if (--storesLeft === 0) {
+              result[name] = txnData;
+              if (--pending === 0) resolve(result);
+            }
+          };
+          allReq.onerror = () => {
+            if (--storesLeft === 0) {
+              result[name] = txnData;
+              if (--pending === 0) resolve(result);
+            }
+          };
+        });
+      };
+      openReq.onerror = () => {
+        if (--pending === 0) resolve(result);
+      };
+    });
+  });
+}
+
+// --- Save function ---
+saveBtn.addEventListener('click', async () => {
+  const data = {
+    localStorage: {...localStorage},
+    indexedDB: await getAllIndexedDBData()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = "game_data.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+
+//-- summary
+function summarizeData(data) {
+  const localCount = data.localStorage ? Object.keys(data.localStorage).length : 0;
+  const dbCount = data.indexedDB ? Object.keys(data.indexedDB).length : 0;
+  let storesCount = 0;
+  if (data.indexedDB) {
+    for (const dbName in data.indexedDB) {
+      storesCount += Object.keys(data.indexedDB[dbName]).length;
+    }
+  }
+  return `Loaded ${localCount} localStorage item(s) and ${dbCount} database(s) with ${storesCount} store(s).`;
+}
+
+
+// --- Load function ---
+loadFileInput.addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const text = await file.text();
+  let data;
+  try { data = JSON.parse(text); } 
+  catch { alert("Invalid JSON file"); return; }
+
+  // --- Load localStorage ---
+  if (data.localStorage) {
+    for (const key in data.localStorage) {
+      localStorage.setItem(key, data.localStorage[key]);
+    }
+  }
+
+  // --- Load IndexedDB safely ---
+  if (data.indexedDB) {
+    for (const dbName in data.indexedDB) {
+      const dbData = data.indexedDB[dbName];
+      const openReq = indexedDB.open(dbName, 1);
+
+      // Create missing object stores
+      openReq.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        for (const storeName in dbData) {
+          if (!db.objectStoreNames.contains(storeName)) {
+            db.createObjectStore(storeName, { autoIncrement: true });
+          }
+        }
+      };
+
+      openReq.onsuccess = (event) => {
+        const db = event.target.result;
+        const storeNames = Object.keys(dbData).filter(name => db.objectStoreNames.contains(name));
+        if (!storeNames.length) return;
+
+        const tx = db.transaction(storeNames, "readwrite");
+        tx.oncomplete = () => db.close();
+
+        storeNames.forEach(storeName => {
+          const store = tx.objectStore(storeName);
+          dbData[storeName].forEach(item => store.put(item));
+        });
+      };
+
+      openReq.onerror = () => console.error("Failed to open DB:", dbName);
+    }
+  }
+
+  output.textContent = summarizeData(data, null, 2);
+});
+</script>
+</body>
+</html>

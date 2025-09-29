@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>House Of Hazards Unblocked</title>
+    <script type="text/javascript" id="HouseOfHazards" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/allpages11.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon/scripts/speedhack.js"></script>
+    <script>
+      // Base URL for the CDN
+      const CDNJSDELIVRURL = "https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/HouseOfHazards/";
+      
+      // Dynamically load assets using the CDN base URL
+      document.write(`
+        <link rel="shortcut icon" href="${CDNJSDELIVRURL}TemplateData/favicon.ico">
+        <link rel="stylesheet" href="${CDNJSDELIVRURL}TemplateData/style.css">
+        <script src="${CDNJSDELIVRURL}js/unity-mod.js"><\/script>
+        <script src="${CDNJSDELIVRURL}Build/UnityProgress.js"><\/script>
+        <script src="${CDNJSDELIVRURL}Build/UnityLoader.js"><\/script>
+        <script src="${CDNJSDELIVRURL}js/analytics_ubg_v1_4.js"><\/script>
+      `);
+    </script>
+
+    <script>
+      // Instantiate Unity with the JSON file loaded from the CDN
+      document.addEventListener('DOMContentLoaded', function() {
+        const gameInstance = UnityLoader.instantiate(
+          "gameContainer",
+          `${CDNJSDELIVRURL}Build/HouseOfHazardsTwoPlayerGames.json`,
+          { onProgress: UnityProgress }
+        );
+      });
+    </script>
+  </head>
+  <body style="overflow:hidden; margin:0; padding:0;">
+    <div class="webgl-content" style="position: absolute; width: 100%; height: 100%; margin: 0px; padding:0px;">
+      <div id="gameContainer" style="width: 100%; height: 100%; margin: 0px; padding:0px;"></div>
+    </div>
+  </body>
+</html>
