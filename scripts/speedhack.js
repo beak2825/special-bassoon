@@ -213,7 +213,7 @@
         speedConfig.speed = 10.0;
         break;
       case "6":
-        speedConfig.speed = 0.01;
+        speedConfig.speed = 0.01; // 0.00 makes it spam the uiupdate
         break;
       case "7":
         speedConfig.speed = 0.6;
