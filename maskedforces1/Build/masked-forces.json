@@ -1,9 +1,9 @@
 {
 "TOTAL_MEMORY": 268435456,
-"dataUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces/Build/masked-forces.data.unityweb",
-"asmCodeUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces/Build/masked-forces.asm.code.unityweb",
-"asmMemoryUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces/Build/masked-forces.asm.memory.unityweb",
-"asmFrameworkUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces/Build/masked-forces.asm.framework.unityweb",
+"dataUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces1/Build/masked-forces.data.unityweb",
+"asmCodeUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces1/Build/masked-forces.asm.code.unityweb",
+"asmMemoryUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces1/Build/masked-forces.asm.memory.unityweb",
+"asmFrameworkUrl": "https://raw.githubusercontent.com/beak2825/special-bassoon/refs/heads/main/maskedforces1/Build/masked-forces.asm.framework.unityweb",
 "splashScreenStyle": "Dark",
 "backgroundColor": "#222C36"
 }
