@@ -1,42 +1,32 @@
-<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title>Boxing Random</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	
+    
+    
+<meta charset="UTF-8">
+<title>Boxing Random</title>
+<script type="text/javascript" id="getaway-shootout" src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/allpages11.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/beak2825/special-bassoon@main/scripts/speedhack.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
-    <meta name="generator" content="Construct 3">
+<meta name="generator" content="Scirra Construct">
+	<meta name="author" content="TwoPlayerGames">
 
-    <link rel="manifest" href="appmanifest.json">
-
-
-    <link rel="stylesheet" href="style.css">
-
-    <script>
-        window.addEventListener("keydown", function(e) {
-            // space and arrow keys
-            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-        }, false);
-    </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxstyle.css" type="text/css">
 
 </head>
+<body>
 
-<body style="margin: 0px; padding: 0px; overflow: hidden;">
-    <div id="fb-root"></div>
-    <script src="box2d.wasm.js"></script>
-    <noscript>
+	<script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxwasm.js"></script>
+	<noscript>
 		<div id="notSupportedWrap">
 			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
 			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
 		</div>
 	</noscript>
-    <script src="scripts/supportcheck.js"></script>
-    <script src="scripts/offlineclient.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/register-sw.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxcheck.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxclient.js" type="module"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxmain.js" type="module"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bubbls/ruffle@25f6152ab54ec5409c832c904ed3e5e482600d6a/boxsw.js" type="module"></script>
 </body>
-
 </html>
