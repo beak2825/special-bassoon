@@ -3683,62 +3683,6 @@
 </script>
 
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const overlay = document.getElementById("overlay");
-  const gameFrame = document.getElementById("gameFrame");
-  const fullscreenBtn = document.getElementById("fullscreenBtn");
-  const closeBtn = document.getElementById("closeBtn");
-  const content = document.getElementById("content");
-
-  // Open game when box clicked
-  document.querySelectorAll(".box").forEach(box => {
-    box.addEventListener("click", async () => {
-      const url = box.dataset.url;
-      try {
-        const res = await fetch(url);
-        const html = await res.text();
-        const blob = new Blob([html], { type: "text/html" });
-        const blobUrl = URL.createObjectURL(blob);
-
-        gameFrame.src = blobUrl;
-        content.classList.add("blurred");
-        overlay.style.display = "flex";
-      } catch (err) {
-        console.error("Failed to load game:", err);
-      }
-    });
-  });
-
-  // Fullscreen toggle
-  fullscreenBtn.addEventListener("click", () => {
-    if (overlay.style.top === "0%") {
-      overlay.style.top = "10%";
-      overlay.style.left = "10%";
-      overlay.style.width = "80%";
-      overlay.style.height = "80%";
-    } else {
-      overlay.style.top = "0%";
-      overlay.style.left = "0%";
-      overlay.style.width = "100%";
-      overlay.style.height = "100%";
-    }
-  });
-
-  // Close overlay
-  closeBtn.addEventListener("click", () => {
-    overlay.style.display = "none";
-    content.classList.remove("blurred");
-    gameFrame.src = ""; // unload game
-  });
-
-  // Reset overlay on load
-  overlay.style.display = "none";
-  content.classList.remove("blurred");
-  gameFrame.src = "";
-});
-</script>
-
 
 <script>
 (function() {
