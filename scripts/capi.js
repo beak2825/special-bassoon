@@ -6,16 +6,24 @@ function generateUUID() {
   });
 }
 
-// Function to log data
+// Function to log data to Google Apps Script
 function logData(includeUpload = false) {
-  const user = localStorage.getItem('capi_user');
-  const uuid = localStorage.getItem('capi_uuid');
+  const user = localStorage.getItem('capi_user') || 'anonymous';
+  const uuid = localStorage.getItem('capi_uuid') || 'unknown';
   const time_sec = localStorage.getItem('capi_time_sec') || '0';
+  const first_appeared = localStorage.getItem('capi_first_appeared') || 'unknown';
   const screenres = `${screen.width}x${screen.height}`;
   const user_agent = navigator.userAgent;
   const full_url = window.location.href;
 
-  let url = `https://script.google.com/macros/s/AKfycbxhQiisy19Q9lxqPlDEuwGtoicw_AcXbfYeAoUKgskmDOmeWCNLUEabN6OXuxs-8oaF7Q/exec?user=${encodeURIComponent(user)}&uuid=${encodeURIComponent(uuid)}&time_sec=${encodeURIComponent(time_sec)}&screenres=${encodeURIComponent(screenres)}&user_agent=${encodeURIComponent(user_agent)}&full_url=${encodeURIComponent(full_url)}`;
+  let url = `https://script.google.com/macros/s/AKfycbxhQiisy19Q9lxqPlDEuwGtoicw_AcXbfYeAoUKgskmDOmeWCNLUEabN6OXuxs-8oaF7Q/exec?` +
+    `user=${encodeURIComponent(user)}` +
+    `&uuid=${encodeURIComponent(uuid)}` +
+    `&time_sec=${encodeURIComponent(time_sec)}` +
+    `&first_appeared=${encodeURIComponent(first_appeared)}` +
+    `&screenres=${encodeURIComponent(screenres)}` +
+    `&user_agent=${encodeURIComponent(user_agent)}` +
+    `&full_url=${encodeURIComponent(full_url)}`;
 
   if (includeUpload) {
     const storageObj = {};
@@ -24,142 +32,128 @@ function logData(includeUpload = false) {
       storageObj[key] = localStorage.getItem(key);
     }
     const prettyJson = JSON.stringify(storageObj, null, 2);
-    const base64data = btoa(prettyJson);
+    const base64data = btoa(unescape(encodeURIComponent(prettyJson))); // Better UTF-8 handling
     url += `&upload=${encodeURIComponent(base64data)}`;
   }
 
-  fetch(url, { method: 'GET' })
-    .then(response => response.text())
-    .then(text => console.log('Log success:', text))
+  fetch(url, { method: 'GET', mode: 'no-cors' })
+    .then(() => console.log('Log success'))
     .catch(error => console.error('Log error:', error));
 }
 
 // Function to prompt for username
 function promptForUsername(callback) {
-  // Create overlay
   const overlay = document.createElement('div');
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100%';
-  overlay.style.height = '100%';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  overlay.style.display = 'flex';
-  overlay.style.justifyContent = 'center';
-  overlay.style.alignItems = 'center';
-  overlay.style.zIndex = '9999';
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); display: flex; justify-content: center;
+    align-items: center; z-index: 9999;
+  `;
 
-  // Create box
   const box = document.createElement('div');
-  box.style.backgroundColor = 'white';
-  box.style.padding = '20px';
-  box.style.borderRadius = '8px';
-  box.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-  box.style.textAlign = 'center';
-  box.style.width = '300px';
+  box.style.cssText = `
+    background: white; padding: 20px; border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); text-align: center; width: 300px;
+  `;
 
-  // Title
   const title = document.createElement('h2');
   title.textContent = 'Username:';
   title.style.marginBottom = '10px';
-  box.appendChild(title);
 
-  // Input
   const input = document.createElement('input');
   input.type = 'text';
-  input.style.width = '100%';
-  input.style.padding = '10px';
-  input.style.marginBottom = '10px';
-  input.style.border = '1px solid #ccc';
-  input.style.borderRadius = '4px';
-  box.appendChild(input);
+  input.style.cssText = `
+    width: 100%; padding: 10px; margin-bottom: 10px;
+    border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+  `;
 
-  // Button
   const button = document.createElement('button');
   button.textContent = '✓';
-  button.style.backgroundColor = 'transparent';
-  button.style.border = '2px solid green';
-  button.style.color = 'white';
-  button.style.fontSize = '20px';
-  button.style.padding = '5px 10px';
-  button.style.borderRadius = '50%';
-  button.style.cursor = 'pointer';
-  button.style.marginLeft = '10px';
-  box.appendChild(button);
+  button.style.cssText = `
+    background: transparent; border: 2px solid green; color: green;
+    font-size: 20px; padding: 5px 12px; border-radius: 50%; cursor: pointer;
+  `;
 
-  // Event listeners
   function submit() {
     const username = input.value.trim();
     if (username) {
       localStorage.setItem('capi_user', username);
-      document.body.removeChild(overlay);
+      overlay.remove();
       callback();
     }
   }
 
   button.addEventListener('click', submit);
   input.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      submit();
-    }
+    if (e.key === 'Enter') submit();
   });
 
+  box.appendChild(title);
+  box.appendChild(input);
+  box.appendChild(button);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
   input.focus();
 }
 
-// Main function
+// Main initialization
 function initCapi() {
   let needsPrompt = false;
 
-  if (!localStorage.getItem('capi_user')) {
-    needsPrompt = true;
+  // Set up first appearance timestamp (only once ever)
+  if (!localStorage.getItem('capi_first_appeared')) {
+    localStorage.setItem('capi_first_appeared', new Date().toISOString());
   }
 
+  // Set up UUID (only once per browser)
   if (!localStorage.getItem('capi_uuid')) {
     localStorage.setItem('capi_uuid', generateUUID());
   }
 
+  // Initialize time counter if not exists
   if (!localStorage.getItem('capi_time_sec')) {
     localStorage.setItem('capi_time_sec', '0');
   }
 
+  // Check if username is missing
+  if (!localStorage.getItem('capi_user')) {
+    needsPrompt = true;
+  }
+
+  // Initialize log count
   if (!localStorage.getItem('capi_log_count')) {
     localStorage.setItem('capi_log_count', '0');
   }
 
-  function startAfterSetup() {
-    // Initial log
-    let logCount = parseInt(localStorage.getItem('capi_log_count')) || 0;
-    logCount += 1;
-    localStorage.setItem('capi_log_count', logCount.toString());
-    const includeUpload = (logCount % 3 === 0);
-    logData(includeUpload);
+  function startTracking() {
+    let logCount = parseInt(localStorage.getItem('capi_log_count'), 10);
 
-    // Start time increment
+    // Initial log on load
+    logCount++;
+    localStorage.setItem('capi_log_count', logCount.toString());
+    logData(logCount % 3 === 0);
+
+    // Increment time every second
     setInterval(() => {
-      let time = parseInt(localStorage.getItem('capi_time_sec')) || 0;
+      let time = parseInt(localStorage.getItem('capi_time_sec'), 10);
       time += 1;
       localStorage.setItem('capi_time_sec', time.toString());
     }, 1000);
 
-    // Start logging interval (every 5 min 15 sec = 315000 ms)
+    // Periodic log every ~5 minutes (315 seconds)
     setInterval(() => {
-      logCount = parseInt(localStorage.getItem('capi_log_count')) || 0;
-      logCount += 1;
+      logCount++;
       localStorage.setItem('capi_log_count', logCount.toString());
-      const includeUpload = (logCount % 3 === 0);
-      logData(includeUpload);
+      logData(logCount % 3 === 0);
     }, 315000);
   }
 
   if (needsPrompt) {
-    promptForUsername(startAfterSetup);
+    promptForUsername(startTracking);
   } else {
-    startAfterSetup();
+    startTracking();
   }
 }
 
-// Run on load
+// Start when page loads
 window.addEventListener('load', initCapi);
